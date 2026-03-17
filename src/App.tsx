@@ -11,14 +11,20 @@ import Layout from './components/Layout'
 // AVOID REMOVING ANY CONTEXT PROVIDERS FROM THIS FILE (e.g. TooltipProvider, Toaster, Sonner)
 
 const App = () => (
-  <BrowserRouter future={{ v7_startTransition: false, v7_relativeSplatPath: false }}>
+  <BrowserRouter
+    future={{ v7_startTransition: false, v7_relativeSplatPath: false }}
+  >
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES MUST BE ADDED HERE */}
+          <Route path="/articles" element={<NotFound />} />
+          <Route path="/setups" element={<NotFound />} />
+          <Route path="/repo" element={<NotFound />} />
+          <Route path="/articles/*" element={<NotFound />} />
+          <Route path="/setups/*" element={<NotFound />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

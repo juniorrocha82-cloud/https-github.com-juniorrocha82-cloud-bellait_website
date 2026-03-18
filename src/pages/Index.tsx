@@ -23,9 +23,9 @@ export default function Index() {
         <div className="container relative z-10 mx-auto px-4 text-center">
           <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-white md:text-6xl lg:text-7xl">
             {t('home.hero.title1')}{' '}
-            <span className="text-primary">{t('home.hero.highlight')}</span>
+            <span className="text-white">{t('home.hero.highlight')}</span>
           </h1>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-slate-200 md:text-xl">
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-white md:text-xl">
             {t('home.hero.subtitle')}
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">

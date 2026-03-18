@@ -25258,13 +25258,13 @@ function Index() {
 							t("home.hero.title1"),
 							" ",
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "text-primary",
+								className: "text-white",
 								children: t("home.hero.highlight")
 							})
 						]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "mx-auto mb-8 max-w-2xl text-lg text-slate-200 md:text-xl",
+						className: "mx-auto mb-8 max-w-2xl text-lg text-white md:text-xl",
 						children: t("home.hero.subtitle")
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -25921,4 +25921,4 @@ function App() {
 }
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App, {}));
 
-//# sourceMappingURL=index-BUlxCoEH.js.map
+//# sourceMappingURL=index-lsCc0jM-.js.map

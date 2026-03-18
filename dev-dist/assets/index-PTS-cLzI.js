@@ -19425,7 +19425,7 @@ var translations = {
 		"footer.quickLinks": "Links Rápidos",
 		"footer.services": "Serviços",
 		"footer.contact": "Contato",
-		"footer.legal": "© 2026 Bella IT Tecnologia. Todos os direitos reservados. CNPJ: XX.XXX.XXX/0001-XX",
+		"footer.legal": "© 2026 Bella IT Tecnologia. Todos os direitos reservados.",
 		"footer.privacy": "Política de Privacidade",
 		"footer.terms": "Termos de Uso",
 		"cookie.message": "Usamos cookies para garantir que você obtenha a melhor experiência em nosso site.",
@@ -19526,7 +19526,7 @@ var translations = {
 		"footer.terms": "Terms of Use",
 		"cookie.message": "We use cookies to ensure you get the best experience on our website.",
 		"cookie.accept": "Accept",
-		"whatsapp.label": "Contact Us",
+		"whatsapp.label": "Talk to Us",
 		"home.meta.desc": "Bella IT Technology - Transforming businesses with intelligent technology and customized IT solutions.",
 		"home.hero.title1": "Technology that drives your",
 		"home.hero.highlight": "success",
@@ -25920,4 +25920,4 @@ function App() {
 }
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App, {}));
 
-//# sourceMappingURL=index-CfUfKHxz.js.map
+//# sourceMappingURL=index-PTS-cLzI.js.map

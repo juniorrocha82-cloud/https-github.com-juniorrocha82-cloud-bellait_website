@@ -1,18 +1,18 @@
 import { SEO } from '@/components/SEO'
 import { PageHeader } from '@/components/PageHeader'
 import { Server, Cloud, Network } from 'lucide-react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Projetos() {
+  const { t } = useLanguage()
+
   return (
     <>
-      <SEO
-        title="Projetos de Tecnologia"
-        description="Implementação de infraestrutura, migração para nuvem e projetos de redes corporativas avançadas."
-      />
+      <SEO title={t('nav.projects')} description={t('proj.meta.desc')} />
 
       <PageHeader
-        title="Projetos de Tecnologia"
-        description="Arquitetura, planejamento minucioso e execução de projetos de infraestrutura de TI."
+        title={t('proj.header.title')}
+        description={t('proj.header.desc')}
       />
 
       <section className="py-20">
@@ -21,22 +21,22 @@ export default function Projetos() {
             {[
               {
                 icon: Cloud,
-                title: 'Migração para Nuvem',
-                desc: 'Planejamos e executamos a migração estruturada dos seus serviços e dados para plataformas cloud seguras, garantindo alta disponibilidade, redução de custos e escalabilidade sob demanda.',
+                title: t('proj.cloud.title'),
+                desc: t('proj.cloud.desc'),
                 image:
                   'https://img.usecurling.com/p/600/400?q=cloud%20computing%20data&color=blue',
               },
               {
                 icon: Server,
-                title: 'Infraestrutura de Servidores',
-                desc: 'Montagem física, configuração lógica e virtualização de servidores locais ou híbridos, dimensionados exatamente para suportar a sua demanda atual de processamento e crescimento futuro.',
+                title: t('proj.server.title'),
+                desc: t('proj.server.desc'),
                 image:
                   'https://img.usecurling.com/p/600/400?q=server%20room%20rack&color=black',
               },
               {
                 icon: Network,
-                title: 'Redes Corporativas',
-                desc: 'Estruturação avançada de redes cabeadas e Wi-Fi de alta performance, com foco estrito em segurança, estabilidade de conexão e segmentação adequada de acessos por departamento.',
+                title: t('proj.network.title'),
+                desc: t('proj.network.desc'),
                 image:
                   'https://img.usecurling.com/p/600/400?q=network%20cables%20switch&color=gray',
               },

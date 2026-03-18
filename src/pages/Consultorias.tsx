@@ -1,18 +1,18 @@
 import { SEO } from '@/components/SEO'
 import { PageHeader } from '@/components/PageHeader'
 import { ShieldCheck, FileCheck, BrainCircuit } from 'lucide-react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Consultorias() {
+  const { t } = useLanguage()
+
   return (
     <>
-      <SEO
-        title="Consultorias e Licenças"
-        description="Serviços de consultoria em TI, licenciamento de software corporativo e adequação tecnológica."
-      />
+      <SEO title={t('nav.consulting')} description={t('cons.meta.desc')} />
 
       <PageHeader
-        title="Consultorias e Licenças"
-        description="Orientação especializada para otimizar seus investimentos em tecnologia."
+        title={t('cons.header.title')}
+        description={t('cons.header.desc')}
       />
 
       <section className="py-20">
@@ -20,28 +20,16 @@ export default function Consultorias() {
           <div className="grid gap-12 md:grid-cols-2 lg:gap-20 items-center">
             <div>
               <h2 className="mb-6 text-3xl font-bold text-foreground">
-                Decisões mais inteligentes para o seu negócio
+                {t('cons.content.title')}
               </h2>
               <p className="mb-8 text-lg text-muted-foreground leading-relaxed">
-                Nossa equipe de especialistas analisa a infraestrutura atual da
-                sua empresa e propõe melhorias estratégicas, garantindo que você
-                utilize as ferramentas mais adequadas com o melhor
-                custo-benefício do mercado.
+                {t('cons.content.desc')}
               </p>
               <ul className="space-y-4">
                 {[
-                  {
-                    icon: BrainCircuit,
-                    text: 'Mapeamento completo e análise de infraestrutura de TI',
-                  },
-                  {
-                    icon: FileCheck,
-                    text: 'Gestão e regularização de licenças (Microsoft, Veeam, etc)',
-                  },
-                  {
-                    icon: ShieldCheck,
-                    text: 'Consultoria dedicada em segurança da informação e LGPD',
-                  },
+                  { icon: BrainCircuit, text: t('cons.feat1') },
+                  { icon: FileCheck, text: t('cons.feat2') },
+                  { icon: ShieldCheck, text: t('cons.feat3') },
                 ].map((item, i) => (
                   <li
                     key={i}

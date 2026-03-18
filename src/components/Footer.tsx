@@ -11,23 +11,22 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-4">
           <div className="md:col-span-1">
             <Link to="/" className="mb-4 inline-flex items-center gap-2">
-              <div className="rounded-md bg-slate-900 p-1.5 flex items-center justify-center">
+              <div className="flex items-center justify-center">
                 <img
                   src={logoImg}
                   alt="Bella IT Logo"
-                  className="h-8 w-auto object-contain"
+                  className="h-10 w-auto object-contain"
                 />
               </div>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-              Transformando negócios com tecnologia inteligente e soluções
-              personalizadas de TI para o mercado corporativo.
+              {t('footer.desc')}
             </p>
           </div>
 
           <div>
             <h3 className="mb-4 font-semibold text-foreground">
-              Links Rápidos
+              {t('footer.quickLinks')}
             </h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
@@ -50,7 +49,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-4 font-semibold text-foreground">Serviços</h3>
+            <h3 className="mb-4 font-semibold text-foreground">
+              {t('footer.services')}
+            </h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link
@@ -88,7 +89,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-4 font-semibold text-foreground">Contato</h3>
+            <h3 className="mb-4 font-semibold text-foreground">
+              {t('footer.contact')}
+            </h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>contato@bellait.com.br</li>
               <li>+55 (11) 99936-8850</li>

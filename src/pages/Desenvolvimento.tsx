@@ -1,29 +1,28 @@
 import { SEO } from '@/components/SEO'
 import { PageHeader } from '@/components/PageHeader'
 import { Code2, Smartphone, Database } from 'lucide-react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Desenvolvimento() {
+  const { t } = useLanguage()
+
   return (
     <>
-      <SEO
-        title="Desenvolvimento de Software"
-        description="Criação de softwares sob medida, aplicativos web e mobile para impulsionar a inovação da sua empresa corporativa."
-      />
+      <SEO title={t('nav.development')} description={t('dev.meta.desc')} />
 
       <PageHeader
-        title="Desenvolvimento"
-        description="Sistemas personalizados criados para resolver os desafios únicos do seu negócio."
+        title={t('dev.header.title')}
+        description={t('dev.header.desc')}
       />
 
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center mb-16">
-            <h2 className="text-3xl font-bold mb-6">Inovação sob Medida</h2>
+            <h2 className="text-3xl font-bold mb-6">
+              {t('dev.content.title')}
+            </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Do planejamento inicial ao deploy final, nossa equipe de
-              desenvolvimento cria soluções robustas, escaláveis e intuitivas,
-              utilizando as tecnologias mais modernas do mercado para alavancar
-              os seus resultados.
+              {t('dev.content.desc')}
             </p>
           </div>
 
@@ -31,18 +30,18 @@ export default function Desenvolvimento() {
             {[
               {
                 icon: Code2,
-                title: 'Sistemas Web',
-                desc: 'Aplicações completas, rápidas e responsivas, acessíveis de qualquer lugar com máxima segurança.',
+                title: t('dev.web.title'),
+                desc: t('dev.web.desc'),
               },
               {
                 icon: Smartphone,
-                title: 'Aplicativos Mobile',
-                desc: 'Soluções nativas ou híbridas de alto desempenho para plataformas iOS e Android.',
+                title: t('dev.mobile.title'),
+                desc: t('dev.mobile.desc'),
               },
               {
                 icon: Database,
-                title: 'Integrações de API',
-                desc: 'Conectamos seus sistemas legados para garantir fluidez, automação e segurança dos dados.',
+                title: t('dev.api.title'),
+                desc: t('dev.api.desc'),
               },
             ].map((feature, i) => (
               <div

@@ -19421,12 +19421,93 @@ var translations = {
 		"nav.projects": "Projetos",
 		"nav.consulting": "Consultoria e Licenças",
 		"nav.development": "Desenvolvimento",
+		"footer.desc": "Transformando negócios com tecnologia inteligente e soluções personalizadas de TI para o mercado corporativo.",
+		"footer.quickLinks": "Links Rápidos",
+		"footer.services": "Serviços",
+		"footer.contact": "Contato",
 		"footer.legal": "© 2026 Bella IT Tecnologia. Todos os direitos reservados. CNPJ: XX.XXX.XXX/0001-XX",
 		"footer.privacy": "Política de Privacidade",
 		"footer.terms": "Termos de Uso",
 		"cookie.message": "Usamos cookies para garantir que você obtenha a melhor experiência em nosso site.",
 		"cookie.accept": "Aceitar",
-		"whatsapp.label": "Fale Conosco"
+		"whatsapp.label": "Fale Conosco",
+		"home.meta.desc": "Bella IT Tecnologia - Transformando negócios com tecnologia inteligente e soluções personalizadas em TI.",
+		"home.hero.title1": "Tecnologia que impulsiona o seu",
+		"home.hero.highlight": "sucesso",
+		"home.hero.subtitle": "Oferecemos soluções completas em infraestrutura, desenvolvimento e consultoria de TI para elevar o seu negócio ao próximo nível.",
+		"home.hero.projects": "Nossos Projetos",
+		"home.hero.about": "Conheça a Bella IT",
+		"home.services.title": "Nossos Serviços",
+		"home.services.subtitle": "Especialistas prontos para resolver seus desafios tecnológicos.",
+		"home.services.sd.title": "Service Desk",
+		"home.services.sd.desc": "Suporte ágil e eficiente para garantir a continuidade da sua operação.",
+		"home.services.dev.title": "Desenvolvimento",
+		"home.services.dev.desc": "Softwares sob medida para automatizar e otimizar seus processos.",
+		"home.services.cons.title": "Consultoria",
+		"home.services.cons.desc": "Planejamento estratégico e licenciamento de softwares corporativos.",
+		"home.services.learnMore": "Saber mais",
+		"about.meta.desc": "Conheça a missão, visão e valores da Bella IT Tecnologia. Inovação e excelência em serviços de tecnologia.",
+		"about.header.title": "Sobre a Bella IT",
+		"about.header.desc": "Nossa história, propósito e os valores que nos guiam em cada projeto.",
+		"about.who.title": "Quem Somos",
+		"about.who.desc": "A Bella IT é uma empresa de tecnologia focada em entregar soluções de ponta para negócios de todos os tamanhos. Nascemos com o propósito de descomplicar a TI, trazendo inovação, segurança e eficiência para o dia a dia das empresas corporativas.",
+		"about.mission.title": "Missão",
+		"about.mission.desc": "Prover soluções tecnológicas inovadoras e de alta qualidade, garantindo a satisfação de nossos clientes e contribuindo para o crescimento e segurança de seus negócios.",
+		"about.vision.title": "Visão",
+		"about.vision.desc": "Ser reconhecida nacionalmente como a principal parceira estratégica em tecnologia da informação, destacando-se pela excelência, transparência e confiabilidade de entrega.",
+		"about.values.title": "Valores",
+		"about.values.1": "Inovação Contínua",
+		"about.values.2": "Ética e Transparência",
+		"about.values.3": "Foco no Cliente",
+		"about.values.4": "Excelência Operacional",
+		"sd.meta.desc": "Suporte técnico especializado de TI N1, N2 e N3 para garantir a continuidade e produtividade da sua equipe.",
+		"sd.header.title": "Service Desk",
+		"sd.header.desc": "Suporte técnico ágil e eficiente para que a sua operação nunca pare.",
+		"sd.content.title": "Atendimento que faz a diferença",
+		"sd.content.desc": "Oferecemos suporte técnico completo e estruturado em níveis (N1, N2 e N3) para resolver desde problemas cotidianos até incidentes críticos, garantindo a estabilidade e a continuidade do seu negócio com SLAs bem definidos.",
+		"sd.feat1.title": "Tempo de Resposta Rápido",
+		"sd.feat1.desc": "Monitoramento proativo do ambiente e atendimento imediato para chamados classificados como urgentes.",
+		"sd.feat2.title": "Resolução Especializada",
+		"sd.feat2.desc": "Técnicos amplamente capacitados e experientes para diagnosticar e solucionar problemas complexos de infraestrutura e software.",
+		"sd.cta": "Solicitar Atendimento Agora",
+		"proj.meta.desc": "Implementação de infraestrutura, migração para nuvem e projetos de redes corporativas avançadas.",
+		"proj.header.title": "Projetos de Tecnologia",
+		"proj.header.desc": "Arquitetura, planejamento minucioso e execução de projetos de infraestrutura de TI.",
+		"proj.cloud.title": "Migração para Nuvem",
+		"proj.cloud.desc": "Planejamos e executamos a migração estruturada dos seus serviços e dados para plataformas cloud seguras, garantindo alta disponibilidade, redução de custos e escalabilidade sob demanda.",
+		"proj.server.title": "Infraestrutura de Servidores",
+		"proj.server.desc": "Montagem física, configuração lógica e virtualização de servidores locais ou híbridos, dimensionados exatamente para suportar a sua demanda atual de processamento e crescimento futuro.",
+		"proj.network.title": "Redes Corporativas",
+		"proj.network.desc": "Estruturação avançada de redes cabeadas e Wi-Fi de alta performance, com foco estrito em segurança, estabilidade de conexão e segmentação adequada de acessos por departamento.",
+		"cons.meta.desc": "Serviços de consultoria em TI, licenciamento de software corporativo e adequação tecnológica.",
+		"cons.header.title": "Consultorias e Licenças",
+		"cons.header.desc": "Orientação especializada para otimizar seus investimentos em tecnologia.",
+		"cons.content.title": "Decisões mais inteligentes para o seu negócio",
+		"cons.content.desc": "Nossa equipe de especialistas analisa a infraestrutura atual da sua empresa e propõe melhorias estratégicas, garantindo que você utilize as ferramentas mais adequadas com o melhor custo-benefício do mercado.",
+		"cons.feat1": "Mapeamento completo e análise de infraestrutura de TI",
+		"cons.feat2": "Gestão e regularização de licenças (Microsoft, Veeam, etc)",
+		"cons.feat3": "Consultoria dedicada em segurança da informação e LGPD",
+		"dev.meta.desc": "Criação de softwares sob medida, aplicativos web e mobile para impulsionar a inovação da sua empresa corporativa.",
+		"dev.header.title": "Desenvolvimento",
+		"dev.header.desc": "Sistemas personalizados criados para resolver os desafios únicos do seu negócio.",
+		"dev.content.title": "Inovação sob Medida",
+		"dev.content.desc": "Do planejamento inicial ao deploy final, nossa equipe de desenvolvimento cria soluções robustas, escaláveis e intuitivas, utilizando as tecnologias mais modernas do mercado para alavancar os seus resultados.",
+		"dev.web.title": "Sistemas Web",
+		"dev.web.desc": "Aplicações completas, rápidas e responsivas, acessíveis de qualquer lugar com máxima segurança.",
+		"dev.mobile.title": "Aplicativos Mobile",
+		"dev.mobile.desc": "Soluções nativas ou híbridas de alto desempenho para plataformas iOS e Android.",
+		"dev.api.title": "Integrações de API",
+		"dev.api.desc": "Conectamos seus sistemas legados para garantir fluidez, automação e segurança dos dados.",
+		"part.meta.desc": "Conheça os parceiros tecnológicos da Bella IT: Ingram Micro, Veeam, Microsoft, Dell e Trend Micro.",
+		"part.header.title": "Parcerias Estratégicas",
+		"part.header.desc": "Trabalhamos em conjunto com os líderes globais de tecnologia para entregar as melhores soluções.",
+		"part.content.title": "Nossos Parceiros de Tecnologia",
+		"part.content.desc": "Para garantir a máxima qualidade e segurança em nossos projetos, firmamos parcerias com as maiores empresas de tecnologia do mundo. Isso nos permite oferecer soluções robustas, escaláveis e com o melhor custo-benefício.",
+		"part.ingram.desc": "Distribuição global de soluções de TI e suprimentos de tecnologia corporativa.",
+		"part.veeam.desc": "Líder em soluções de backup, recuperação e gestão segura de dados em nuvem.",
+		"part.microsoft.desc": "Sistemas operacionais, nuvem Azure e ferramentas completas de produtividade.",
+		"part.dell.desc": "Fornecimento de infraestrutura robusta, servidores e hardware corporativo de ponta.",
+		"part.trend.desc": "Especialistas em cibersegurança e proteção avançada de dados corporativos."
 	},
 	en: {
 		"nav.home": "Home",
@@ -19436,19 +19517,106 @@ var translations = {
 		"nav.projects": "Projects",
 		"nav.consulting": "Consulting & Licenses",
 		"nav.development": "Development",
+		"footer.desc": "Transforming businesses with intelligent technology and custom IT solutions for the corporate market.",
+		"footer.quickLinks": "Quick Links",
+		"footer.services": "Services",
+		"footer.contact": "Contact",
 		"footer.legal": "© 2026 Bella IT Tecnologia. All rights reserved.",
 		"footer.privacy": "Privacy Policy",
 		"footer.terms": "Terms of Use",
 		"cookie.message": "We use cookies to ensure you get the best experience on our website.",
 		"cookie.accept": "Accept",
-		"whatsapp.label": "Contact Us"
+		"whatsapp.label": "Contact Us",
+		"home.meta.desc": "Bella IT Technology - Transforming businesses with intelligent technology and customized IT solutions.",
+		"home.hero.title1": "Technology that drives your",
+		"home.hero.highlight": "success",
+		"home.hero.subtitle": "We offer complete solutions in infrastructure, development, and IT consulting to take your business to the next level.",
+		"home.hero.projects": "Our Projects",
+		"home.hero.about": "Meet Bella IT",
+		"home.services.title": "Our Services",
+		"home.services.subtitle": "Experts ready to solve your technological challenges.",
+		"home.services.sd.title": "Service Desk",
+		"home.services.sd.desc": "Agile and efficient support to ensure your operation continuity.",
+		"home.services.dev.title": "Development",
+		"home.services.dev.desc": "Tailor-made software to automate and optimize your processes.",
+		"home.services.cons.title": "Consulting",
+		"home.services.cons.desc": "Strategic planning and corporate software licensing.",
+		"home.services.learnMore": "Learn more",
+		"about.meta.desc": "Learn about the mission, vision, and values of Bella IT Technology. Innovation and excellence in technology services.",
+		"about.header.title": "About Bella IT",
+		"about.header.desc": "Our history, purpose, and the values that guide us in every project.",
+		"about.who.title": "Who We Are",
+		"about.who.desc": "Bella IT is a technology company focused on delivering cutting-edge solutions for businesses of all sizes. We were born with the purpose of simplifying IT, bringing innovation, security, and efficiency to the daily routine of corporate companies.",
+		"about.mission.title": "Mission",
+		"about.mission.desc": "Provide innovative and high-quality technological solutions, ensuring our clients' satisfaction and contributing to the growth and security of their businesses.",
+		"about.vision.title": "Vision",
+		"about.vision.desc": "To be nationally recognized as the main strategic partner in information technology, standing out for excellence, transparency, and delivery reliability.",
+		"about.values.title": "Values",
+		"about.values.1": "Continuous Innovation",
+		"about.values.2": "Ethics and Transparency",
+		"about.values.3": "Customer Focus",
+		"about.values.4": "Operational Excellence",
+		"sd.meta.desc": "Specialized IT support N1, N2, and N3 to ensure the continuity and productivity of your team.",
+		"sd.header.title": "Service Desk",
+		"sd.header.desc": "Agile and efficient technical support so your operation never stops.",
+		"sd.content.title": "Service that makes a difference",
+		"sd.content.desc": "We offer complete and structured technical support in levels (N1, N2, and N3) to solve everything from everyday problems to critical incidents, ensuring the stability and continuity of your business with well-defined SLAs.",
+		"sd.feat1.title": "Fast Response Time",
+		"sd.feat1.desc": "Proactive environment monitoring and immediate response to calls classified as urgent.",
+		"sd.feat2.title": "Specialized Resolution",
+		"sd.feat2.desc": "Highly trained and experienced technicians to diagnose and solve complex infrastructure and software problems.",
+		"sd.cta": "Request Service Now",
+		"proj.meta.desc": "Infrastructure implementation, cloud migration, and advanced corporate network projects.",
+		"proj.header.title": "Technology Projects",
+		"proj.header.desc": "Architecture, meticulous planning, and execution of IT infrastructure projects.",
+		"proj.cloud.title": "Cloud Migration",
+		"proj.cloud.desc": "We plan and execute the structured migration of your services and data to secure cloud platforms, ensuring high availability, cost reduction, and on-demand scalability.",
+		"proj.server.title": "Server Infrastructure",
+		"proj.server.desc": "Physical assembly, logical configuration, and virtualization of local or hybrid servers, sized exactly to support your current processing demand and future growth.",
+		"proj.network.title": "Corporate Networks",
+		"proj.network.desc": "Advanced structuring of high-performance wired and Wi-Fi networks, strictly focused on security, connection stability, and proper segmentation of access by department.",
+		"cons.meta.desc": "IT consulting services, corporate software licensing, and technological adaptation.",
+		"cons.header.title": "Consulting & Licenses",
+		"cons.header.desc": "Expert guidance to optimize your technology investments.",
+		"cons.content.title": "Smarter decisions for your business",
+		"cons.content.desc": "Our team of experts analyzes your company's current infrastructure and proposes strategic improvements, ensuring that you use the most appropriate tools with the best cost-benefit ratio on the market.",
+		"cons.feat1": "Complete mapping and analysis of IT infrastructure",
+		"cons.feat2": "Management and regularization of licenses (Microsoft, Veeam, etc)",
+		"cons.feat3": "Dedicated consulting in information security and LGPD",
+		"dev.meta.desc": "Creation of customized software, web and mobile applications to drive your corporate company's innovation.",
+		"dev.header.title": "Development",
+		"dev.header.desc": "Custom systems created to solve your business's unique challenges.",
+		"dev.content.title": "Tailor-made Innovation",
+		"dev.content.desc": "From initial planning to final deployment, our development team creates robust, scalable, and intuitive solutions using the most modern technologies on the market to leverage your results.",
+		"dev.web.title": "Web Systems",
+		"dev.web.desc": "Complete, fast, and responsive applications, accessible from anywhere with maximum security.",
+		"dev.mobile.title": "Mobile Applications",
+		"dev.mobile.desc": "Native or hybrid high-performance solutions for iOS and Android platforms.",
+		"dev.api.title": "API Integrations",
+		"dev.api.desc": "We connect your legacy systems to ensure fluidity, automation, and data security.",
+		"part.meta.desc": "Meet Bella IT's technological partners: Ingram Micro, Veeam, Microsoft, Dell, and Trend Micro.",
+		"part.header.title": "Strategic Partnerships",
+		"part.header.desc": "We work together with global technology leaders to deliver the best solutions.",
+		"part.content.title": "Our Technology Partners",
+		"part.content.desc": "To ensure maximum quality and security in our projects, we partner with the largest technology companies in the world. This allows us to offer robust, scalable, and cost-effective solutions.",
+		"part.ingram.desc": "Global distribution of IT solutions and corporate technology supplies.",
+		"part.veeam.desc": "Leader in backup, recovery, and secure cloud data management solutions.",
+		"part.microsoft.desc": "Operating systems, Azure cloud, and complete productivity tools.",
+		"part.dell.desc": "Providing robust infrastructure, servers, and cutting-edge corporate hardware.",
+		"part.trend.desc": "Experts in cybersecurity and advanced corporate data protection."
 	}
 };
 var LanguageContext = (0, import_react.createContext)(void 0);
 function LanguageProvider({ children }) {
-	const [language, setLanguage] = (0, import_react.useState)("pt");
+	const [language, setLanguageState] = (0, import_react.useState)(() => {
+		return localStorage.getItem("language") || "pt";
+	});
+	const setLanguage = (lang) => {
+		localStorage.setItem("language", lang);
+		setLanguageState(lang);
+	};
 	const t = (key) => {
-		return translations[language][key] || key;
+		return translations[language]?.[key] || key;
 	};
 	return import_react.createElement(LanguageContext.Provider, { value: {
 		language,
@@ -24085,11 +24253,11 @@ function Header() {
 					className: "flex items-center gap-2",
 					onClick: closeMenu,
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "rounded-md bg-slate-900 p-1.5 flex items-center justify-center",
+						className: "flex items-center justify-center",
 						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 							src: logo_ia_bella_it_branco_d518c_default,
 							alt: "Bella IT Logo",
-							className: "h-8 w-auto object-contain"
+							className: "h-10 w-auto object-contain"
 						})
 					})
 				}),
@@ -24179,21 +24347,21 @@ function Footer() {
 							to: "/",
 							className: "mb-4 inline-flex items-center gap-2",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "rounded-md bg-slate-900 p-1.5 flex items-center justify-center",
+								className: "flex items-center justify-center",
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 									src: logo_ia_bella_it_branco_d518c_default,
 									alt: "Bella IT Logo",
-									className: "h-8 w-auto object-contain"
+									className: "h-10 w-auto object-contain"
 								})
 							})
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "mt-4 text-sm text-muted-foreground leading-relaxed",
-							children: "Transformando negócios com tecnologia inteligente e soluções personalizadas de TI para o mercado corporativo."
+							children: t("footer.desc")
 						})]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 						className: "mb-4 font-semibold text-foreground",
-						children: "Links Rápidos"
+						children: t("footer.quickLinks")
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", {
 						className: "space-y-2 text-sm text-muted-foreground",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
@@ -24208,7 +24376,7 @@ function Footer() {
 					})] }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 						className: "mb-4 font-semibold text-foreground",
-						children: "Serviços"
+						children: t("footer.services")
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", {
 						className: "space-y-2 text-sm text-muted-foreground",
 						children: [
@@ -24236,7 +24404,7 @@ function Footer() {
 					})] }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 						className: "mb-4 font-semibold text-foreground",
-						children: "Contato"
+						children: t("footer.contact")
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", {
 						className: "space-y-2 text-sm text-muted-foreground",
 						children: [
@@ -25076,7 +25244,7 @@ function Index() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SEO, {
 			title: t("nav.home"),
-			description: "Bella IT Tecnologia - Transformando negócios com tecnologia inteligente e soluções personalizadas em TI."
+			description: t("home.meta.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 			className: "relative overflow-hidden bg-slate-50 py-20 dark:bg-slate-900 md:py-32",
@@ -25086,17 +25254,17 @@ function Index() {
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
 						className: "mb-6 text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white md:text-6xl lg:text-7xl",
 						children: [
-							"Tecnologia que impulsiona o seu",
+							t("home.hero.title1"),
 							" ",
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 								className: "text-primary",
-								children: "sucesso"
+								children: t("home.hero.highlight")
 							})
 						]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						className: "mx-auto mb-8 max-w-2xl text-lg text-slate-600 dark:text-slate-300 md:text-xl",
-						children: "Oferecemos soluções completas em infraestrutura, desenvolvimento e consultoria de TI para elevar o seu negócio ao próximo nível."
+						children: t("home.hero.subtitle")
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "flex flex-col justify-center gap-4 sm:flex-row",
@@ -25106,7 +25274,11 @@ function Index() {
 							className: "h-12 px-8 text-base shadow-lg transition-transform hover:-translate-y-1",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
 								to: "/projetos",
-								children: ["Nossos Projetos ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "ml-2 h-4 w-4" })]
+								children: [
+									t("home.hero.projects"),
+									" ",
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "ml-2 h-4 w-4" })
+								]
 							})
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 							size: "lg",
@@ -25115,7 +25287,7 @@ function Index() {
 							className: "h-12 px-8 text-base transition-transform hover:-translate-y-1 bg-white hover:bg-slate-50",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
 								to: "/sobre-nos",
-								children: "Conheça a Bella IT"
+								children: t("home.hero.about")
 							})
 						})]
 					})
@@ -25130,31 +25302,31 @@ function Index() {
 					className: "mb-16 text-center",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 						className: "mb-4 text-3xl font-bold text-slate-900 dark:text-white md:text-4xl",
-						children: "Nossos Serviços"
+						children: t("home.services.title")
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						className: "text-lg text-muted-foreground",
-						children: "Especialistas prontos para resolver seus desafios tecnológicos."
+						children: t("home.services.subtitle")
 					})]
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "grid gap-8 md:grid-cols-3",
 					children: [
 						{
-							title: "Service Desk",
+							title: t("home.services.sd.title"),
 							icon: Monitor,
 							link: "/service-desk",
-							desc: "Suporte ágil e eficiente para garantir a continuidade da sua operação."
+							desc: t("home.services.sd.desc")
 						},
 						{
-							title: "Desenvolvimento",
+							title: t("home.services.dev.title"),
 							icon: Zap,
 							link: "/desenvolvimento",
-							desc: "Softwares sob medida para automatizar e otimizar seus processos."
+							desc: t("home.services.dev.desc")
 						},
 						{
-							title: "Consultoria",
+							title: t("home.services.cons.title"),
 							icon: Shield,
 							link: "/consultorias",
-							desc: "Planejamento estratégico e licenciamento de softwares corporativos."
+							desc: t("home.services.cons.desc")
 						}
 					].map((feature, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "group rounded-2xl border bg-card p-8 transition-all hover:shadow-xl hover:border-primary/50",
@@ -25175,7 +25347,7 @@ function Index() {
 								to: feature.link,
 								className: "inline-flex items-center font-medium text-primary hover:text-primary/80 transition-colors",
 								children: [
-									"Saber mais",
+									t("home.services.learnMore"),
 									" ",
 									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" })
 								]
@@ -25203,14 +25375,15 @@ function PageHeader({ title, description }) {
 	});
 }
 function SobreNos() {
+	const { t } = useLanguage();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SEO, {
-			title: "Sobre Nós",
-			description: "Conheça a missão, visão e valores da Bella IT Tecnologia. Inovação e excelência em serviços de tecnologia."
+			title: t("nav.about"),
+			description: t("about.meta.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PageHeader, {
-			title: "Sobre a Bella IT",
-			description: "Nossa história, propósito e os valores que nos guiam em cada projeto."
+			title: t("about.header.title"),
+			description: t("about.header.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 			className: "py-20",
@@ -25220,10 +25393,10 @@ function SobreNos() {
 					className: "mx-auto max-w-3xl text-center mb-16",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 						className: "text-3xl font-bold mb-6",
-						children: "Quem Somos"
+						children: t("about.who.title")
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						className: "text-lg text-muted-foreground leading-relaxed",
-						children: "A Bella IT é uma empresa de tecnologia focada em entregar soluções de ponta para negócios de todos os tamanhos. Nascemos com o propósito de descomplicar a TI, trazendo inovação, segurança e eficiência para o dia a dia das empresas corporativas."
+						children: t("about.who.desc")
 					})]
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "grid gap-8 md:grid-cols-3",
@@ -25237,11 +25410,11 @@ function SobreNos() {
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 									className: "mb-4 text-2xl font-bold",
-									children: "Missão"
+									children: t("about.mission.title")
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 									className: "text-muted-foreground",
-									children: "Prover soluções tecnológicas inovadoras e de alta qualidade, garantindo a satisfação de nossos clientes e contribuindo para o crescimento e segurança de seus negócios."
+									children: t("about.mission.desc")
 								})
 							]
 						}),
@@ -25254,11 +25427,11 @@ function SobreNos() {
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 									className: "mb-4 text-2xl font-bold",
-									children: "Visão"
+									children: t("about.vision.title")
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 									className: "text-muted-foreground",
-									children: "Ser reconhecida nacionalmente como a principal parceira estratégica em tecnologia da informação, destacando-se pela excelência, transparência e confiabilidade de entrega."
+									children: t("about.vision.desc")
 								})
 							]
 						}),
@@ -25271,26 +25444,42 @@ function SobreNos() {
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 									className: "mb-4 text-2xl font-bold",
-									children: "Valores"
+									children: t("about.values.title")
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", {
 									className: "space-y-3 text-muted-foreground text-left mx-auto max-w-[200px]",
 									children: [
 										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
 											className: "flex items-center gap-2",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-2 w-2 rounded-full bg-primary" }), " Inovação Contínua"]
+											children: [
+												/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-2 w-2 rounded-full bg-primary" }),
+												" ",
+												t("about.values.1")
+											]
 										}),
 										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
 											className: "flex items-center gap-2",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-2 w-2 rounded-full bg-primary" }), " Ética e Transparência"]
+											children: [
+												/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-2 w-2 rounded-full bg-primary" }),
+												" ",
+												t("about.values.2")
+											]
 										}),
 										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
 											className: "flex items-center gap-2",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-2 w-2 rounded-full bg-primary" }), " Foco no Cliente"]
+											children: [
+												/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-2 w-2 rounded-full bg-primary" }),
+												" ",
+												t("about.values.3")
+											]
 										}),
 										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
 											className: "flex items-center gap-2",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-2 w-2 rounded-full bg-primary" }), " Excelência Operacional"]
+											children: [
+												/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-2 w-2 rounded-full bg-primary" }),
+												" ",
+												t("about.values.4")
+											]
 										})
 									]
 								})
@@ -25304,14 +25493,15 @@ function SobreNos() {
 }
 var image_c7d78_default = "/assets/image-c7d78-DFecsRCO.png";
 function Parcerias() {
+	const { t } = useLanguage();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SEO, {
-			title: "Parcerias Estratégicas",
-			description: "Conheça os parceiros tecnológicos da Bella IT: Ingram Micro, Veeam, Microsoft, Dell e Trend Micro."
+			title: t("nav.partners"),
+			description: t("part.meta.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PageHeader, {
-			title: "Parcerias Estratégicas",
-			description: "Trabalhamos em conjunto com os líderes globais de tecnologia para entregar as melhores soluções."
+			title: t("part.header.title"),
+			description: t("part.header.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 			className: "py-20",
@@ -25322,17 +25512,17 @@ function Parcerias() {
 					children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 							className: "mb-8 text-3xl font-bold",
-							children: "Nossos Parceiros de Tecnologia"
+							children: t("part.content.title")
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "mb-16 text-lg text-muted-foreground",
-							children: "Para garantir a máxima qualidade e segurança em nossos projetos, firmamos parcerias com as maiores empresas de tecnologia do mundo. Isso nos permite oferecer soluções robustas, escaláveis e com o melhor custo-benefício."
+							children: t("part.content.desc")
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 							className: "overflow-hidden rounded-2xl border bg-white p-8 md:p-12 shadow-sm dark:bg-slate-200 flex items-center justify-center",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 								src: image_c7d78_default,
-								alt: "Logos de parceiros estratégicos: Ingram Micro, Veeam, Microsoft, Dell, e Trend Micro",
+								alt: "Logos de parceiros estratégicos",
 								className: "h-auto w-full max-w-4xl object-contain mix-blend-multiply transition-transform hover:scale-105 duration-700"
 							})
 						}),
@@ -25341,23 +25531,23 @@ function Parcerias() {
 							children: [
 								{
 									name: "Ingram Micro",
-									desc: "Distribuição global de soluções de TI e suprimentos de tecnologia corporativa."
+									desc: t("part.ingram.desc")
 								},
 								{
 									name: "Veeam",
-									desc: "Líder em soluções de backup, recuperação e gestão segura de dados em nuvem."
+									desc: t("part.veeam.desc")
 								},
 								{
 									name: "Microsoft",
-									desc: "Sistemas operacionais, nuvem Azure e ferramentas completas de produtividade."
+									desc: t("part.microsoft.desc")
 								},
 								{
 									name: "Dell",
-									desc: "Fornecimento de infraestrutura robusta, servidores e hardware corporativo de ponta."
+									desc: t("part.dell.desc")
 								},
 								{
 									name: "Trend Micro",
-									desc: "Especialistas em cibersegurança e proteção avançada de dados corporativos."
+									desc: t("part.trend.desc")
 								}
 							].map((partner) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "rounded-xl border bg-card p-6 text-left shadow-sm hover:shadow-md transition-all hover:-translate-y-1 hover:border-primary/30",
@@ -25377,14 +25567,15 @@ function Parcerias() {
 	] });
 }
 function Consultorias() {
+	const { t } = useLanguage();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SEO, {
-			title: "Consultorias e Licenças",
-			description: "Serviços de consultoria em TI, licenciamento de software corporativo e adequação tecnológica."
+			title: t("nav.consulting"),
+			description: t("cons.meta.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PageHeader, {
-			title: "Consultorias e Licenças",
-			description: "Orientação especializada para otimizar seus investimentos em tecnologia."
+			title: t("cons.header.title"),
+			description: t("cons.header.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 			className: "py-20",
@@ -25395,26 +25586,26 @@ function Consultorias() {
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 							className: "mb-6 text-3xl font-bold text-foreground",
-							children: "Decisões mais inteligentes para o seu negócio"
+							children: t("cons.content.title")
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "mb-8 text-lg text-muted-foreground leading-relaxed",
-							children: "Nossa equipe de especialistas analisa a infraestrutura atual da sua empresa e propõe melhorias estratégicas, garantindo que você utilize as ferramentas mais adequadas com o melhor custo-benefício do mercado."
+							children: t("cons.content.desc")
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", {
 							className: "space-y-4",
 							children: [
 								{
 									icon: BrainCircuit,
-									text: "Mapeamento completo e análise de infraestrutura de TI"
+									text: t("cons.feat1")
 								},
 								{
 									icon: FileCheck,
-									text: "Gestão e regularização de licenças (Microsoft, Veeam, etc)"
+									text: t("cons.feat2")
 								},
 								{
 									icon: ShieldCheck,
-									text: "Consultoria dedicada em segurança da informação e LGPD"
+									text: t("cons.feat3")
 								}
 							].map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
 								className: "flex items-center gap-4 rounded-xl border bg-card p-4 shadow-sm hover:border-primary transition-colors",
@@ -25441,14 +25632,15 @@ function Consultorias() {
 	] });
 }
 function Desenvolvimento() {
+	const { t } = useLanguage();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SEO, {
-			title: "Desenvolvimento de Software",
-			description: "Criação de softwares sob medida, aplicativos web e mobile para impulsionar a inovação da sua empresa corporativa."
+			title: t("nav.development"),
+			description: t("dev.meta.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PageHeader, {
-			title: "Desenvolvimento",
-			description: "Sistemas personalizados criados para resolver os desafios únicos do seu negócio."
+			title: t("dev.header.title"),
+			description: t("dev.header.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 			className: "py-20",
@@ -25458,28 +25650,28 @@ function Desenvolvimento() {
 					className: "mx-auto max-w-3xl text-center mb-16",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 						className: "text-3xl font-bold mb-6",
-						children: "Inovação sob Medida"
+						children: t("dev.content.title")
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						className: "text-lg text-muted-foreground leading-relaxed",
-						children: "Do planejamento inicial ao deploy final, nossa equipe de desenvolvimento cria soluções robustas, escaláveis e intuitivas, utilizando as tecnologias mais modernas do mercado para alavancar os seus resultados."
+						children: t("dev.content.desc")
 					})]
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "grid gap-8 md:grid-cols-3",
 					children: [
 						{
 							icon: CodeXml,
-							title: "Sistemas Web",
-							desc: "Aplicações completas, rápidas e responsivas, acessíveis de qualquer lugar com máxima segurança."
+							title: t("dev.web.title"),
+							desc: t("dev.web.desc")
 						},
 						{
 							icon: Smartphone,
-							title: "Aplicativos Mobile",
-							desc: "Soluções nativas ou híbridas de alto desempenho para plataformas iOS e Android."
+							title: t("dev.mobile.title"),
+							desc: t("dev.mobile.desc")
 						},
 						{
 							icon: Database,
-							title: "Integrações de API",
-							desc: "Conectamos seus sistemas legados para garantir fluidez, automação e segurança dos dados."
+							title: t("dev.api.title"),
+							desc: t("dev.api.desc")
 						}
 					].map((feature, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "rounded-2xl border bg-card p-8 hover:border-primary shadow-sm hover:shadow-lg transition-all group",
@@ -25504,14 +25696,15 @@ function Desenvolvimento() {
 	] });
 }
 function Projetos() {
+	const { t } = useLanguage();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SEO, {
-			title: "Projetos de Tecnologia",
-			description: "Implementação de infraestrutura, migração para nuvem e projetos de redes corporativas avançadas."
+			title: t("nav.projects"),
+			description: t("proj.meta.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PageHeader, {
-			title: "Projetos de Tecnologia",
-			description: "Arquitetura, planejamento minucioso e execução de projetos de infraestrutura de TI."
+			title: t("proj.header.title"),
+			description: t("proj.header.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 			className: "py-20",
@@ -25522,20 +25715,20 @@ function Projetos() {
 					children: [
 						{
 							icon: Cloud,
-							title: "Migração para Nuvem",
-							desc: "Planejamos e executamos a migração estruturada dos seus serviços e dados para plataformas cloud seguras, garantindo alta disponibilidade, redução de custos e escalabilidade sob demanda.",
+							title: t("proj.cloud.title"),
+							desc: t("proj.cloud.desc"),
 							image: "https://img.usecurling.com/p/600/400?q=cloud%20computing%20data&color=blue"
 						},
 						{
 							icon: Server,
-							title: "Infraestrutura de Servidores",
-							desc: "Montagem física, configuração lógica e virtualização de servidores locais ou híbridos, dimensionados exatamente para suportar a sua demanda atual de processamento e crescimento futuro.",
+							title: t("proj.server.title"),
+							desc: t("proj.server.desc"),
 							image: "https://img.usecurling.com/p/600/400?q=server%20room%20rack&color=black"
 						},
 						{
 							icon: Network,
-							title: "Redes Corporativas",
-							desc: "Estruturação avançada de redes cabeadas e Wi-Fi de alta performance, com foco estrito em segurança, estabilidade de conexão e segmentação adequada de acessos por departamento.",
+							title: t("proj.network.title"),
+							desc: t("proj.network.desc"),
 							image: "https://img.usecurling.com/p/600/400?q=network%20cables%20switch&color=gray"
 						}
 					].map((projeto, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -25570,14 +25763,15 @@ function Projetos() {
 	] });
 }
 function ServiceDesk() {
+	const { t } = useLanguage();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SEO, {
-			title: "Service Desk",
-			description: "Suporte técnico especializado de TI N1, N2 e N3 para garantir a continuidade e produtividade da sua equipe."
+			title: t("nav.serviceDesk"),
+			description: t("sd.meta.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PageHeader, {
-			title: "Service Desk",
-			description: "Suporte técnico ágil e eficiente para que a sua operação nunca pare."
+			title: t("sd.header.title"),
+			description: t("sd.header.desc")
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 			className: "py-20",
@@ -25590,11 +25784,11 @@ function ServiceDesk() {
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 								className: "mb-6 text-3xl font-bold",
-								children: "Atendimento que faz a diferença"
+								children: t("sd.content.title")
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 								className: "mb-8 text-lg text-muted-foreground leading-relaxed",
-								children: "Oferecemos suporte técnico completo e estruturado em níveis (N1, N2 e N3) para resolver desde problemas cotidianos até incidentes críticos, garantindo a estabilidade e a continuidade do seu negócio com SLAs bem definidos."
+								children: t("sd.content.desc")
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "mb-10 space-y-6",
@@ -25605,10 +25799,10 @@ function ServiceDesk() {
 										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { className: "h-6 w-6" })
 									}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 										className: "font-bold text-lg mb-1",
-										children: "Tempo de Resposta Rápido"
+										children: t("sd.feat1.title")
 									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 										className: "text-muted-foreground",
-										children: "Monitoramento proativo do ambiente e atendimento imediato para chamados classificados como urgentes."
+										children: t("sd.feat1.desc")
 									})] })]
 								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 									className: "flex gap-4 items-start",
@@ -25617,10 +25811,10 @@ function ServiceDesk() {
 										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Wrench, { className: "h-6 w-6" })
 									}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 										className: "font-bold text-lg mb-1",
-										children: "Resolução Especializada"
+										children: t("sd.feat2.title")
 									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 										className: "text-muted-foreground",
-										children: "Técnicos amplamente capacitados e experientes para diagnosticar e solucionar problemas complexos de infraestrutura e software."
+										children: t("sd.feat2.desc")
 									})] })]
 								})]
 							}),
@@ -25632,7 +25826,7 @@ function ServiceDesk() {
 									href: "https://wa.me/5511999368850",
 									target: "_blank",
 									rel: "noopener noreferrer",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Headphones, { className: "mr-2 h-5 w-5" }), "Solicitar Atendimento Agora"]
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Headphones, { className: "mr-2 h-5 w-5" }), t("sd.cta")]
 								})
 							})
 						]
@@ -25726,4 +25920,4 @@ function App() {
 }
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App, {}));
 
-//# sourceMappingURL=index-CLOQNnOn.js.map
+//# sourceMappingURL=index-CfUfKHxz.js.map

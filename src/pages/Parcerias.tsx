@@ -1,63 +1,45 @@
 import { SEO } from '@/components/SEO'
 import { PageHeader } from '@/components/PageHeader'
 import partnersImg from '@/assets/image-c7d78.png'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Parcerias() {
+  const { t } = useLanguage()
+
   return (
     <>
-      <SEO
-        title="Parcerias Estratégicas"
-        description="Conheça os parceiros tecnológicos da Bella IT: Ingram Micro, Veeam, Microsoft, Dell e Trend Micro."
-      />
+      <SEO title={t('nav.partners')} description={t('part.meta.desc')} />
 
       <PageHeader
-        title="Parcerias Estratégicas"
-        description="Trabalhamos em conjunto com os líderes globais de tecnologia para entregar as melhores soluções."
+        title={t('part.header.title')}
+        description={t('part.header.desc')}
       />
 
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="mb-8 text-3xl font-bold">
-              Nossos Parceiros de Tecnologia
+              {t('part.content.title')}
             </h2>
             <p className="mb-16 text-lg text-muted-foreground">
-              Para garantir a máxima qualidade e segurança em nossos projetos,
-              firmamos parcerias com as maiores empresas de tecnologia do mundo.
-              Isso nos permite oferecer soluções robustas, escaláveis e com o
-              melhor custo-benefício.
+              {t('part.content.desc')}
             </p>
 
             <div className="overflow-hidden rounded-2xl border bg-white p-8 md:p-12 shadow-sm dark:bg-slate-200 flex items-center justify-center">
               <img
                 src={partnersImg}
-                alt="Logos de parceiros estratégicos: Ingram Micro, Veeam, Microsoft, Dell, e Trend Micro"
+                alt="Logos de parceiros estratégicos"
                 className="h-auto w-full max-w-4xl object-contain mix-blend-multiply transition-transform hover:scale-105 duration-700"
               />
             </div>
 
             <div className="mt-16 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
               {[
-                {
-                  name: 'Ingram Micro',
-                  desc: 'Distribuição global de soluções de TI e suprimentos de tecnologia corporativa.',
-                },
-                {
-                  name: 'Veeam',
-                  desc: 'Líder em soluções de backup, recuperação e gestão segura de dados em nuvem.',
-                },
-                {
-                  name: 'Microsoft',
-                  desc: 'Sistemas operacionais, nuvem Azure e ferramentas completas de produtividade.',
-                },
-                {
-                  name: 'Dell',
-                  desc: 'Fornecimento de infraestrutura robusta, servidores e hardware corporativo de ponta.',
-                },
-                {
-                  name: 'Trend Micro',
-                  desc: 'Especialistas em cibersegurança e proteção avançada de dados corporativos.',
-                },
+                { name: 'Ingram Micro', desc: t('part.ingram.desc') },
+                { name: 'Veeam', desc: t('part.veeam.desc') },
+                { name: 'Microsoft', desc: t('part.microsoft.desc') },
+                { name: 'Dell', desc: t('part.dell.desc') },
+                { name: 'Trend Micro', desc: t('part.trend.desc') },
               ].map((partner) => (
                 <div
                   key={partner.name}

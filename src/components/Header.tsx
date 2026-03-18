@@ -33,11 +33,11 @@ export function Header() {
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2" onClick={closeMenu}>
-          <div className="rounded-md bg-slate-900 p-1.5 flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <img
               src={logoImg}
               alt="Bella IT Logo"
-              className="h-8 w-auto object-contain"
+              className="h-10 w-auto object-contain"
             />
           </div>
         </Link>

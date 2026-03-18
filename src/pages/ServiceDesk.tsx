@@ -2,18 +2,18 @@ import { SEO } from '@/components/SEO'
 import { PageHeader } from '@/components/PageHeader'
 import { Headphones, Clock, Wrench } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function ServiceDesk() {
+  const { t } = useLanguage()
+
   return (
     <>
-      <SEO
-        title="Service Desk"
-        description="Suporte técnico especializado de TI N1, N2 e N3 para garantir a continuidade e produtividade da sua equipe."
-      />
+      <SEO title={t('nav.serviceDesk')} description={t('sd.meta.desc')} />
 
       <PageHeader
-        title="Service Desk"
-        description="Suporte técnico ágil e eficiente para que a sua operação nunca pare."
+        title={t('sd.header.title')}
+        description={t('sd.header.desc')}
       />
 
       <section className="py-20">
@@ -21,13 +21,10 @@ export default function ServiceDesk() {
           <div className="flex flex-col-reverse gap-16 lg:flex-row lg:items-center">
             <div className="flex-1">
               <h2 className="mb-6 text-3xl font-bold">
-                Atendimento que faz a diferença
+                {t('sd.content.title')}
               </h2>
               <p className="mb-8 text-lg text-muted-foreground leading-relaxed">
-                Oferecemos suporte técnico completo e estruturado em níveis (N1,
-                N2 e N3) para resolver desde problemas cotidianos até incidentes
-                críticos, garantindo a estabilidade e a continuidade do seu
-                negócio com SLAs bem definidos.
+                {t('sd.content.desc')}
               </p>
 
               <div className="mb-10 space-y-6">
@@ -37,11 +34,10 @@ export default function ServiceDesk() {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg mb-1">
-                      Tempo de Resposta Rápido
+                      {t('sd.feat1.title')}
                     </h3>
                     <p className="text-muted-foreground">
-                      Monitoramento proativo do ambiente e atendimento imediato
-                      para chamados classificados como urgentes.
+                      {t('sd.feat1.desc')}
                     </p>
                   </div>
                 </div>
@@ -51,12 +47,10 @@ export default function ServiceDesk() {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg mb-1">
-                      Resolução Especializada
+                      {t('sd.feat2.title')}
                     </h3>
                     <p className="text-muted-foreground">
-                      Técnicos amplamente capacitados e experientes para
-                      diagnosticar e solucionar problemas complexos de
-                      infraestrutura e software.
+                      {t('sd.feat2.desc')}
                     </p>
                   </div>
                 </div>
@@ -69,7 +63,7 @@ export default function ServiceDesk() {
                   rel="noopener noreferrer"
                 >
                   <Headphones className="mr-2 h-5 w-5" />
-                  Solicitar Atendimento Agora
+                  {t('sd.cta')}
                 </a>
               </Button>
             </div>

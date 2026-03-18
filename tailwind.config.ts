@@ -10,7 +10,6 @@ export default {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
-  prefix: '',
   theme: {
     container: {
       center: true,
@@ -22,7 +21,6 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -57,16 +55,21 @@ export default {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
-          hover: 'hsl(var(--card-hover))',
         },
-        'ink-black': '#111111',
-        'ink-gray': '#666666',
-        'ink-light': '#999999',
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+      keyframes: {
+        'slide-up': {
+          '0%': { transform: 'translateY(100%)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+      },
+      animation: {
+        'slide-up': 'slide-up 0.5s ease-out',
       },
     },
   },

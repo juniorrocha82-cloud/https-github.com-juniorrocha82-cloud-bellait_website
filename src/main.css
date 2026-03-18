@@ -1,5 +1,4 @@
-/* Global styles - Theme, font, utilities, animations and global components */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,98 +6,47 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* Canvas White */
-    --foreground: 0 0% 7%; /* Ink Black */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --card: 0 0% 97%; /* Card Light #F7F7F7 */
-    --card-foreground: 0 0% 7%; /* Ink Black */
-
-    --card-hover: 0 0% 94%; /* Card Hover #F0F0F0 */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 7%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 0 0% 7%; /* Ink Black */
-    --primary-foreground: 0 0% 98%;
+    /* Bella IT Primary - Corporate blue */
+    --primary: 217 91% 43%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 7%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 40%; /* Ink Gray #666666 */
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 0 0% 94%;
-    --accent-foreground: 0 0% 7%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 7%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
 
-    --radius: 0px; /* Sharp corners */
-
-    --ink-black: 0 0% 7%;
-    --ink-gray: 0 0% 40%;
-    --ink-light: 0 0% 60%;
+    --radius: 0.5rem;
   }
 
   .dark {
-    --background: 0 0% 7%;
-    --foreground: 0 0% 98%;
-    /* ... other dark mode vars if needed, but the design is primarily light with specific dark cards */
+    /* Keep it light per corporate style, can add dark vars if needed */
   }
 
+  * {
+    @apply border-border;
+  }
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
   }
-}
-
-@layer utilities {
-  .font-mono-code {
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .animate-blink {
-    animation: blink 1s step-end infinite;
-  }
-
-  .text-headline-large {
-    @apply text-[36px] md:text-[48px] font-extralight tracking-tight leading-[1.1];
-  }
-
-  .text-headline-standard {
-    @apply text-[24px] md:text-[28px] font-light leading-[1.2];
-  }
-
-  .text-meta {
-    @apply text-[9px] uppercase tracking-[0.1em] text-muted-foreground;
-  }
-}
-
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes fade-in-up-stagger {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in-up-stagger {
-  animation: fade-in-up-stagger 0.6s cubic-bezier(0.215, 0.61, 0.355, 1)
-    forwards;
 }

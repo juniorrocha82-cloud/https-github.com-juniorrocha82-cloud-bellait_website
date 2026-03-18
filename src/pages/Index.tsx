@@ -1,252 +1,169 @@
-import { useState } from 'react'
-import {
-  BentoCard,
-  CardMeta,
-  CardTitle,
-  CardDescription,
-} from '@/components/BentoCard'
-import { TerminalBlock } from '@/components/TerminalBlock'
-import { Input } from '@/components/ui/input'
+import { SEO } from '@/components/SEO'
+import { useLang } from '@/contexts/LanguageContext'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Check } from 'lucide-react'
+import {
+  ArrowRight,
+  Monitor,
+  Server,
+  Briefcase,
+  Handshake,
+  Code,
+} from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export default function Index() {
-  const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const { lang } = useLang()
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (email) {
-      setSubmitted(true)
-      setTimeout(() => {
-        setSubmitted(false)
-        setEmail('')
-      }, 3000)
-    }
-  }
+  const services = [
+    {
+      to: '/service-desk',
+      icon: <Monitor className="w-8 h-8" />,
+      title: 'Service Desk',
+      desc:
+        lang === 'pt'
+          ? 'Suporte especializado para sua operação não parar.'
+          : 'Specialized support so your operation never stops.',
+    },
+    {
+      to: '/projetos',
+      icon: <Server className="w-8 h-8" />,
+      title: lang === 'pt' ? 'Projetos de Tecnologia' : 'Tech Projects',
+      desc:
+        lang === 'pt'
+          ? 'Infraestrutura robusta e soluções sob medida para nuvem e redes.'
+          : 'Robust infrastructure and custom solutions for cloud and networks.',
+    },
+    {
+      to: '/consultorias',
+      icon: <Briefcase className="w-8 h-8" />,
+      title:
+        lang === 'pt' ? 'Consultorias e Licenças' : 'Consulting & Licenses',
+      desc:
+        lang === 'pt'
+          ? 'Otimização, compliance e licenciamento inteligente de software.'
+          : 'Optimization, compliance, and smart software licensing.',
+    },
+    {
+      to: '/parcerias',
+      icon: <Handshake className="w-8 h-8" />,
+      title:
+        lang === 'pt' ? 'Parcerias Estratégicas' : 'Strategic Partnerships',
+      desc:
+        lang === 'pt'
+          ? 'Trabalhamos em conjunto com as melhores e maiores marcas do mercado.'
+          : 'We work together with the best and largest brands in the market.',
+    },
+    {
+      to: '/desenvolvimento',
+      icon: <Code className="w-8 h-8" />,
+      title: lang === 'pt' ? 'Desenvolvimento' : 'Development',
+      desc:
+        lang === 'pt'
+          ? 'Fábrica de software, aplicações modernas e integrações de sistemas.'
+          : 'Software factory, modern applications, and system integrations.',
+    },
+  ]
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[4px] auto-rows-min">
-      {/* Manifesto Card (Span-2) */}
-      <div
-        className="col-span-1 md:col-span-2 animate-fade-in-up-stagger"
-        style={{ animationDelay: '0ms' }}
-      >
-        <BentoCard href="/manifesto">
-          <div>
-            <CardMeta>MANIFESTO</CardMeta>
-            <CardTitle large>COMPUTING AS CRAFT.</CardTitle>
-          </div>
-          <CardDescription className="max-w-md">
-            Exploring the intersection of generative intelligence, low-level
-            systems engineering, and the aesthetics of code.
-          </CardDescription>
-        </BentoCard>
-      </div>
+    <div className="w-full bg-background animate-in fade-in duration-500">
+      <SEO
+        title="Home"
+        description={
+          lang === 'pt'
+            ? 'Bella IT - Soluções corporativas completas em Tecnologia.'
+            : 'Bella IT - Complete corporate technology solutions.'
+        }
+      />
 
-      {/* Featured Setup Card (Span-2) */}
-      <div
-        className="col-span-1 md:col-span-2 min-h-[300px] animate-fade-in-up-stagger"
-        style={{ animationDelay: '100ms' }}
-      >
-        <BentoCard
-          href="/setups/minimal-desk"
-          imageOverlay
-          noHover
-          className="p-0"
-        >
-          <div className="absolute inset-0 z-0">
-            <img
-              src="https://img.usecurling.com/p/800/600?q=minimalist%20desk%20setup&color=black"
-              alt="Minimal Desk Setup"
-              className="w-full h-full object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
-            />
-          </div>
-          <div className="relative z-10 p-8 flex flex-col justify-end h-full">
-            <h3 className="text-2xl font-light text-white drop-shadow-md">
-              The Monolith Workspace
-            </h3>
-            <p className="text-white/80 text-sm mt-2">
-              Productivity through reduction.
+      {/* Hero */}
+      <section className="relative min-h-[85vh] flex items-center bg-slate-900 overflow-hidden">
+        <div className="absolute inset-0 bg-slate-900/40 z-10"></div>
+        <img
+          src="https://img.usecurling.com/p/1600/900?q=modern%20tech%20office&color=blue"
+          alt="Tecnologia Bella IT"
+          className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-overlay"
+        />
+        <div className="relative z-20 max-w-[1400px] mx-auto px-4 md:px-6 w-full mt-10">
+          <div className="max-w-3xl animate-in slide-in-from-bottom-8 duration-700">
+            <div className="inline-block bg-primary/20 text-primary-foreground backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-semibold mb-6 border border-primary/30">
+              {lang === 'pt'
+                ? 'Parceiro Estratégico em TI'
+                : 'Strategic IT Partner'}
+            </div>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 tracking-tight">
+              {lang === 'pt'
+                ? 'Tecnologia que impulsiona o seu negócio.'
+                : 'Technology that drives your business.'}
+            </h1>
+            <p className="text-xl md:text-2xl text-slate-200 mb-10 font-light">
+              {lang === 'pt'
+                ? 'Soluções corporativas completas em infraestrutura, suporte, desenvolvimento e licenciamento.'
+                : 'Complete corporate solutions in infrastructure, support, development, and licensing.'}
             </p>
-          </div>
-        </BentoCard>
-      </div>
-
-      {/* Transformer Latency Card */}
-      <div
-        className="col-span-1 animate-fade-in-up-stagger"
-        style={{ animationDelay: '150ms' }}
-      >
-        <BentoCard href="/articles/transformer-latency">
-          <CardMeta>BENCHMARK</CardMeta>
-          <CardTitle>Transformer Latency</CardTitle>
-          <TerminalBlock>
-            python3 infer.py
-            <br />
-            <span className="text-green-600">&gt;&gt; 42ms / token</span>
-          </TerminalBlock>
-        </BentoCard>
-      </div>
-
-      {/* Ricing Arch Linux Card (Dark) */}
-      <div
-        className="col-span-1 animate-fade-in-up-stagger"
-        style={{ animationDelay: '200ms' }}
-      >
-        <BentoCard href="/setups/arch-linux" dark>
-          <CardMeta className="text-gray-400">SYSTEM</CardMeta>
-          <CardTitle className="text-white">Ricing Arch Linux</CardTitle>
-          <TerminalBlock dark>
-            sudo pacman -Syu
-            <br />
-            :: Synchronizing...
-          </TerminalBlock>
-        </BentoCard>
-      </div>
-
-      {/* Repo Activity Card */}
-      <div
-        className="col-span-1 animate-fade-in-up-stagger"
-        style={{ animationDelay: '250ms' }}
-      >
-        <BentoCard href="/repo">
-          <CardMeta>ACTIVITY</CardMeta>
-          <div className="flex-1 flex items-center justify-center">
-            <span className="text-6xl font-thin tracking-tighter">142+</span>
-          </div>
-          <p className="text-xs text-center text-muted-foreground mt-2">
-            Commits this week
-          </p>
-        </BentoCard>
-      </div>
-
-      {/* Rust vs C++ Card */}
-      <div
-        className="col-span-1 animate-fade-in-up-stagger"
-        style={{ animationDelay: '300ms' }}
-      >
-        <BentoCard href="/articles/rust-cpp">
-          <CardMeta>OPINION</CardMeta>
-          <CardTitle>Rust vs C++</CardTitle>
-          <CardDescription className="text-xs mt-2">
-            Memory safety without garbage collection. Why we migrated the core
-            engine.
-          </CardDescription>
-        </BentoCard>
-      </div>
-
-      {/* Source Code Card (Span-2) */}
-      <div
-        className="col-span-1 md:col-span-2 animate-fade-in-up-stagger"
-        style={{ animationDelay: '350ms' }}
-      >
-        <BentoCard href="/source" className="p-0 overflow-hidden group">
-          <div className="absolute inset-0 bg-card transition-colors duration-300">
-            <img
-              src="https://img.usecurling.com/p/800/400?q=computer%20code&color=black"
-              alt="Source Code"
-              className="w-full h-full object-cover opacity-80 grayscale contrast-125 transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
-            />
-          </div>
-          <div className="relative z-10 p-8 h-full flex flex-col justify-between pointer-events-none">
-            <CardMeta className="bg-white/80 backdrop-blur w-fit px-2 py-1">
-              SOURCE
-            </CardMeta>
-          </div>
-        </BentoCard>
-      </div>
-
-      {/* Philosophy Card (Row-2, Dark) */}
-      <div
-        className="col-span-1 row-span-2 animate-fade-in-up-stagger"
-        style={{ animationDelay: '400ms' }}
-      >
-        <BentoCard href="/philosophy" dark className="justify-between">
-          <div>
-            <CardMeta className="text-gray-400">PHILOSOPHY</CardMeta>
-            <CardTitle className="text-white mt-4 leading-tight">
-              THE GHOST IN THE SHELL
-            </CardTitle>
-          </div>
-          <div className="mt-8 opacity-50">
-            {/* Abstract technical SVG diagram */}
-            <svg
-              viewBox="0 0 100 100"
-              className="w-full h-auto stroke-white fill-none stroke-[0.5]"
-            >
-              <circle cx="50" cy="50" r="40" />
-              <line x1="10" y1="50" x2="90" y2="50" />
-              <line x1="50" y1="10" x2="50" y2="90" />
-              <circle cx="50" cy="50" r="20" />
-              <rect x="35" y="35" width="30" height="30" />
-            </svg>
-          </div>
-        </BentoCard>
-      </div>
-
-      {/* Vim Motions Card (Span-2) */}
-      <div
-        className="col-span-1 md:col-span-2 animate-fade-in-up-stagger"
-        style={{ animationDelay: '450ms' }}
-      >
-        <BentoCard href="/articles/vim-motions">
-          <CardMeta>TUTORIAL</CardMeta>
-          <CardTitle>Mastering Vim Motions</CardTitle>
-          <TerminalBlock>
-            " vimrc configuration
-            <br />
-            nnoremap &lt;C-j&gt; &lt;C-w&gt;j
-            <br />
-            nnoremap &lt;C-k&gt; &lt;C-w&gt;k
-          </TerminalBlock>
-        </BentoCard>
-      </div>
-
-      {/* Newsletter Card */}
-      <div
-        className="col-span-1 animate-fade-in-up-stagger"
-        style={{ animationDelay: '500ms' }}
-      >
-        <BentoCard noHover className="justify-end">
-          <div className="mb-4">
-            <CardMeta>NEWSLETTER</CardMeta>
-            <p className="text-sm font-light mt-2">
-              Stay updated on system architecture.
-            </p>
-          </div>
-          <form onSubmit={handleSubscribe} className="relative mt-auto">
-            <div className="flex items-center border-b border-ink-black pb-1">
-              <Input
-                type="email"
-                placeholder="email@example.com"
-                className="border-none shadow-none focus-visible:ring-0 px-0 h-auto rounded-none bg-transparent placeholder:text-muted-foreground/50 font-mono text-sm"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={submitted}
-              />
+            <div className="flex flex-col sm:flex-row gap-4">
               <Button
-                type="submit"
-                size="icon"
-                variant="ghost"
-                className="h-6 w-6 hover:bg-transparent"
-                disabled={submitted}
+                asChild
+                size="lg"
+                className="rounded-full px-8 h-14 text-lg"
               >
-                {submitted ? (
-                  <Check className="w-4 h-4 text-green-600" />
-                ) : (
-                  <ArrowRight className="w-4 h-4" />
-                )}
+                <Link to="/sobre-nos">
+                  {lang === 'pt' ? 'Conheça a Bella IT' : 'Know Bella IT'}
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="rounded-full px-8 h-14 text-lg border-white text-white hover:bg-white hover:text-slate-900 bg-transparent"
+              >
+                <Link to="/projetos">
+                  {lang === 'pt' ? 'Nossos Projetos' : 'Our Projects'}
+                </Link>
               </Button>
             </div>
-            {submitted && (
-              <p className="text-[10px] text-green-600 mt-1 absolute -bottom-5 left-0">
-                Subscribed successfully.
-              </p>
-            )}
-          </form>
-        </BentoCard>
-      </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-6">
+          <div className="text-center mb-16 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
+              {lang === 'pt' ? 'Nossas Especialidades' : 'Our Specialties'}
+            </h2>
+            <p className="text-lg text-slate-600">
+              {lang === 'pt'
+                ? 'Oferecemos um portfólio completo de serviços desenhado para atender e superar todas as necessidades tecnológicas da sua empresa.'
+                : 'We offer a complete portfolio of services designed to meet and exceed all your company technological needs.'}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service, i) => (
+              <Link
+                key={i}
+                to={service.to}
+                className="group bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col items-start"
+              >
+                <div className="w-16 h-16 bg-slate-50 text-primary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
+                  {service.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors">
+                  {service.title}
+                </h3>
+                <p className="text-slate-600 mb-8 flex-1 leading-relaxed">
+                  {service.desc}
+                </p>
+                <div className="flex items-center text-primary font-semibold mt-auto group-hover:translate-x-2 transition-transform">
+                  {lang === 'pt' ? 'Saiba mais' : 'Learn more'}
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

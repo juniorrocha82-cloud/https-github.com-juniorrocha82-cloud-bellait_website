@@ -1,60 +1,80 @@
 import { SEO } from '@/components/SEO'
-import { useLang } from '@/contexts/LanguageContext'
 import { PageHeader } from '@/components/PageHeader'
+import partnersImg from '@/assets/image-c7d78.png'
 
 export default function Parcerias() {
-  const { lang } = useLang()
-
-  // Real brands requested by tech context
-  const partners = ['microsoft', 'cisco', 'dell', 'lenovo', 'hp', 'vmware']
-
   return (
-    <div className="w-full bg-background pb-20 animate-in fade-in duration-500">
+    <>
       <SEO
-        title={
-          lang === 'pt' ? 'Parcerias Estratégicas' : 'Strategic Partnerships'
-        }
-        description={
-          lang === 'pt'
-            ? 'Trabalhamos com os melhores parceiros e fabricantes de tecnologia do mercado.'
-            : 'We work with the best technology partners and manufacturers in the market.'
-        }
+        title="Parcerias Estratégicas"
+        description="Conheça os parceiros tecnológicos da Bella IT: Ingram Micro, Veeam, Microsoft, Dell e Trend Micro."
       />
+
       <PageHeader
-        title={
-          lang === 'pt' ? 'Parcerias Estratégicas' : 'Strategic Partnerships'
-        }
-        description={
-          lang === 'pt'
-            ? 'Alianças com líderes globais para entregar excelência.'
-            : 'Alliances with global leaders to deliver excellence.'
-        }
-        imageQuery="handshake business deal"
+        title="Parcerias Estratégicas"
+        description="Trabalhamos em conjunto com os líderes globais de tecnologia para entregar as melhores soluções."
       />
 
-      <section className="max-w-[1200px] mx-auto px-4 md:px-6 py-24 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 tracking-tight">
-          {lang === 'pt'
-            ? 'Garantia de Qualidade e Inovação'
-            : 'Quality Assurance and Innovation'}
-        </h2>
-        <p className="text-lg text-slate-600 max-w-3xl mx-auto mb-20 leading-relaxed">
-          {lang === 'pt'
-            ? 'A Bella IT estabelece alianças estratégicas com os maiores fabricantes de hardware e software do mundo. Isso nos permite oferecer as melhores soluções técnicas com condições comerciais exclusivas para nossos clientes.'
-            : 'Bella IT establishes strategic alliances with the world largest hardware and software manufacturers. This allows us to offer the best technical solutions with exclusive commercial conditions for our clients.'}
-        </p>
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="mb-8 text-3xl font-bold">
+              Nossos Parceiros de Tecnologia
+            </h2>
+            <p className="mb-16 text-lg text-muted-foreground">
+              Para garantir a máxima qualidade e segurança em nossos projetos,
+              firmamos parcerias com as maiores empresas de tecnologia do mundo.
+              Isso nos permite oferecer soluções robustas, escaláveis e com o
+              melhor custo-benefício.
+            </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-12 md:gap-20 items-center justify-items-center opacity-70">
-          {partners.map((p) => (
-            <img
-              key={p}
-              src={`https://img.usecurling.com/i?q=${p}&color=solid-black`}
-              alt={`Parceiro ${p}`}
-              className="h-16 md:h-20 object-contain grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300 cursor-pointer"
-            />
-          ))}
+            <div className="overflow-hidden rounded-2xl border bg-white p-8 md:p-12 shadow-sm dark:bg-slate-200 flex items-center justify-center">
+              <img
+                src={partnersImg}
+                alt="Logos de parceiros estratégicos: Ingram Micro, Veeam, Microsoft, Dell, e Trend Micro"
+                className="h-auto w-full max-w-4xl object-contain mix-blend-multiply transition-transform hover:scale-105 duration-700"
+              />
+            </div>
+
+            <div className="mt-16 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+              {[
+                {
+                  name: 'Ingram Micro',
+                  desc: 'Distribuição global de soluções de TI e suprimentos de tecnologia corporativa.',
+                },
+                {
+                  name: 'Veeam',
+                  desc: 'Líder em soluções de backup, recuperação e gestão segura de dados em nuvem.',
+                },
+                {
+                  name: 'Microsoft',
+                  desc: 'Sistemas operacionais, nuvem Azure e ferramentas completas de produtividade.',
+                },
+                {
+                  name: 'Dell',
+                  desc: 'Fornecimento de infraestrutura robusta, servidores e hardware corporativo de ponta.',
+                },
+                {
+                  name: 'Trend Micro',
+                  desc: 'Especialistas em cibersegurança e proteção avançada de dados corporativos.',
+                },
+              ].map((partner) => (
+                <div
+                  key={partner.name}
+                  className="rounded-xl border bg-card p-6 text-left shadow-sm hover:shadow-md transition-all hover:-translate-y-1 hover:border-primary/30"
+                >
+                  <h3 className="mb-3 font-bold text-lg text-primary">
+                    {partner.name}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {partner.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
-    </div>
+    </>
   )
 }

@@ -1,86 +1,66 @@
 import { SEO } from '@/components/SEO'
-import { useLang } from '@/contexts/LanguageContext'
 import { PageHeader } from '@/components/PageHeader'
-import { CheckCircle2 } from 'lucide-react'
+import { Code2, Smartphone, Database } from 'lucide-react'
 
 export default function Desenvolvimento() {
-  const { lang } = useLang()
-
-  const list = [
-    lang === 'pt'
-      ? 'Aplicações Web e Mobile Customizadas'
-      : 'Custom Web and Mobile Applications',
-    lang === 'pt' ? 'Integrações Complexas de API' : 'Complex API Integrations',
-    lang === 'pt'
-      ? 'Sistemas ERP/CRM sob medida'
-      : 'Tailor-made ERP/CRM Systems',
-    lang === 'pt'
-      ? 'Manutenção, Sustentação e Refatoração'
-      : 'Maintenance, Support and Refactoring',
-  ]
-
   return (
-    <div className="w-full bg-background pb-20 animate-in fade-in duration-500">
+    <>
       <SEO
-        title={
-          lang === 'pt' ? 'Desenvolvimento de Software' : 'Software Development'
-        }
-        description={
-          lang === 'pt'
-            ? 'Criação de software sob medida, aplicativos e integrações de sistemas.'
-            : 'Custom software creation, applications and system integrations.'
-        }
-      />
-      <PageHeader
-        title={
-          lang === 'pt' ? 'Desenvolvimento de Software' : 'Software Development'
-        }
-        description={
-          lang === 'pt'
-            ? 'Transformando ideias em sistemas escaláveis e eficientes.'
-            : 'Transforming ideas into scalable and efficient systems.'
-        }
-        imageQuery="programming code software screen"
+        title="Desenvolvimento de Software"
+        description="Criação de softwares sob medida, aplicativos web e mobile para impulsionar a inovação da sua empresa corporativa."
       />
 
-      <section className="max-w-[1400px] mx-auto px-4 md:px-6 py-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 tracking-tight">
-              {lang === 'pt'
-                ? 'Fábrica de Software Especializada'
-                : 'Specialized Software Factory'}
-            </h2>
-            <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-              {lang === 'pt'
-                ? 'Automatize processos e conecte todos os seus sistemas com aplicações desenvolvidas sob medida, utilizando as tecnologias mais modernas e seguras do mercado atual.'
-                : 'Automate processes and connect all your systems with custom-developed applications, using the most modern and secure technologies in today market.'}
+      <PageHeader
+        title="Desenvolvimento"
+        description="Sistemas personalizados criados para resolver os desafios únicos do seu negócio."
+      />
+
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-3xl text-center mb-16">
+            <h2 className="text-3xl font-bold mb-6">Inovação sob Medida</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Do planejamento inicial ao deploy final, nossa equipe de
+              desenvolvimento cria soluções robustas, escaláveis e intuitivas,
+              utilizando as tecnologias mais modernas do mercado para alavancar
+              os seus resultados.
             </p>
-            <div className="space-y-4">
-              {list.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-4 p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-slate-50 transition-colors"
-                >
-                  <CheckCircle2 className="w-7 h-7 text-primary shrink-0" />
-                  <span className="text-slate-700 font-medium text-lg pt-0.5">
-                    {item}
-                  </span>
-                </div>
-              ))}
-            </div>
           </div>
-          <div>
-            <img
-              src="https://img.usecurling.com/p/800/800?q=software%20developer%20team%20coding&color=blue"
-              alt={
-                lang === 'pt' ? 'Equipe de Desenvolvimento' : 'Development Team'
-              }
-              className="rounded-2xl shadow-xl w-full object-cover aspect-square"
-            />
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              {
+                icon: Code2,
+                title: 'Sistemas Web',
+                desc: 'Aplicações completas, rápidas e responsivas, acessíveis de qualquer lugar com máxima segurança.',
+              },
+              {
+                icon: Smartphone,
+                title: 'Aplicativos Mobile',
+                desc: 'Soluções nativas ou híbridas de alto desempenho para plataformas iOS e Android.',
+              },
+              {
+                icon: Database,
+                title: 'Integrações de API',
+                desc: 'Conectamos seus sistemas legados para garantir fluidez, automação e segurança dos dados.',
+              },
+            ].map((feature, i) => (
+              <div
+                key={i}
+                className="rounded-2xl border bg-card p-8 hover:border-primary shadow-sm hover:shadow-lg transition-all group"
+              >
+                <div className="inline-block bg-primary/10 p-4 rounded-xl mb-6 group-hover:bg-primary transition-colors">
+                  <feature.icon className="h-8 w-8 text-primary group-hover:text-white transition-colors" />
+                </div>
+                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {feature.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-    </div>
+    </>
   )
 }

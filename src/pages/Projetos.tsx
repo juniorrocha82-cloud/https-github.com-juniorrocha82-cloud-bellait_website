@@ -1,88 +1,73 @@
 import { SEO } from '@/components/SEO'
-import { useLang } from '@/contexts/LanguageContext'
 import { PageHeader } from '@/components/PageHeader'
-import { CheckCircle2 } from 'lucide-react'
+import { Server, Cloud, Network } from 'lucide-react'
 
 export default function Projetos() {
-  const { lang } = useLang()
-
-  const benefits = [
-    lang === 'pt'
-      ? 'Migração Cloud (AWS, Azure, Google Cloud)'
-      : 'Cloud Migration (AWS, Azure, Google Cloud)',
-    lang === 'pt'
-      ? 'Virtualização de Servidores e Desktops'
-      : 'Server and Desktop Virtualization',
-    lang === 'pt'
-      ? 'Projetos de Redes Corporativas (LAN/WAN)'
-      : 'Corporate Network Projects (LAN/WAN)',
-    lang === 'pt'
-      ? 'Cabeamento Estruturado e Wi-Fi'
-      : 'Structured Cabling and Wi-Fi',
-    lang === 'pt'
-      ? 'Segurança da Informação e Firewalls'
-      : 'Information Security and Firewalls',
-    lang === 'pt'
-      ? 'Backup e Disaster Recovery'
-      : 'Backup and Disaster Recovery',
-  ]
-
   return (
-    <div className="w-full bg-background pb-20 animate-in fade-in duration-500">
+    <>
       <SEO
-        title={lang === 'pt' ? 'Projetos de Tecnologia' : 'Technology Projects'}
-        description={
-          lang === 'pt'
-            ? 'Soluções em infraestrutura de TI, redes e migração Cloud.'
-            : 'IT infrastructure, networks and Cloud migration solutions.'
-        }
+        title="Projetos de Tecnologia"
+        description="Implementação de infraestrutura, migração para nuvem e projetos de redes corporativas avançadas."
       />
 
       <PageHeader
-        title={lang === 'pt' ? 'Projetos de Tecnologia' : 'Technology Projects'}
-        description={
-          lang === 'pt'
-            ? 'Planejamento e execução impecáveis para a infraestrutura do seu negócio.'
-            : 'Flawless planning and execution for your business infrastructure.'
-        }
-        imageQuery="server rack datacenter"
+        title="Projetos de Tecnologia"
+        description="Arquitetura, planejamento minucioso e execução de projetos de infraestrutura de TI."
       />
 
-      <section className="max-w-[1400px] mx-auto px-4 md:px-6 py-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 tracking-tight">
-              {lang === 'pt'
-                ? 'Infraestrutura Moderna e Escalável'
-                : 'Modern and Scalable Infrastructure'}
-            </h2>
-            <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-              {lang === 'pt'
-                ? 'Desenhamos, implementamos e suportamos arquiteturas de TI completas. Nosso foco é garantir que a tecnologia suporte o crescimento da sua empresa, oferecendo segurança, alta disponibilidade e escalabilidade.'
-                : 'We design, implement and support complete IT architectures. Our focus is to ensure that technology supports your company growth, offering security, high availability, and scalability.'}
-            </p>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {benefits.map((item, idx) => (
-                <div key={idx} className="flex items-start gap-3">
-                  <CheckCircle2 className="w-6 h-6 text-primary shrink-0 mt-0.5" />
-                  <span className="text-slate-700 font-medium">{item}</span>
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-12 lg:grid-cols-3">
+            {[
+              {
+                icon: Cloud,
+                title: 'Migração para Nuvem',
+                desc: 'Planejamos e executamos a migração estruturada dos seus serviços e dados para plataformas cloud seguras, garantindo alta disponibilidade, redução de custos e escalabilidade sob demanda.',
+                image:
+                  'https://img.usecurling.com/p/600/400?q=cloud%20computing%20data&color=blue',
+              },
+              {
+                icon: Server,
+                title: 'Infraestrutura de Servidores',
+                desc: 'Montagem física, configuração lógica e virtualização de servidores locais ou híbridos, dimensionados exatamente para suportar a sua demanda atual de processamento e crescimento futuro.',
+                image:
+                  'https://img.usecurling.com/p/600/400?q=server%20room%20rack&color=black',
+              },
+              {
+                icon: Network,
+                title: 'Redes Corporativas',
+                desc: 'Estruturação avançada de redes cabeadas e Wi-Fi de alta performance, com foco estrito em segurança, estabilidade de conexão e segmentação adequada de acessos por departamento.',
+                image:
+                  'https://img.usecurling.com/p/600/400?q=network%20cables%20switch&color=gray',
+              },
+            ].map((projeto, i) => (
+              <div
+                key={i}
+                className="group flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm hover:shadow-xl transition-shadow"
+              >
+                <div className="aspect-video overflow-hidden bg-muted">
+                  <img
+                    src={projeto.image}
+                    alt={projeto.title}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
                 </div>
-              ))}
-            </div>
-          </div>
-          <div>
-            <img
-              src="https://img.usecurling.com/p/800/800?q=network%20cables%20server&color=blue"
-              alt={
-                lang === 'pt'
-                  ? 'Infraestrutura e Redes'
-                  : 'Infrastructure and Networks'
-              }
-              className="rounded-2xl shadow-xl w-full object-cover aspect-square"
-            />
+                <div className="flex flex-col flex-1 p-8">
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="bg-primary/10 p-2 rounded-lg">
+                      <projeto.icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-bold">{projeto.title}</h3>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {projeto.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-    </div>
+    </>
   )
 }

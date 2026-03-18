@@ -1,114 +1,91 @@
 import { SEO } from '@/components/SEO'
-import { useLang } from '@/contexts/LanguageContext'
 import { PageHeader } from '@/components/PageHeader'
-import { Headphones, Clock, ShieldCheck, Zap } from 'lucide-react'
+import { Headphones, Clock, Wrench } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 export default function ServiceDesk() {
-  const { lang } = useLang()
-
-  const features = [
-    {
-      icon: <Headphones className="w-8 h-8" />,
-      title: lang === 'pt' ? 'Suporte Especializado' : 'Specialized Support',
-      desc:
-        lang === 'pt'
-          ? 'Analistas qualificados prontos para resolver incidentes e requisições rapidamente.'
-          : 'Qualified analysts ready to resolve incidents and requests quickly.',
-    },
-    {
-      icon: <Clock className="w-8 h-8" />,
-      title: '24/7/365',
-      desc:
-        lang === 'pt'
-          ? 'Monitoramento proativo e suporte ininterrupto para manter sua operação sempre ativa.'
-          : 'Proactive monitoring and uninterrupted support to keep your operation always active.',
-    },
-    {
-      icon: <ShieldCheck className="w-8 h-8" />,
-      title: lang === 'pt' ? 'SLAs Agressivos' : 'Aggressive SLAs',
-      desc:
-        lang === 'pt'
-          ? 'Tempos de resposta e resolução alinhados com a criticidade do seu negócio.'
-          : 'Response and resolution times aligned with the criticality of your business.',
-    },
-    {
-      icon: <Zap className="w-8 h-8" />,
-      title: lang === 'pt' ? 'Atendimento N1, N2, N3' : 'L1, L2, L3 Support',
-      desc:
-        lang === 'pt'
-          ? 'Escalonamento eficiente de chamados técnicos para a equipe correta no menor tempo.'
-          : 'Efficient escalation of technical tickets to the right team in the shortest time.',
-    },
-  ]
-
   return (
-    <div className="w-full bg-background pb-20 animate-in fade-in duration-500">
+    <>
       <SEO
         title="Service Desk"
-        description={
-          lang === 'pt'
-            ? 'Serviços de Service Desk e Suporte de TI especializado para sua empresa.'
-            : 'Service Desk and specialized IT Support services for your company.'
-        }
+        description="Suporte técnico especializado de TI N1, N2 e N3 para garantir a continuidade e produtividade da sua equipe."
       />
 
       <PageHeader
         title="Service Desk"
-        description={
-          lang === 'pt'
-            ? 'Tranquilidade e eficiência máxima para a operação de TI da sua empresa.'
-            : 'Maximum peace of mind and efficiency for your company IT operation.'
-        }
-        imageQuery="customer support IT desk"
+        description="Suporte técnico ágil e eficiente para que a sua operação nunca pare."
       />
 
-      <section className="max-w-[1400px] mx-auto px-4 md:px-6 py-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 tracking-tight">
-              {lang === 'pt'
-                ? 'Gestão Completa de Incidentes'
-                : 'Complete Incident Management'}
-            </h2>
-            <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
-              <p>
-                {lang === 'pt'
-                  ? 'O Service Desk da Bella IT atua como o ponto único de contato (SPOC) para todos os usuários da sua empresa, garantindo que qualquer solicitação ou incidente de TI seja tratado com rapidez, profissionalismo e total rastreabilidade.'
-                  : 'Bella IT Service Desk acts as a single point of contact (SPOC) for all users in your company, ensuring any IT request or incident is handled with speed, professionalism, and full traceability.'}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col-reverse gap-16 lg:flex-row lg:items-center">
+            <div className="flex-1">
+              <h2 className="mb-6 text-3xl font-bold">
+                Atendimento que faz a diferença
+              </h2>
+              <p className="mb-8 text-lg text-muted-foreground leading-relaxed">
+                Oferecemos suporte técnico completo e estruturado em níveis (N1,
+                N2 e N3) para resolver desde problemas cotidianos até incidentes
+                críticos, garantindo a estabilidade e a continuidade do seu
+                negócio com SLAs bem definidos.
               </p>
-              <p>
-                {lang === 'pt'
-                  ? 'Utilizamos ferramentas de ponta baseadas em ITIL para gerenciar tickets, medir a satisfação do usuário e fornecer relatórios transparentes de desempenho.'
-                  : 'We use cutting-edge ITIL-based tools to manage tickets, measure user satisfaction, and provide transparent performance reports.'}
-              </p>
-            </div>
-          </div>
-          <div>
-            <img
-              src="https://img.usecurling.com/p/800/600?q=help%20desk%20support&color=blue"
-              alt="Help Desk"
-              className="rounded-2xl shadow-xl w-full"
-            />
-          </div>
-        </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feat, i) => (
-            <div
-              key={i}
-              className="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300"
-            >
-              <div className="w-14 h-14 bg-primary text-white rounded-xl flex items-center justify-center mb-6 shadow-md">
-                {feat.icon}
+              <div className="mb-10 space-y-6">
+                <div className="flex gap-4 items-start">
+                  <div className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Clock className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-1">
+                      Tempo de Resposta Rápido
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Monitoramento proativo do ambiente e atendimento imediato
+                      para chamados classificados como urgentes.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-4 items-start">
+                  <div className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Wrench className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-1">
+                      Resolução Especializada
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Técnicos amplamente capacitados e experientes para
+                      diagnosticar e solucionar problemas complexos de
+                      infraestrutura e software.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
-                {feat.title}
-              </h3>
-              <p className="text-slate-600">{feat.desc}</p>
+
+              <Button size="lg" asChild className="h-14 px-8 text-lg shadow-md">
+                <a
+                  href="https://wa.me/5511999368850"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Headphones className="mr-2 h-5 w-5" />
+                  Solicitar Atendimento Agora
+                </a>
+              </Button>
             </div>
-          ))}
+
+            <div className="flex-1">
+              <div className="relative aspect-video overflow-hidden rounded-2xl md:aspect-[4/3] shadow-2xl ring-1 ring-border">
+                <img
+                  src="https://img.usecurling.com/p/800/600?q=it%20support%20helpdesk&color=blue"
+                  alt="Equipe de Suporte Técnico Service Desk"
+                  className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-    </div>
+    </>
   )
 }

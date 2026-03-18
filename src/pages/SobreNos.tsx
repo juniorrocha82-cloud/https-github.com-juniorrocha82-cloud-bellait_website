@@ -1,131 +1,84 @@
 import { SEO } from '@/components/SEO'
-import { useLang } from '@/contexts/LanguageContext'
-import { Target, Eye, Heart } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
+import { Target, Eye, Heart } from 'lucide-react'
 
 export default function SobreNos() {
-  const { lang } = useLang()
-
   return (
-    <div className="w-full bg-background pb-20 animate-in fade-in duration-500">
+    <>
       <SEO
-        title={lang === 'pt' ? 'Sobre Nós' : 'About Us'}
-        description={
-          lang === 'pt'
-            ? 'Conheça a história, missão, visão e valores institucionais da Bella IT.'
-            : 'Learn about the history, institutional mission, vision and values of Bella IT.'
-        }
+        title="Sobre Nós"
+        description="Conheça a missão, visão e valores da Bella IT Tecnologia. Inovação e excelência em serviços de tecnologia."
       />
 
       <PageHeader
-        title={lang === 'pt' ? 'Sobre Nós' : 'About Us'}
-        description={
-          lang === 'pt'
-            ? 'Impulsionando negócios através de tecnologia de ponta e expertise corporativa.'
-            : 'Driving business through cutting-edge technology and corporate expertise.'
-        }
-        imageQuery="office team technology"
+        title="Sobre a Bella IT"
+        description="Nossa história, propósito e os valores que nos guiam em cada projeto."
       />
 
-      {/* Content */}
-      <section className="max-w-[1400px] mx-auto px-4 md:px-6 py-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
-          <div className="order-2 lg:order-1">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 tracking-tight">
-              {lang === 'pt'
-                ? 'Nossa História e Essência'
-                : 'Our History and Essence'}
-            </h2>
-            <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
-              <p>
-                {lang === 'pt'
-                  ? 'A Bella IT nasceu da paixão por tecnologia e inovação aplicada aos negócios. Desde nossa fundação, temos sido parceiros estratégicos de diversas empresas, auxiliando na transformação digital, otimização de infraestruturas e no suporte diário essencial.'
-                  : 'Bella IT was born from a passion for technology and innovation applied to business. Since our foundation, we have been strategic partners for various companies, assisting in digital transformation, infrastructure optimization, and essential daily support.'}
-              </p>
-              <p>
-                {lang === 'pt'
-                  ? 'Com uma equipe altamente qualificada, experiente e focada em resultados, entregamos soluções robustas e personalizadas para cada desafio do mercado corporativo, sempre alinhados com as melhores práticas e inovações globais.'
-                  : 'With a highly qualified, experienced team focused on results, we deliver robust and customized solutions for every challenge in the corporate market, always aligned with best practices and global innovations.'}
-              </p>
-            </div>
-          </div>
-          <div className="order-1 lg:order-2">
-            <img
-              src="https://img.usecurling.com/p/800/600?q=modern%20server%20room&color=blue"
-              alt={
-                lang === 'pt'
-                  ? 'Infraestrutura Bella IT'
-                  : 'Bella IT Infrastructure'
-              }
-              className="rounded-2xl shadow-2xl w-full object-cover aspect-[4/3]"
-            />
-          </div>
-        </div>
-
-        {/* MVV - Missão, Visão e Valores */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">
-            {lang === 'pt' ? 'Nosso Propósito' : 'Our Purpose'}
-          </h2>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-slate-50 p-10 rounded-2xl border border-slate-100 hover:shadow-xl hover:border-primary/20 transition-all duration-300">
-            <div className="w-16 h-16 bg-primary text-white rounded-2xl flex items-center justify-center mb-8 shadow-md">
-              <Target className="w-8 h-8" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-900 mb-4">
-              {lang === 'pt' ? 'Missão' : 'Mission'}
-            </h3>
-            <p className="text-slate-600 leading-relaxed">
-              {lang === 'pt'
-                ? 'Prover soluções tecnológicas inovadoras e de alta qualidade que impulsionem o crescimento, a segurança e a eficiência dos nossos clientes, estabelecendo parcerias de longo prazo baseadas em confiança e resultados sólidos.'
-                : 'To provide innovative, high-quality technological solutions that drive growth, security, and efficiency for our clients, establishing long-term partnerships based on trust and solid results.'}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-3xl text-center mb-16">
+            <h2 className="text-3xl font-bold mb-6">Quem Somos</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              A Bella IT é uma empresa de tecnologia focada em entregar soluções
+              de ponta para negócios de todos os tamanhos. Nascemos com o
+              propósito de descomplicar a TI, trazendo inovação, segurança e
+              eficiência para o dia a dia das empresas corporativas.
             </p>
           </div>
 
-          <div className="bg-slate-50 p-10 rounded-2xl border border-slate-100 hover:shadow-xl hover:border-primary/20 transition-all duration-300">
-            <div className="w-16 h-16 bg-primary text-white rounded-2xl flex items-center justify-center mb-8 shadow-md">
-              <Eye className="w-8 h-8" />
+          <div className="grid gap-8 md:grid-cols-3">
+            <div className="rounded-2xl border bg-card p-8 text-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="mx-auto mb-6 inline-flex rounded-full bg-blue-100 p-4 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                <Target className="h-8 w-8" />
+              </div>
+              <h3 className="mb-4 text-2xl font-bold">Missão</h3>
+              <p className="text-muted-foreground">
+                Prover soluções tecnológicas inovadoras e de alta qualidade,
+                garantindo a satisfação de nossos clientes e contribuindo para o
+                crescimento e segurança de seus negócios.
+              </p>
             </div>
-            <h3 className="text-2xl font-bold text-slate-900 mb-4">
-              {lang === 'pt' ? 'Visão' : 'Vision'}
-            </h3>
-            <p className="text-slate-600 leading-relaxed">
-              {lang === 'pt'
-                ? 'Ser reconhecida como a principal parceira estratégica em TI do mercado nacional, liderando a transformação digital corporativa com excelência operacional, agilidade e responsabilidade técnica.'
-                : 'To be recognized as the main strategic IT partner in the national market, leading corporate digital transformation with operational excellence, agility, and technical responsibility.'}
-            </p>
-          </div>
 
-          <div className="bg-slate-50 p-10 rounded-2xl border border-slate-100 hover:shadow-xl hover:border-primary/20 transition-all duration-300">
-            <div className="w-16 h-16 bg-primary text-white rounded-2xl flex items-center justify-center mb-8 shadow-md">
-              <Heart className="w-8 h-8" />
+            <div className="rounded-2xl border bg-card p-8 text-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="mx-auto mb-6 inline-flex rounded-full bg-indigo-100 p-4 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
+                <Eye className="h-8 w-8" />
+              </div>
+              <h3 className="mb-4 text-2xl font-bold">Visão</h3>
+              <p className="text-muted-foreground">
+                Ser reconhecida nacionalmente como a principal parceira
+                estratégica em tecnologia da informação, destacando-se pela
+                excelência, transparência e confiabilidade de entrega.
+              </p>
             </div>
-            <h3 className="text-2xl font-bold text-slate-900 mb-4">
-              {lang === 'pt' ? 'Valores' : 'Values'}
-            </h3>
-            <ul className="text-slate-600 space-y-3">
-              {[
-                lang === 'pt'
-                  ? 'Ética e Transparência'
-                  : 'Ethics and Transparency',
-                lang === 'pt' ? 'Inovação Contínua' : 'Continuous Innovation',
-                lang === 'pt' ? 'Comprometimento' : 'Commitment',
-                lang === 'pt'
-                  ? 'Foco absoluto no Cliente'
-                  : 'Absolute Customer Focus',
-                lang === 'pt' ? 'Excelência Técnica' : 'Technical Excellence',
-              ].map((val, idx) => (
-                <li key={idx} className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full shrink-0"></div>
-                  <span className="font-medium">{val}</span>
+
+            <div className="rounded-2xl border bg-card p-8 text-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="mx-auto mb-6 inline-flex rounded-full bg-rose-100 p-4 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400">
+                <Heart className="h-8 w-8" />
+              </div>
+              <h3 className="mb-4 text-2xl font-bold">Valores</h3>
+              <ul className="space-y-3 text-muted-foreground text-left mx-auto max-w-[200px]">
+                <li className="flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-primary" /> Inovação
+                  Contínua
                 </li>
-              ))}
-            </ul>
+                <li className="flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-primary" /> Ética e
+                  Transparência
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-primary" /> Foco no
+                  Cliente
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-primary" /> Excelência
+                  Operacional
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
-    </div>
+    </>
   )
 }

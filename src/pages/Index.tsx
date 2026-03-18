@@ -1,169 +1,106 @@
-import { SEO } from '@/components/SEO'
-import { useLang } from '@/contexts/LanguageContext'
-import { Button } from '@/components/ui/button'
-import {
-  ArrowRight,
-  Monitor,
-  Server,
-  Briefcase,
-  Handshake,
-  Code,
-} from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { ArrowRight, CheckCircle2, Monitor, Shield, Zap } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { SEO } from '@/components/SEO'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Index() {
-  const { lang } = useLang()
-
-  const services = [
-    {
-      to: '/service-desk',
-      icon: <Monitor className="w-8 h-8" />,
-      title: 'Service Desk',
-      desc:
-        lang === 'pt'
-          ? 'Suporte especializado para sua operação não parar.'
-          : 'Specialized support so your operation never stops.',
-    },
-    {
-      to: '/projetos',
-      icon: <Server className="w-8 h-8" />,
-      title: lang === 'pt' ? 'Projetos de Tecnologia' : 'Tech Projects',
-      desc:
-        lang === 'pt'
-          ? 'Infraestrutura robusta e soluções sob medida para nuvem e redes.'
-          : 'Robust infrastructure and custom solutions for cloud and networks.',
-    },
-    {
-      to: '/consultorias',
-      icon: <Briefcase className="w-8 h-8" />,
-      title:
-        lang === 'pt' ? 'Consultorias e Licenças' : 'Consulting & Licenses',
-      desc:
-        lang === 'pt'
-          ? 'Otimização, compliance e licenciamento inteligente de software.'
-          : 'Optimization, compliance, and smart software licensing.',
-    },
-    {
-      to: '/parcerias',
-      icon: <Handshake className="w-8 h-8" />,
-      title:
-        lang === 'pt' ? 'Parcerias Estratégicas' : 'Strategic Partnerships',
-      desc:
-        lang === 'pt'
-          ? 'Trabalhamos em conjunto com as melhores e maiores marcas do mercado.'
-          : 'We work together with the best and largest brands in the market.',
-    },
-    {
-      to: '/desenvolvimento',
-      icon: <Code className="w-8 h-8" />,
-      title: lang === 'pt' ? 'Desenvolvimento' : 'Development',
-      desc:
-        lang === 'pt'
-          ? 'Fábrica de software, aplicações modernas e integrações de sistemas.'
-          : 'Software factory, modern applications, and system integrations.',
-    },
-  ]
+  const { t } = useLanguage()
 
   return (
-    <div className="w-full bg-background animate-in fade-in duration-500">
+    <>
       <SEO
-        title="Home"
-        description={
-          lang === 'pt'
-            ? 'Bella IT - Soluções corporativas completas em Tecnologia.'
-            : 'Bella IT - Complete corporate technology solutions.'
-        }
+        title={t('nav.home')}
+        description="Bella IT Tecnologia - Transformando negócios com tecnologia inteligente e soluções personalizadas em TI."
       />
 
-      {/* Hero */}
-      <section className="relative min-h-[85vh] flex items-center bg-slate-900 overflow-hidden">
-        <div className="absolute inset-0 bg-slate-900/40 z-10"></div>
-        <img
-          src="https://img.usecurling.com/p/1600/900?q=modern%20tech%20office&color=blue"
-          alt="Tecnologia Bella IT"
-          className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-overlay"
-        />
-        <div className="relative z-20 max-w-[1400px] mx-auto px-4 md:px-6 w-full mt-10">
-          <div className="max-w-3xl animate-in slide-in-from-bottom-8 duration-700">
-            <div className="inline-block bg-primary/20 text-primary-foreground backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-semibold mb-6 border border-primary/30">
-              {lang === 'pt'
-                ? 'Parceiro Estratégico em TI'
-                : 'Strategic IT Partner'}
-            </div>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 tracking-tight">
-              {lang === 'pt'
-                ? 'Tecnologia que impulsiona o seu negócio.'
-                : 'Technology that drives your business.'}
-            </h1>
-            <p className="text-xl md:text-2xl text-slate-200 mb-10 font-light">
-              {lang === 'pt'
-                ? 'Soluções corporativas completas em infraestrutura, suporte, desenvolvimento e licenciamento.'
-                : 'Complete corporate solutions in infrastructure, support, development, and licensing.'}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                asChild
-                size="lg"
-                className="rounded-full px-8 h-14 text-lg"
-              >
-                <Link to="/sobre-nos">
-                  {lang === 'pt' ? 'Conheça a Bella IT' : 'Know Bella IT'}
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="rounded-full px-8 h-14 text-lg border-white text-white hover:bg-white hover:text-slate-900 bg-transparent"
-              >
-                <Link to="/projetos">
-                  {lang === 'pt' ? 'Nossos Projetos' : 'Our Projects'}
-                </Link>
-              </Button>
-            </div>
+      <section className="relative overflow-hidden bg-slate-50 py-20 dark:bg-slate-900 md:py-32">
+        <div className="container relative z-10 mx-auto px-4 text-center">
+          <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white md:text-6xl lg:text-7xl">
+            Tecnologia que impulsiona o seu{' '}
+            <span className="text-primary">sucesso</span>
+          </h1>
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-slate-600 dark:text-slate-300 md:text-xl">
+            Oferecemos soluções completas em infraestrutura, desenvolvimento e
+            consultoria de TI para elevar o seu negócio ao próximo nível.
+          </p>
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
+            <Button
+              size="lg"
+              asChild
+              className="h-12 px-8 text-base shadow-lg transition-transform hover:-translate-y-1"
+            >
+              <Link to="/projetos">
+                Nossos Projetos <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              asChild
+              className="h-12 px-8 text-base transition-transform hover:-translate-y-1 bg-white hover:bg-slate-50"
+            >
+              <Link to="/sobre-nos">Conheça a Bella IT</Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Services */}
-      <section className="py-24 bg-slate-50">
-        <div className="max-w-[1400px] mx-auto px-4 md:px-6">
-          <div className="text-center mb-16 max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
-              {lang === 'pt' ? 'Nossas Especialidades' : 'Our Specialties'}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">
+              Nossos Serviços
             </h2>
-            <p className="text-lg text-slate-600">
-              {lang === 'pt'
-                ? 'Oferecemos um portfólio completo de serviços desenhado para atender e superar todas as necessidades tecnológicas da sua empresa.'
-                : 'We offer a complete portfolio of services designed to meet and exceed all your company technological needs.'}
+            <p className="text-lg text-muted-foreground">
+              Especialistas prontos para resolver seus desafios tecnológicos.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, i) => (
-              <Link
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              {
+                title: 'Service Desk',
+                icon: Monitor,
+                link: '/service-desk',
+                desc: 'Suporte ágil e eficiente para garantir a continuidade da sua operação.',
+              },
+              {
+                title: 'Desenvolvimento',
+                icon: Zap,
+                link: '/desenvolvimento',
+                desc: 'Softwares sob medida para automatizar e otimizar seus processos.',
+              },
+              {
+                title: 'Consultoria',
+                icon: Shield,
+                link: '/consultorias',
+                desc: 'Planejamento estratégico e licenciamento de softwares corporativos.',
+              },
+            ].map((feature, i) => (
+              <div
                 key={i}
-                to={service.to}
-                className="group bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col items-start"
+                className="group rounded-2xl border bg-card p-8 transition-all hover:shadow-xl hover:border-primary/50"
               >
-                <div className="w-16 h-16 bg-slate-50 text-primary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
-                  {service.icon}
+                <div className="mb-6 inline-flex rounded-lg bg-primary/10 p-3 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                  <feature.icon className="h-6 w-6" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-slate-600 mb-8 flex-1 leading-relaxed">
-                  {service.desc}
+                <h3 className="mb-3 text-xl font-bold">{feature.title}</h3>
+                <p className="mb-6 text-muted-foreground leading-relaxed">
+                  {feature.desc}
                 </p>
-                <div className="flex items-center text-primary font-semibold mt-auto group-hover:translate-x-2 transition-transform">
-                  {lang === 'pt' ? 'Saiba mais' : 'Learn more'}
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </div>
-              </Link>
+                <Link
+                  to={feature.link}
+                  className="inline-flex items-center font-medium text-primary hover:text-primary/80 transition-colors"
+                >
+                  Saber mais{' '}
+                  <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
             ))}
           </div>
         </div>
       </section>
-    </div>
+    </>
   )
 }

@@ -1,84 +1,72 @@
 import { SEO } from '@/components/SEO'
-import { useLang } from '@/contexts/LanguageContext'
 import { PageHeader } from '@/components/PageHeader'
-import { CheckCircle2 } from 'lucide-react'
+import { ShieldCheck, FileCheck, BrainCircuit } from 'lucide-react'
 
 export default function Consultorias() {
-  const { lang } = useLang()
-
-  const list = [
-    'Microsoft 365 & Office',
-    lang === 'pt'
-      ? 'Antivírus e Endpoint Security'
-      : 'Antivirus and Endpoint Security',
-    lang === 'pt' ? 'Auditoria de Infraestrutura' : 'Infrastructure Auditing',
-    lang === 'pt' ? 'Adequação à LGPD' : 'LGPD Compliance',
-    lang === 'pt' ? 'Análise de Vulnerabilidades' : 'Vulnerability Analysis',
-    lang === 'pt'
-      ? 'Consultoria Estratégica (vCIO)'
-      : 'Strategic Consulting (vCIO)',
-  ]
-
   return (
-    <div className="w-full bg-background pb-20 animate-in fade-in duration-500">
+    <>
       <SEO
-        title={
-          lang === 'pt' ? 'Consultorias e Licenças' : 'Consulting & Licenses'
-        }
-        description={
-          lang === 'pt'
-            ? 'Auditoria de TI, compliance e licenciamento inteligente de software.'
-            : 'IT Auditing, compliance and smart software licensing.'
-        }
-      />
-      <PageHeader
-        title={
-          lang === 'pt' ? 'Consultorias e Licenças' : 'Consulting & Licenses'
-        }
-        description={
-          lang === 'pt'
-            ? 'Compliance, segurança e otimização de custos para seus ativos digitais.'
-            : 'Compliance, security and cost optimization for your digital assets.'
-        }
-        imageQuery="business consulting meeting"
+        title="Consultorias e Licenças"
+        description="Serviços de consultoria em TI, licenciamento de software corporativo e adequação tecnológica."
       />
 
-      <section className="max-w-[1400px] mx-auto px-4 md:px-6 py-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="order-2 lg:order-1">
-            <img
-              src="https://img.usecurling.com/p/800/800?q=software%20dashboard%20chart&color=gray"
-              alt={lang === 'pt' ? 'Consultoria TI' : 'IT Consulting'}
-              className="rounded-2xl shadow-xl w-full object-cover aspect-square"
-            />
-          </div>
-          <div className="order-1 lg:order-2">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 tracking-tight">
-              {lang === 'pt'
-                ? 'Licenciamento Inteligente e Auditoria'
-                : 'Smart Licensing and Auditing'}
-            </h2>
-            <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-              {lang === 'pt'
-                ? 'Reduza custos e evite multas mantendo seus softwares regularizados. Nossos consultores avaliam seu ambiente, identificam gargalos e propõem melhorias contínuas para manter sua TI eficiente e segura.'
-                : 'Reduce costs and avoid fines by keeping your software compliant. Our consultants assess your environment, identify bottlenecks, and propose continuous improvements to keep your IT efficient and secure.'}
-            </p>
-            <div className="space-y-4">
-              {list.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100"
-                >
-                  <CheckCircle2 className="w-6 h-6 text-primary shrink-0" />
-                  <span className="text-slate-700 font-medium text-lg">
-                    {item}
-                  </span>
-                </div>
-              ))}
+      <PageHeader
+        title="Consultorias e Licenças"
+        description="Orientação especializada para otimizar seus investimentos em tecnologia."
+      />
+
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-12 md:grid-cols-2 lg:gap-20 items-center">
+            <div>
+              <h2 className="mb-6 text-3xl font-bold text-foreground">
+                Decisões mais inteligentes para o seu negócio
+              </h2>
+              <p className="mb-8 text-lg text-muted-foreground leading-relaxed">
+                Nossa equipe de especialistas analisa a infraestrutura atual da
+                sua empresa e propõe melhorias estratégicas, garantindo que você
+                utilize as ferramentas mais adequadas com o melhor
+                custo-benefício do mercado.
+              </p>
+              <ul className="space-y-4">
+                {[
+                  {
+                    icon: BrainCircuit,
+                    text: 'Mapeamento completo e análise de infraestrutura de TI',
+                  },
+                  {
+                    icon: FileCheck,
+                    text: 'Gestão e regularização de licenças (Microsoft, Veeam, etc)',
+                  },
+                  {
+                    icon: ShieldCheck,
+                    text: 'Consultoria dedicada em segurança da informação e LGPD',
+                  },
+                ].map((item, i) => (
+                  <li
+                    key={i}
+                    className="flex items-center gap-4 rounded-xl border bg-card p-4 shadow-sm hover:border-primary transition-colors"
+                  >
+                    <div className="bg-primary/10 p-2 rounded-lg">
+                      <item.icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <span className="font-medium text-foreground">
+                      {item.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="relative aspect-square overflow-hidden rounded-2xl md:aspect-[4/5] shadow-xl">
+              <img
+                src="https://img.usecurling.com/p/800/1000?q=consulting%20business%20technology&color=blue"
+                alt="Consultoria em TI e Negócios"
+                className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+              />
             </div>
           </div>
         </div>
       </section>
-    </div>
+    </>
   )
 }

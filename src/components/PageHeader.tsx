@@ -1,31 +1,20 @@
-import React from 'react'
-
 interface PageHeaderProps {
   title: string
-  description: string
-  imageQuery: string
+  description?: string
 }
 
-export function PageHeader({
-  title,
-  description,
-  imageQuery,
-}: PageHeaderProps) {
+export function PageHeader({ title, description }: PageHeaderProps) {
   return (
-    <section className="relative h-[400px] flex items-center justify-center bg-slate-900 overflow-hidden">
-      <div className="absolute inset-0 bg-slate-900/60 z-10"></div>
-      <img
-        src={`https://img.usecurling.com/p/1600/600?q=${encodeURIComponent(imageQuery)}&color=blue`}
-        alt={title}
-        className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay"
-      />
-      <div className="relative z-20 text-center px-4 mt-10">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+    <section className="bg-primary/5 py-16 md:py-24">
+      <div className="container mx-auto px-4 text-center">
+        <h1 className="mb-4 text-4xl font-bold tracking-tight text-primary md:text-5xl lg:text-6xl">
           {title}
         </h1>
-        <p className="text-lg md:text-xl text-slate-200 max-w-3xl mx-auto drop-shadow-md font-medium">
-          {description}
-        </p>
+        {description && (
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground md:text-xl">
+            {description}
+          </p>
+        )}
       </div>
     </section>
   )

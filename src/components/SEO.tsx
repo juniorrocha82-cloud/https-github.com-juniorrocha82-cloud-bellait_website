@@ -7,16 +7,16 @@ interface SEOProps {
 
 export function SEO({ title, description }: SEOProps) {
   useEffect(() => {
-    document.title = `${title} | Bella IT`
+    document.title = `${title} | Bella IT Tecnologia`
 
-    let metaDesc = document.querySelector('meta[name="description"]')
-    if (metaDesc) {
-      metaDesc.setAttribute('content', description)
+    let metaDescription = document.querySelector('meta[name="description"]')
+    if (metaDescription) {
+      metaDescription.setAttribute('content', description)
     } else {
-      metaDesc = document.createElement('meta')
-      metaDesc.setAttribute('name', 'description')
-      metaDesc.setAttribute('content', description)
-      document.head.appendChild(metaDesc)
+      metaDescription = document.createElement('meta')
+      metaDescription.setAttribute('name', 'description')
+      metaDescription.setAttribute('content', description)
+      document.head.appendChild(metaDescription)
     }
   }, [title, description])
 

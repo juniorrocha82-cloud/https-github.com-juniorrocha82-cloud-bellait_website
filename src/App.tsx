@@ -1,42 +1,32 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Toaster } from '@/components/ui/toaster'
-import { Toaster as Sonner } from '@/components/ui/sonner'
-import { TooltipProvider } from '@/components/ui/tooltip'
-import { LangProvider } from '@/contexts/LanguageContext'
-
-import Layout from './components/Layout'
+import { Layout } from './components/Layout'
+import { LanguageProvider } from './contexts/LanguageContext'
 import Index from './pages/Index'
-import ServiceDesk from './pages/ServiceDesk'
-import Projetos from './pages/Projetos'
-import Consultorias from './pages/Consultorias'
-import Parcerias from './pages/Parcerias'
-import Desenvolvimento from './pages/Desenvolvimento'
 import SobreNos from './pages/SobreNos'
+import Parcerias from './pages/Parcerias'
+import Consultorias from './pages/Consultorias'
+import Desenvolvimento from './pages/Desenvolvimento'
+import Projetos from './pages/Projetos'
+import ServiceDesk from './pages/ServiceDesk'
 import NotFound from './pages/NotFound'
 
-const App = () => (
-  <BrowserRouter
-    future={{ v7_startTransition: false, v7_relativeSplatPath: false }}
-  >
-    <LangProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
+export default function App() {
+  return (
+    <BrowserRouter>
+      <LanguageProvider>
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Index />} />
-            <Route path="/service-desk" element={<ServiceDesk />} />
-            <Route path="/projetos" element={<Projetos />} />
-            <Route path="/consultorias" element={<Consultorias />} />
-            <Route path="/parcerias" element={<Parcerias />} />
-            <Route path="/desenvolvimento" element={<Desenvolvimento />} />
             <Route path="/sobre-nos" element={<SobreNos />} />
+            <Route path="/parcerias" element={<Parcerias />} />
+            <Route path="/consultorias" element={<Consultorias />} />
+            <Route path="/desenvolvimento" element={<Desenvolvimento />} />
+            <Route path="/projetos" element={<Projetos />} />
+            <Route path="/service-desk" element={<ServiceDesk />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
-      </TooltipProvider>
-    </LangProvider>
-  </BrowserRouter>
-)
-
-export default App
+      </LanguageProvider>
+    </BrowserRouter>
+  )
+}

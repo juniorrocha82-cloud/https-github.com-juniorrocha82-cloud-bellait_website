@@ -11,13 +11,21 @@ export default function Index() {
     <>
       <SEO title={t('nav.home')} description={t('home.meta.desc')} />
 
-      <section className="relative overflow-hidden bg-slate-50 py-20 dark:bg-slate-900 md:py-32">
+      <section
+        className="relative overflow-hidden py-24 md:py-32 lg:py-48 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage:
+            "url('https://img.usecurling.com/p/1920/1080?q=corporate%20technology')",
+        }}
+      >
+        <div className="absolute inset-0 bg-slate-950/80" />
+
         <div className="container relative z-10 mx-auto px-4 text-center">
-          <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white md:text-6xl lg:text-7xl">
+          <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-white md:text-6xl lg:text-7xl">
             {t('home.hero.title1')}{' '}
             <span className="text-primary">{t('home.hero.highlight')}</span>
           </h1>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-slate-600 dark:text-slate-300 md:text-xl">
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-slate-200 md:text-xl">
             {t('home.hero.subtitle')}
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
@@ -35,7 +43,7 @@ export default function Index() {
               size="lg"
               variant="outline"
               asChild
-              className="h-12 px-8 text-base transition-transform hover:-translate-y-1 bg-white hover:bg-slate-50"
+              className="h-12 px-8 text-base transition-transform hover:-translate-y-1 border-white/20 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 hover:text-white"
             >
               <Link to="/sobre-nos">{t('home.hero.about')}</Link>
             </Button>

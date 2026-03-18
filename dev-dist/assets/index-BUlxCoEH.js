@@ -25246,13 +25246,14 @@ function Index() {
 			title: t("nav.home"),
 			description: t("home.meta.desc")
 		}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
-			className: "relative overflow-hidden bg-slate-50 py-20 dark:bg-slate-900 md:py-32",
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+			className: "relative overflow-hidden py-24 md:py-32 lg:py-48 bg-cover bg-center bg-no-repeat",
+			style: { backgroundImage: "url('https://img.usecurling.com/p/1920/1080?q=corporate%20technology')" },
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute inset-0 bg-slate-950/80" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "container relative z-10 mx-auto px-4 text-center",
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
-						className: "mb-6 text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white md:text-6xl lg:text-7xl",
+						className: "mb-6 text-4xl font-extrabold tracking-tight text-white md:text-6xl lg:text-7xl",
 						children: [
 							t("home.hero.title1"),
 							" ",
@@ -25263,7 +25264,7 @@ function Index() {
 						]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "mx-auto mb-8 max-w-2xl text-lg text-slate-600 dark:text-slate-300 md:text-xl",
+						className: "mx-auto mb-8 max-w-2xl text-lg text-slate-200 md:text-xl",
 						children: t("home.hero.subtitle")
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -25284,7 +25285,7 @@ function Index() {
 							size: "lg",
 							variant: "outline",
 							asChild: true,
-							className: "h-12 px-8 text-base transition-transform hover:-translate-y-1 bg-white hover:bg-slate-50",
+							className: "h-12 px-8 text-base transition-transform hover:-translate-y-1 border-white/20 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 hover:text-white",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
 								to: "/sobre-nos",
 								children: t("home.hero.about")
@@ -25292,7 +25293,7 @@ function Index() {
 						})]
 					})
 				]
-			})
+			})]
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 			className: "py-20",
@@ -25920,4 +25921,4 @@ function App() {
 }
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App, {}));
 
-//# sourceMappingURL=index-PTS-cLzI.js.map
+//# sourceMappingURL=index-BUlxCoEH.js.map

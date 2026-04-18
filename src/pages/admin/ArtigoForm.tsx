@@ -196,9 +196,10 @@ export default function ArtigoForm() {
         description: 'Artigo gerado com sucesso! Revise e publique.',
         variant: 'default',
       })
-    } catch (error) {
+    } catch (error: any) {
       setAiError(
-        'Erro ao gerar artigo. Verifique as configurações e tente novamente.',
+        error?.message ||
+          'Erro ao gerar artigo. Verifique as configurações e tente novamente.',
       )
       toast({
         title: 'Erro na geração',

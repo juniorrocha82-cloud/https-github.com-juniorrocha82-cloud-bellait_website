@@ -42,7 +42,7 @@ routerAdd(
     while (attempt < maxAttempts) {
       res = $http.send({
         url:
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent?key=' +
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=' +
           apiKey,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

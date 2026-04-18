@@ -4,7 +4,8 @@ import { Search, FileText, Calendar, Clock, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { mockArticles } from '@/data/mock-articles'
+import { getPublishedArtigos, Artigo, getImageUrl } from '@/services/artigos'
+import { useRealtime } from '@/hooks/use-realtime'
 
 export default function Artigos() {
   const { language } = useLanguage()
@@ -13,14 +14,27 @@ export default function Artigos() {
   const [debouncedSearch, setDebouncedSearch] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [page, setPage] = useState(1)
+  const [articles, setArticles] = useState<Artigo[]>([])
   const itemsPerPage = 9
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
+  const loadArticles = async () => {
+    try {
+      const data = await getPublishedArtigos()
+      setArticles(data)
+    } catch (error) {
+      console.error('Failed to load articles:', error)
+    } finally {
       setIsLoading(false)
-    }, 1000)
-    return () => clearTimeout(timer)
+    }
+  }
+
+  useEffect(() => {
+    loadArticles()
   }, [])
+
+  useRealtime('artigos', () => {
+    loadArticles()
+  })
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -30,9 +44,9 @@ export default function Artigos() {
     return () => clearTimeout(timer)
   }, [search])
 
-  const filteredArticles = mockArticles.filter((article) => {
-    const title = article.title[language as 'pt' | 'en'].toLowerCase()
-    const summary = article.summary[language as 'pt' | 'en'].toLowerCase()
+  const filteredArticles = articles.filter((article) => {
+    const title = article.titulo.toLowerCase()
+    const summary = article.resumo.toLowerCase()
     const query = debouncedSearch.toLowerCase()
     return title.includes(query) || summary.includes(query)
   })
@@ -133,36 +147,47 @@ export default function Artigos() {
                 >
                   <div className="relative overflow-hidden h-48">
                     <img
-                      src={article.imageUrl}
-                      alt={article.title[language as 'pt' | 'en']}
+                      src={
+                        article.imagem
+                          ? getImageUrl(article as any, article.imagem)
+                          : `https://img.usecurling.com/p/800/400?q=${encodeURIComponent(article.categoria)}`
+                      }
+                      alt={article.titulo}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute top-4 left-4">
                       <span className="bg-primary text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow-sm">
-                        {article.category}
+                        {article.categoria}
                       </span>
                     </div>
                   </div>
 
                   <div className="p-6 flex-1 flex flex-col">
                     <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white line-clamp-2 group-hover:text-primary transition-colors">
-                      {article.title[language as 'pt' | 'en']}
+                      {article.titulo}
                     </h3>
 
                     <p className="text-slate-600 dark:text-slate-300 mb-6 text-sm flex-1 leading-relaxed">
-                      {getSummary(article.summary[language as 'pt' | 'en'])}
+                      {getSummary(article.resumo)}
                     </p>
 
                     <div className="mt-auto">
                       <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 mb-4 pb-4 border-b border-slate-100 dark:border-slate-800">
                         <div className="flex items-center gap-1.5">
                           <Calendar className="h-3.5 w-3.5" />
-                          <span>{article.date}</span>
+                          <span>
+                            {article.data_publicacao
+                              ? new Date(
+                                  article.data_publicacao,
+                                ).toLocaleDateString(isPt ? 'pt-BR' : 'en-US')
+                              : ''}
+                          </span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <Clock className="h-3.5 w-3.5" />
                           <span>
-                            {article.readingTime} {isPt ? 'leitura' : 'read'}
+                            {article.tempo_leitura} min{' '}
+                            {isPt ? 'leitura' : 'read'}
                           </span>
                         </div>
                       </div>
@@ -173,7 +198,7 @@ export default function Artigos() {
                             <User className="h-3.5 w-3.5 text-slate-500" />
                           </div>
                           <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-                            {article.author}
+                            {article.autor || 'Admin'}
                           </span>
                         </div>
                         <span className="text-sm font-semibold text-primary group-hover:underline">

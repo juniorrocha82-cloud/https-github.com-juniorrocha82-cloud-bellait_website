@@ -3,23 +3,31 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Calendar, Clock, User, Share2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { mockArticles } from '@/data/mock-articles'
+import { getArtigoBySlug, Artigo, getImageUrl } from '@/services/artigos'
 
 export default function ArtigoDetail() {
   const { slug } = useParams<{ slug: string }>()
   const navigate = useNavigate()
   const { language } = useLanguage()
   const [isLoading, setIsLoading] = useState(true)
+  const [article, setArticle] = useState<Artigo | null>(null)
 
-  const article = mockArticles.find((a) => a.slug === slug)
   const isPt = language === 'pt'
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 800)
-    return () => clearTimeout(timer)
+    const fetchArticle = async () => {
+      if (!slug) return
+      try {
+        const data = await getArtigoBySlug(slug)
+        setArticle(data)
+      } catch (error) {
+        console.error('Article not found', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchArticle()
   }, [slug])
 
   if (!isLoading && !article) {
@@ -75,15 +83,15 @@ export default function ArtigoDetail() {
 
           <header className="mb-10">
             <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6">
-              {article.category}
+              {article.categoria}
             </div>
 
             <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6 leading-tight tracking-tight">
-              {article.title[language as 'pt' | 'en']}
+              {article.titulo}
             </h1>
 
             <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
-              {article.summary[language as 'pt' | 'en']}
+              {article.resumo}
             </p>
 
             <div className="flex flex-wrap items-center justify-between gap-6 py-6 border-y border-slate-200 dark:border-slate-800">
@@ -93,17 +101,23 @@ export default function ArtigoDetail() {
                     <User className="h-5 w-5 text-slate-500" />
                   </div>
                   <span className="font-medium text-slate-900 dark:text-white">
-                    {article.author}
+                    {article.autor || 'Admin'}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  <span>{article.date}</span>
+                  <span>
+                    {article.data_publicacao
+                      ? new Date(article.data_publicacao).toLocaleDateString(
+                          isPt ? 'pt-BR' : 'en-US',
+                        )
+                      : ''}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4" />
                   <span>
-                    {article.readingTime} {isPt ? 'de leitura' : 'read'}
+                    {article.tempo_leitura} min {isPt ? 'de leitura' : 'read'}
                   </span>
                 </div>
               </div>
@@ -121,24 +135,22 @@ export default function ArtigoDetail() {
 
           <figure className="mb-12">
             <img
-              src={article.imageUrl}
-              alt={article.title[language as 'pt' | 'en']}
+              src={
+                article.imagem
+                  ? getImageUrl(article as any, article.imagem)
+                  : `https://img.usecurling.com/p/1200/600?q=${encodeURIComponent(article.categoria)}`
+              }
+              alt={article.titulo}
               className="w-full h-[400px] md:h-[500px] object-cover rounded-2xl shadow-md"
             />
           </figure>
 
-          <div className="prose prose-lg md:prose-xl prose-slate dark:prose-invert max-w-none prose-p:leading-relaxed prose-headings:text-slate-900 dark:prose-headings:text-white">
-            {article.content[language as 'pt' | 'en']
-              .split('\n\n')
-              .map((paragraph, index) => (
-                <p
-                  key={index}
-                  className="mb-6 text-slate-800 dark:text-slate-200"
-                >
-                  {paragraph}
-                </p>
-              ))}
-          </div>
+          <div
+            className="prose prose-lg md:prose-xl prose-slate dark:prose-invert max-w-none prose-p:leading-relaxed prose-headings:text-slate-900 dark:prose-headings:text-white"
+            dangerouslySetInnerHTML={{
+              __html: article.conteudo.replace(/\n/g, '<br/>'),
+            }}
+          />
 
           <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 text-center">
             <h3 className="text-2xl font-bold mb-6 text-slate-900 dark:text-white">

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { LanguageProvider } from './contexts/LanguageContext'
+import { AuthProvider } from './hooks/use-auth'
 import Index from './pages/Index'
 import SobreNos from './pages/SobreNos'
 import Parcerias from './pages/Parcerias'
@@ -12,27 +13,45 @@ import TermosECondicoes from './pages/TermosECondicoes'
 import Artigos from './pages/Artigos'
 import ArtigoDetail from './pages/ArtigoDetail'
 import NotFound from './pages/NotFound'
+import Login from './pages/Login'
+import AdminLayout from './pages/admin/AdminLayout'
+import ArtigosList from './pages/admin/ArtigosList'
+import ArtigoForm from './pages/admin/ArtigoForm'
 
 export default function App() {
   return (
     <BrowserRouter>
-      <LanguageProvider>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/sobre-nos" element={<SobreNos />} />
-            <Route path="/parcerias" element={<Parcerias />} />
-            <Route path="/consultorias" element={<Consultorias />} />
-            <Route path="/desenvolvimento" element={<Desenvolvimento />} />
-            <Route path="/projetos" element={<Projetos />} />
-            <Route path="/service-desk" element={<ServiceDesk />} />
-            <Route path="/termos-e-condicoes" element={<TermosECondicoes />} />
-            <Route path="/artigos" element={<Artigos />} />
-            <Route path="/artigos/:slug" element={<ArtigoDetail />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </LanguageProvider>
+      <AuthProvider>
+        <LanguageProvider>
+          <Routes>
+            {/* Admin Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route element={<AdminLayout />}>
+              <Route path="/admin/artigos" element={<ArtigosList />} />
+              <Route path="/admin/artigos/novo" element={<ArtigoForm />} />
+              <Route path="/admin/artigos/:id" element={<ArtigoForm />} />
+            </Route>
+
+            {/* Public Routes */}
+            <Route element={<Layout />}>
+              <Route path="/" element={<Index />} />
+              <Route path="/sobre-nos" element={<SobreNos />} />
+              <Route path="/parcerias" element={<Parcerias />} />
+              <Route path="/consultorias" element={<Consultorias />} />
+              <Route path="/desenvolvimento" element={<Desenvolvimento />} />
+              <Route path="/projetos" element={<Projetos />} />
+              <Route path="/service-desk" element={<ServiceDesk />} />
+              <Route
+                path="/termos-e-condicoes"
+                element={<TermosECondicoes />}
+              />
+              <Route path="/artigos" element={<Artigos />} />
+              <Route path="/artigos/:slug" element={<ArtigoDetail />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </LanguageProvider>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

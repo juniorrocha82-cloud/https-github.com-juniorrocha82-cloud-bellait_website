@@ -15,13 +15,19 @@ import {
   Send,
   Image as ImageIcon,
   CheckCircle2,
+  Sparkles,
+  X,
+  Loader2,
 } from 'lucide-react'
 import { extractFieldErrors } from '@/lib/pocketbase/errors'
+import { useToast } from '@/components/ui/use-toast'
+import pb from '@/lib/pocketbase/client'
 
 export default function ArtigoForm() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { user } = useAuth()
+  const { toast } = useToast()
 
   const [formData, setFormData] = useState({
     titulo: '',
@@ -40,6 +46,17 @@ export default function ArtigoForm() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [seoValid, setSeoValid] = useState<boolean | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // AI Modal State
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [aiError, setAiError] = useState('')
+  const [aiForm, setAiForm] = useState({
+    tema: '',
+    categoria: 'IA',
+    tom: 'Técnico',
+    comprimento: '2', // 1=Curto, 2=Médio, 3=Longo
+  })
 
   useEffect(() => {
     if (id) {
@@ -77,6 +94,13 @@ export default function ArtigoForm() {
       }
       return updated
     })
+  }
+
+  const handleAiChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target
+    setAiForm((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleSave = async (status: 'rascunho' | 'publicado') => {
@@ -119,6 +143,73 @@ export default function ArtigoForm() {
     setTimeout(() => setSeoValid(null), 3000)
   }
 
+  const getComprimentoLabel = (val: string) => {
+    if (val === '1') return 'Curto (~500 palavras)'
+    if (val === '2') return 'Médio (~1000 palavras)'
+    return 'Longo (~1500 palavras)'
+  }
+
+  const getComprimentoString = (val: string) => {
+    if (val === '1') return 'Curto'
+    if (val === '2') return 'Médio'
+    return 'Longo'
+  }
+
+  const handleGenerateAI = async () => {
+    if (!aiForm.tema.trim()) {
+      setAiError('O tema do artigo é obrigatório.')
+      return
+    }
+
+    setIsGenerating(true)
+    setAiError('')
+
+    try {
+      const response = await pb.send('/backend/v1/artigos/gerar-ia', {
+        method: 'POST',
+        body: JSON.stringify({
+          tema: aiForm.tema,
+          categoria: aiForm.categoria,
+          tom: aiForm.tom,
+          comprimento: getComprimentoString(aiForm.comprimento),
+        }),
+      })
+
+      setFormData((prev) => ({
+        ...prev,
+        titulo: response.titulo || prev.titulo,
+        slug: response.titulo
+          ? response.titulo
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, '-')
+              .replace(/(^-|-$)+/g, '')
+          : prev.slug,
+        resumo: response.resumo || prev.resumo,
+        conteudo: response.conteudo || prev.conteudo,
+        seo_keywords: response.keywords_sugeridas || prev.seo_keywords,
+        categoria: aiForm.categoria,
+      }))
+
+      setIsAiModalOpen(false)
+      toast({
+        title: 'Sucesso!',
+        description: 'Artigo gerado com sucesso! Revise e publique.',
+        variant: 'default',
+      })
+    } catch (error) {
+      setAiError(
+        'Erro ao gerar artigo. Verifique as configurações e tente novamente.',
+      )
+      toast({
+        title: 'Erro na geração',
+        description: 'Erro ao gerar artigo. Tente novamente.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-12">
       <div className="flex items-center justify-between">
@@ -135,6 +226,15 @@ export default function ArtigoForm() {
           </h2>
         </div>
         <div className="flex gap-3">
+          {!id && (
+            <Button
+              variant="secondary"
+              onClick={() => setIsAiModalOpen(true)}
+              className="gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/50 border border-blue-200 dark:border-blue-800"
+            >
+              <Sparkles className="h-4 w-4" /> Gerar com IA
+            </Button>
+          )}
           <Button
             variant="outline"
             onClick={() => handleSave('rascunho')}
@@ -350,6 +450,157 @@ export default function ArtigoForm() {
           </div>
         </div>
       </div>
+
+      {/* AI Generation Modal */}
+      {isAiModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-slate-950 rounded-xl shadow-xl w-full max-w-lg overflow-hidden border border-slate-200 dark:border-slate-800">
+            <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                Gerar Artigo com IA
+              </h3>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => !isGenerating && setIsAiModalOpen(false)}
+                disabled={isGenerating}
+                className="h-8 w-8"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="p-6 space-y-5">
+              {aiError && (
+                <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-md border border-red-200 dark:border-red-900/50 flex flex-col gap-2">
+                  <p>{aiError}</p>
+                </div>
+              )}
+
+              <div>
+                <label className="text-sm font-medium mb-1.5 block text-slate-700 dark:text-slate-300">
+                  Tema do artigo *
+                </label>
+                <Input
+                  name="tema"
+                  value={aiForm.tema}
+                  onChange={handleAiChange}
+                  placeholder="Ex: Segurança em Cloud Computing"
+                  disabled={isGenerating}
+                  className="bg-white dark:bg-slate-900"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium mb-1.5 block text-slate-700 dark:text-slate-300">
+                    Categoria
+                  </label>
+                  <select
+                    name="categoria"
+                    value={aiForm.categoria}
+                    onChange={handleAiChange}
+                    disabled={isGenerating}
+                    className="w-full h-10 px-3 py-2 rounded-md border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="IA">IA</option>
+                    <option value="Segurança">Segurança</option>
+                    <option value="Cloud">Cloud</option>
+                    <option value="Infraestrutura">Infraestrutura</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-1.5 block text-slate-700 dark:text-slate-300">
+                    Tom
+                  </label>
+                  <select
+                    name="tom"
+                    value={aiForm.tom}
+                    onChange={handleAiChange}
+                    disabled={isGenerating}
+                    className="w-full h-10 px-3 py-2 rounded-md border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="Técnico">Técnico</option>
+                    <option value="Educativo">Educativo</option>
+                    <option value="Notícia">Notícia</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between mb-1.5">
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Comprimento
+                  </label>
+                  <span className="text-xs text-slate-500 font-medium">
+                    {getComprimentoLabel(aiForm.comprimento)}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  name="comprimento"
+                  min="1"
+                  max="3"
+                  step="1"
+                  value={aiForm.comprimento}
+                  onChange={handleAiChange}
+                  disabled={isGenerating}
+                  className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                />
+                <div className="flex justify-between text-xs text-slate-400 mt-1">
+                  <span>Curto</span>
+                  <span>Médio</span>
+                  <span>Longo</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex justify-end gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setIsAiModalOpen(false)}
+                disabled={isGenerating}
+              >
+                Cancelar
+              </Button>
+              {aiError ? (
+                <Button
+                  onClick={handleGenerateAI}
+                  disabled={isGenerating}
+                  className="bg-blue-600 hover:bg-blue-700 text-white min-w-[140px]"
+                >
+                  {isGenerating ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />{' '}
+                      Gerando...
+                    </>
+                  ) : (
+                    'Tentar Novamente'
+                  )}
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleGenerateAI}
+                  disabled={isGenerating || !aiForm.tema.trim()}
+                  className="bg-blue-600 hover:bg-blue-700 text-white min-w-[140px]"
+                >
+                  {isGenerating ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Gerando
+                      artigo com IA...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="mr-2 h-4 w-4" /> Gerar Conteúdo
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

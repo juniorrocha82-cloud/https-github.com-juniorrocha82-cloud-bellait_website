@@ -6,8 +6,9 @@ routerAdd(
     const tema = body.tema
     if (!tema) return e.badRequestError('Tema é obrigatório')
 
-    const apiKey = $secrets.get('GEMINI_API_KEY')
-    if (!apiKey) return e.internalServerError('API Key não configurada')
+    const apiKey = $secrets.get('GOOGLE_CLOUD_KEY')
+    if (!apiKey)
+      return e.internalServerError('API Key GOOGLE_CLOUD_KEY não configurada')
 
     const categoria = body.categoria || 'Tecnologia'
     const tom = body.tom || 'Técnico'
@@ -31,26 +32,47 @@ routerAdd(
       wordCount +
       ' palavras.\n' +
       'Retorne APENAS um objeto JSON válido (sem markdown de bloco de código, sem formatação, apenas o JSON puro) com a seguinte estrutura:\n' +
-      '{"titulo": "Título Gerado", "resumo": "Resumo curto de até 150 caracteres", "conteudo": "Conteúdo formatado em HTML com tags como <p>, <h2>, <ul>, <li>, <strong>", "keywords_sugeridas": "tag1, tag2, tag3"}'
+      '{"titulo": "Título Gerado", "resumo": "Resumo curto de até 150 caracteres", "conteudo": "Conteúdo formatado em HTML com tags como <p>, <ul>, <li> e <strong>", "keywords_sugeridas": "tag1, tag2, tag3"}'
 
-    const res = $http.send({
-      url:
-        'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=' +
-        apiKey,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          responseMimeType: 'application/json',
-        },
-      }),
-      timeout: 120,
-    })
+    let attempt = 0
+    const maxAttempts = 4
+    const delays = [2000, 4000, 8000]
+    let res = null
 
-    if (res.statusCode !== 200) {
-      console.log('Erro da API Gemini:', res.raw)
-      return e.internalServerError('Falha na geração via IA')
+    while (attempt < maxAttempts) {
+      res = $http.send({
+        url:
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent?key=' +
+          apiKey,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            responseMimeType: 'application/json',
+          },
+        }),
+        timeout: 120,
+      })
+
+      if (res.statusCode === 503 && attempt < 3) {
+        const delay = delays[attempt]
+        const start = new Date().getTime()
+        while (new Date().getTime() < start + delay) {
+          // Exponencial backoff: busy wait until the delay is over
+        }
+        attempt++
+        continue
+      } else if (res.statusCode === 401) {
+        return e.internalServerError(
+          'Credenciais inválidas. Verifique a validade da chave GOOGLE_CLOUD_KEY.',
+        )
+      } else if (res.statusCode !== 200) {
+        console.log('Erro da API Gemini:', res.raw)
+        return e.internalServerError('Falha na geração via IA')
+      } else {
+        break
+      }
     }
 
     try {

@@ -144,9 +144,9 @@ export default function ArtigoForm() {
   }
 
   const getComprimentoLabel = (val: string) => {
-    if (val === '1') return 'Curto (~500 palavras)'
-    if (val === '2') return 'Médio (~1000 palavras)'
-    return 'Longo (~1500 palavras)'
+    if (val === '1') return 'Curto (500 words)'
+    if (val === '2') return 'Médio (1000 words)'
+    return 'Longo (1500 words)'
   }
 
   const getComprimentoString = (val: string) => {

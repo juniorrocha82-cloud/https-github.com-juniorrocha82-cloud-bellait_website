@@ -103,18 +103,12 @@ export function Footer() {
         <div className="mt-12 flex flex-col items-center justify-between border-t pt-8 sm:flex-row">
           <p className="text-sm text-muted-foreground">{t('footer.legal')}</p>
           <div className="mt-4 flex gap-4 sm:mt-0">
-            <a
-              href="#"
+            <Link
+              to="/termos-e-condicoes"
               className="text-sm text-muted-foreground hover:text-primary transition-colors"
             >
-              {t('footer.privacy')}
-            </a>
-            <a
-              href="#"
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              {t('footer.terms')}
-            </a>
+              Termos e Condições
+            </Link>
           </div>
         </div>
       </div>

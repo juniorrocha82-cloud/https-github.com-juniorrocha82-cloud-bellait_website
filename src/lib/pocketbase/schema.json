@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-18T19:44:20.311Z",
+  "generatedAt": "2026-04-18T20:34:04.021Z",
   "collections": [
     {
       "name": "users",
@@ -29,21 +29,29 @@
           "type": "autodate",
           "required": false,
           "system": false,
-          "autodateTriggers": ["onCreate"]
+          "autodateTriggers": [
+            "onCreate"
+          ]
         },
         {
           "name": "updated",
           "type": "autodate",
           "required": false,
           "system": false,
-          "autodateTriggers": ["onCreate", "onUpdate"]
+          "autodateTriggers": [
+            "onCreate",
+            "onUpdate"
+          ]
         },
         {
           "name": "role",
           "type": "select",
           "required": false,
           "system": false,
-          "selectValues": ["admin", "visitante"]
+          "selectValues": [
+            "admin",
+            "visitante"
+          ]
         }
       ],
       "indexes": [
@@ -115,7 +123,10 @@
           "type": "select",
           "required": false,
           "system": false,
-          "selectValues": ["rascunho", "publicado"]
+          "selectValues": [
+            "rascunho",
+            "publicado"
+          ]
         },
         {
           "name": "seo_title",
@@ -140,7 +151,12 @@
           "type": "select",
           "required": false,
           "system": false,
-          "selectValues": ["IA", "Segurança", "Cloud", "Infraestrutura"]
+          "selectValues": [
+            "IA",
+            "Segurança",
+            "Cloud",
+            "Infraestrutura"
+          ]
         },
         {
           "name": "user_id",
@@ -154,17 +170,24 @@
           "type": "autodate",
           "required": false,
           "system": false,
-          "autodateTriggers": ["onCreate"]
+          "autodateTriggers": [
+            "onCreate"
+          ]
         },
         {
           "name": "updated",
           "type": "autodate",
           "required": false,
           "system": false,
-          "autodateTriggers": ["onCreate", "onUpdate"]
+          "autodateTriggers": [
+            "onCreate",
+            "onUpdate"
+          ]
         }
       ],
-      "indexes": ["CREATE UNIQUE INDEX idx_artigos_slug ON artigos (slug)"]
+      "indexes": [
+        "CREATE UNIQUE INDEX idx_artigos_slug ON artigos (slug)"
+      ]
     }
   ]
 }

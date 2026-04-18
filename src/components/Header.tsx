@@ -25,6 +25,7 @@ export function Header() {
     { href: '/consultorias', label: t('nav.consulting') },
     { href: '/desenvolvimento', label: t('nav.development') },
     { href: '/parcerias', label: t('nav.partners') },
+    { href: '/artigos', label: language === 'pt' ? 'Artigos' : 'Articles' },
   ]
 
   const closeMenu = () => setIsMenuOpen(false)

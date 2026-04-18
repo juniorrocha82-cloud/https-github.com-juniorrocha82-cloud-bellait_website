@@ -3,7 +3,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import logoImg from '@/assets/logo-ia-bella-it-branco-d518c.png'
 
 export function Footer() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
 
   return (
     <footer className="border-t bg-slate-50 py-12 dark:bg-slate-950">
@@ -43,6 +43,14 @@ export function Footer() {
                   className="hover:text-primary transition-colors"
                 >
                   {t('nav.partners')}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/artigos"
+                  className="hover:text-primary transition-colors"
+                >
+                  {language === 'pt' ? 'Artigos' : 'Articles'}
                 </Link>
               </li>
             </ul>

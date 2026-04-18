@@ -9,6 +9,8 @@ import Desenvolvimento from './pages/Desenvolvimento'
 import Projetos from './pages/Projetos'
 import ServiceDesk from './pages/ServiceDesk'
 import TermosECondicoes from './pages/TermosECondicoes'
+import Artigos from './pages/Artigos'
+import ArtigoDetail from './pages/ArtigoDetail'
 import NotFound from './pages/NotFound'
 
 export default function App() {
@@ -25,6 +27,8 @@ export default function App() {
             <Route path="/projetos" element={<Projetos />} />
             <Route path="/service-desk" element={<ServiceDesk />} />
             <Route path="/termos-e-condicoes" element={<TermosECondicoes />} />
+            <Route path="/artigos" element={<Artigos />} />
+            <Route path="/artigos/:slug" element={<ArtigoDetail />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

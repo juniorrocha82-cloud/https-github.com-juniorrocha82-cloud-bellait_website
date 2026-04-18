@@ -8,6 +8,7 @@ import Consultorias from './pages/Consultorias'
 import Desenvolvimento from './pages/Desenvolvimento'
 import Projetos from './pages/Projetos'
 import ServiceDesk from './pages/ServiceDesk'
+import TermosECondicoes from './pages/TermosECondicoes'
 import NotFound from './pages/NotFound'
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="/desenvolvimento" element={<Desenvolvimento />} />
             <Route path="/projetos" element={<Projetos />} />
             <Route path="/service-desk" element={<ServiceDesk />} />
+            <Route path="/termos-e-condicoes" element={<TermosECondicoes />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

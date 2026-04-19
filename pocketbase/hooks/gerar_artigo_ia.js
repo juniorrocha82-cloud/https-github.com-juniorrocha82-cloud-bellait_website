@@ -1,38 +1,52 @@
+routerAdd('OPTIONS', '/backend/v1/artigos/gerar-ia', (e) => {
+  e.response.header().set('Access-Control-Allow-Origin', '*')
+  e.response
+    .header()
+    .set('Access-Control-Allow-Headers', 'authorization, apikey, content-type')
+  return e.noContent(204)
+})
+
 routerAdd(
   'POST',
   '/backend/v1/artigos/gerar-ia',
   (e) => {
+    e.response.header().set('Access-Control-Allow-Origin', '*')
+
     const body = e.requestInfo().body || {}
-    const tema = body.tema
-    if (!tema) return e.badRequestError('Tema é obrigatório')
+    const { tema, categoria, tom, comprimento } = body
 
-    const apiKey = $secrets.get('GOOGLE_CLOUD_KEY')
-    if (!apiKey)
-      return e.internalServerError('API Key GOOGLE_CLOUD_KEY não configurada')
+    if (!tema || !categoria || !tom || !comprimento) {
+      return e.json(400, {
+        error:
+          'Campos obrigatórios (tema, categoria, tom, comprimento) estão ausentes.',
+      })
+    }
 
-    const categoria = body.categoria || 'Tecnologia'
-    const tom = body.tom || 'Técnico'
-    const comprimento = body.comprimento || 'Médio'
-
-    let wordCount = 500
-    if (comprimento === 'Médio') wordCount = 1000
-    if (comprimento === 'Longo') wordCount = 1500
+    const apiKey = $secrets.get('GROQ_API_KEY')
+    if (!apiKey) {
+      return e.json(500, {
+        error:
+          'Chave de API Groq não configurada. Adicione GROQ_API_KEY no PocketBase Settings.',
+      })
+    }
 
     const prompt =
-      'Você é um redator técnico especialista da Bella IT. Escreva um artigo sobre o tema: ' +
+      'Você é um especialista em tecnologia. Gere um artigo sobre ' +
       tema +
-      '.\n' +
-      'Categoria: ' +
+      ' na categoria ' +
       categoria +
-      '.\n' +
-      'Tom: ' +
+      ' com tom ' +
       tom +
-      '.\n' +
-      'Tamanho aproximado: ' +
-      wordCount +
-      ' palavras.\n' +
-      'Retorne APENAS um objeto JSON válido (sem markdown de bloco de código, sem formatação, apenas o JSON puro) com a seguinte estrutura:\n' +
-      '{"titulo": "Título Gerado", "resumo": "Resumo curto de até 150 caracteres", "conteudo": "Conteúdo formatado em HTML com tags como <p>, <ul>, <li> e <strong>", "keywords_sugeridas": "tag1, tag2, tag3"}'
+      ' e aproximadamente ' +
+      comprimento +
+      ' palavras. Inclua: título (máx 70 caracteres), resumo (máx 150 caracteres), conteúdo estruturado em HTML com parágrafos e listas, e 5 keywords sugeridas em português.\n\n' +
+      'Retorne APENAS um objeto JSON válido (sem markdown de bloco de código) com a seguinte estrutura:\n' +
+      '{\n' +
+      '  "titulo": "Título Gerado",\n' +
+      '  "resumo": "Resumo curto...",\n' +
+      '  "conteudo": "<p>Conteúdo HTML...</p>",\n' +
+      '  "keywords_sugeridas": ["tag1", "tag2", "tag3", "tag4", "tag5"]\n' +
+      '}'
 
     let attempt = 0
     const maxAttempts = 4
@@ -41,21 +55,22 @@ routerAdd(
 
     while (attempt < maxAttempts) {
       res = $http.send({
-        url:
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=' +
-          apiKey,
+        url: 'https://api.groq.com/openai/v1/chat/completions',
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + apiKey,
+        },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            responseMimeType: 'application/json',
-          },
+          model: 'llama-3.3-70b-versatile',
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 1.0,
+          response_format: { type: 'json_object' },
         }),
         timeout: 120,
       })
 
-      if (res.statusCode === 503 && attempt < 3) {
+      if (res.statusCode === 429 && attempt < 3) {
         const delay = delays[attempt]
         const start = new Date().getTime()
         while (new Date().getTime() < start + delay) {
@@ -64,19 +79,26 @@ routerAdd(
         attempt++
         continue
       } else if (res.statusCode === 401) {
-        return e.internalServerError(
-          'Credenciais inválidas. Verifique a validade da chave GOOGLE_CLOUD_KEY.',
-        )
+        return e.json(401, {
+          error:
+            'Chave de API Groq inválida. Verifique GROQ_API_KEY no PocketBase.',
+        })
       } else if (res.statusCode !== 200) {
-        console.log('Erro da API Gemini:', res.raw)
-        return e.internalServerError('Falha na geração via IA')
+        console.log('Erro da API Groq:', res.raw)
+        const errorMsg =
+          res.json && res.json.error && res.json.error.message
+            ? res.json.error.message
+            : 'Falha na geração via IA'
+        return e.json(500, {
+          error: 'Erro ao comunicar com a API Groq. Detalhes: ' + errorMsg,
+        })
       } else {
         break
       }
     }
 
     try {
-      const rawText = res.json.candidates[0].content.parts[0].text
+      const rawText = res.json.choices[0].message.content
       let parsed
       try {
         parsed = JSON.parse(rawText)
@@ -87,12 +109,13 @@ routerAdd(
           .trim()
         parsed = JSON.parse(cleanText)
       }
-      return e.json(200, parsed)
+      return e.json(200, { data: parsed })
     } catch (err) {
       console.log('Erro ao interpretar JSON da IA:', err)
-      return e.internalServerError(
-        'Resposta inválida da Inteligência Artificial',
-      )
+      return e.json(500, {
+        error:
+          'Resposta inválida da Inteligência Artificial. Falha ao interpretar JSON.',
+      })
     }
   },
   $apis.requireAuth(),

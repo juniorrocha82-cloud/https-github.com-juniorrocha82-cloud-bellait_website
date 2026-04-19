@@ -150,9 +150,9 @@ export default function ArtigoForm() {
   }
 
   const getComprimentoString = (val: string) => {
-    if (val === '1') return 'Curto'
-    if (val === '2') return 'Médio'
-    return 'Longo'
+    if (val === '1') return '500'
+    if (val === '2') return '1000'
+    return '1500'
   }
 
   const handleGenerateAI = async () => {
@@ -175,18 +175,22 @@ export default function ArtigoForm() {
         }),
       })
 
+      const aiData = response.data || response
+
       setFormData((prev) => ({
         ...prev,
-        titulo: response.titulo || prev.titulo,
-        slug: response.titulo
-          ? response.titulo
+        titulo: aiData.titulo || prev.titulo,
+        slug: aiData.titulo
+          ? aiData.titulo
               .toLowerCase()
               .replace(/[^a-z0-9]+/g, '-')
               .replace(/(^-|-$)+/g, '')
           : prev.slug,
-        resumo: response.resumo || prev.resumo,
-        conteudo: response.conteudo || prev.conteudo,
-        seo_keywords: response.keywords_sugeridas || prev.seo_keywords,
+        resumo: aiData.resumo || prev.resumo,
+        conteudo: aiData.conteudo || prev.conteudo,
+        seo_keywords: Array.isArray(aiData.keywords_sugeridas)
+          ? aiData.keywords_sugeridas.join(', ')
+          : aiData.keywords_sugeridas || prev.seo_keywords,
         categoria: aiForm.categoria,
       }))
 
@@ -198,7 +202,8 @@ export default function ArtigoForm() {
       })
     } catch (error: any) {
       setAiError(
-        error?.message ||
+        error?.response?.error ||
+          error?.message ||
           'Erro ao gerar artigo. Verifique as configurações e tente novamente.',
       )
       toast({

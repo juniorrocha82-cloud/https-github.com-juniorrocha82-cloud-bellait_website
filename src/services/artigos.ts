@@ -43,6 +43,22 @@ export const getArtigoBySlug = async (slug: string) => {
   return pb.collection('artigos').getFirstListItem<Artigo>(`slug="${slug}"`)
 }
 
+export const checkArtigoSlugUnique = async (
+  slug: string,
+  excludeId?: string,
+) => {
+  try {
+    const filter = excludeId
+      ? `slug="${slug}" && id!="${excludeId}"`
+      : `slug="${slug}"`
+    await pb.collection('artigos').getFirstListItem<Artigo>(filter)
+    return false // Found one, so not unique
+  } catch (err: any) {
+    if (err.status === 404) return true // Not found, so unique
+    throw err
+  }
+}
+
 export const getArtigoById = async (id: string) => {
   return pb.collection('artigos').getOne<Artigo>(id)
 }

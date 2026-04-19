@@ -7,6 +7,7 @@ import {
   createArtigo,
   updateArtigo,
   getImageUrl,
+  checkArtigoSlugUnique,
 } from '@/services/artigos'
 import { useAuth } from '@/hooks/use-auth'
 import {
@@ -19,6 +20,7 @@ import {
   X,
   Loader2,
   Search,
+  AlertTriangle,
 } from 'lucide-react'
 import { extractFieldErrors } from '@/lib/pocketbase/errors'
 import { useToast } from '@/components/ui/use-toast'
@@ -48,8 +50,17 @@ export default function ArtigoForm() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const [seoValid, setSeoValid] = useState<boolean | null>(null)
+
+  // Refs
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const tituloRef = useRef<HTMLInputElement>(null)
+  const resumoRef = useRef<HTMLTextAreaElement>(null)
+  const conteudoRef = useRef<HTMLTextAreaElement>(null)
+  const slugRef = useRef<HTMLInputElement>(null)
+  const categoriaRef = useRef<HTMLSelectElement>(null)
+  const seoTitleRef = useRef<HTMLInputElement>(null)
+  const seoDescRef = useRef<HTMLTextAreaElement>(null)
+  const seoKeywordsRef = useRef<HTMLInputElement>(null)
 
   // AI Modal State
   const [isAiModalOpen, setIsAiModalOpen] = useState(false)
@@ -73,6 +84,14 @@ export default function ArtigoForm() {
   const [unsplashImages, setUnsplashImages] = useState<any[]>([])
   const [isSearchingUnsplash, setIsSearchingUnsplash] = useState(false)
   const [isDownloadingImage, setIsDownloadingImage] = useState(false)
+
+  // SEO Modal State
+  const [isSeoModalOpen, setIsSeoModalOpen] = useState(false)
+  const [isValidatingSeo, setIsValidatingSeo] = useState(false)
+  const [seoAnalysis, setSeoAnalysis] = useState<{
+    score: number
+    results: any[]
+  } | null>(null)
 
   const formatToDatetimeLocal = (isoString: string) => {
     if (!isoString) return ''
@@ -176,15 +195,6 @@ export default function ArtigoForm() {
     } finally {
       setIsSubmitting(false)
     }
-  }
-
-  const validateSEO = () => {
-    const isValid =
-      formData.seo_title.length > 10 &&
-      formData.seo_description.length > 50 &&
-      formData.seo_keywords.length > 5
-    setSeoValid(isValid)
-    setTimeout(() => setSeoValid(null), 3000)
   }
 
   const getComprimentoLabel = (val: string) => {
@@ -326,6 +336,225 @@ export default function ArtigoForm() {
     }
   }
 
+  const validateSEO = async () => {
+    setIsValidatingSeo(true)
+    const results: any[] = []
+
+    const titleLen = formData.titulo.length
+    if (titleLen >= 50 && titleLen <= 55) {
+      results.push({
+        id: 'titulo',
+        label: 'Título',
+        status: 'pass',
+        message: `${titleLen} caracteres — Ideal`,
+      })
+    } else if (titleLen >= 30 && titleLen <= 60) {
+      results.push({
+        id: 'titulo',
+        label: 'Título',
+        status: 'warning',
+        message: `${titleLen} caracteres — Aceitável, ideal 50-55`,
+      })
+    } else {
+      results.push({
+        id: 'titulo',
+        label: 'Título',
+        status: 'fail',
+        message: `${titleLen} caracteres — Fora do padrão (ideal 30-60)`,
+      })
+    }
+
+    const descLen = formData.seo_description.length
+    if (descLen >= 120 && descLen <= 160) {
+      results.push({
+        id: 'seo_description',
+        label: 'Meta Description',
+        status: 'pass',
+        message: `${descLen} caracteres — Ideal`,
+      })
+    } else if (descLen > 0) {
+      results.push({
+        id: 'seo_description',
+        label: 'Meta Description',
+        status: 'warning',
+        message: `${descLen} caracteres — Muito ${descLen < 120 ? 'curta' : 'longa'}, ideal 120-160`,
+      })
+    } else {
+      results.push({
+        id: 'seo_description',
+        label: 'Meta Description',
+        status: 'fail',
+        message: 'Vazia — Preencha a meta description',
+      })
+    }
+
+    const wordCount = formData.conteudo
+      .trim()
+      .split(/\s+/)
+      .filter((w) => w.length > 0).length
+    if (wordCount >= 300) {
+      results.push({
+        id: 'conteudo',
+        label: 'Conteúdo',
+        status: 'pass',
+        message: `${wordCount} palavras — Ideal`,
+      })
+    } else {
+      results.push({
+        id: 'conteudo',
+        label: 'Conteúdo',
+        status: 'fail',
+        message: `${wordCount} palavras — Mínimo 300 palavras`,
+      })
+    }
+
+    const kwCount = formData.seo_keywords
+      .split(',')
+      .filter((k) => k.trim().length > 0).length
+    if (kwCount >= 3) {
+      results.push({
+        id: 'seo_keywords',
+        label: 'Keywords',
+        status: 'pass',
+        message: `${kwCount} sugeridas — Ideal`,
+      })
+    } else {
+      results.push({
+        id: 'seo_keywords',
+        label: 'Keywords',
+        status: 'fail',
+        message: `${kwCount} sugeridas — Mínimo de 3`,
+      })
+    }
+
+    if (currentImage || selectedFile) {
+      results.push({
+        id: 'imagem',
+        label: 'Imagem',
+        status: 'pass',
+        message: 'Imagem carregada',
+      })
+    } else {
+      results.push({
+        id: 'imagem',
+        label: 'Imagem',
+        status: 'fail',
+        message: 'Nenhuma imagem de capa',
+      })
+    }
+
+    const resumoLen = formData.resumo.length
+    if (resumoLen >= 100 && resumoLen <= 150) {
+      results.push({
+        id: 'resumo',
+        label: 'Resumo',
+        status: 'pass',
+        message: `${resumoLen} caracteres — Ideal`,
+      })
+    } else if (resumoLen > 0) {
+      results.push({
+        id: 'resumo',
+        label: 'Resumo',
+        status: 'warning',
+        message: `${resumoLen} caracteres — Ideal 100-150`,
+      })
+    } else {
+      results.push({
+        id: 'resumo',
+        label: 'Resumo',
+        status: 'fail',
+        message: 'Vazio — Preencha o resumo',
+      })
+    }
+
+    if (formData.categoria) {
+      results.push({
+        id: 'categoria',
+        label: 'Categoria',
+        status: 'pass',
+        message: 'Categoria selecionada',
+      })
+    } else {
+      results.push({
+        id: 'categoria',
+        label: 'Categoria',
+        status: 'fail',
+        message: 'Nenhuma categoria selecionada',
+      })
+    }
+
+    try {
+      const isUnique = await checkArtigoSlugUnique(formData.slug, id)
+      if (isUnique && formData.slug.length > 0) {
+        results.push({
+          id: 'slug',
+          label: 'Slug',
+          status: 'pass',
+          message: 'Slug único',
+        })
+      } else {
+        results.push({
+          id: 'slug',
+          label: 'Slug',
+          status: 'fail',
+          message:
+            formData.slug.length === 0
+              ? 'Vazio'
+              : 'Já existe outro artigo com este slug',
+        })
+      }
+    } catch (err) {
+      results.push({
+        id: 'slug',
+        label: 'Slug',
+        status: 'fail',
+        message: 'Erro ao verificar slug',
+      })
+    }
+
+    let scoreSum = 0
+    results.forEach((r) => {
+      if (r.status === 'pass') scoreSum += 1
+      else if (r.status === 'warning') scoreSum += 0.5
+    })
+    const score = Math.round((scoreSum / 8) * 100)
+
+    setSeoAnalysis({ score, results })
+    setIsSeoModalOpen(true)
+    setIsValidatingSeo(false)
+  }
+
+  const focusField = (fieldId: string) => {
+    const map: Record<string, React.RefObject<any>> = {
+      titulo: tituloRef,
+      resumo: resumoRef,
+      conteudo: conteudoRef,
+      slug: slugRef,
+      categoria: categoriaRef,
+      seo_title: seoTitleRef,
+      seo_description: seoDescRef,
+      seo_keywords: seoKeywordsRef,
+      imagem: fileInputRef,
+    }
+    const ref = map[fieldId]
+    if (ref && ref.current) {
+      ref.current.focus()
+      ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }
+
+  const handleFixNow = () => {
+    setIsSeoModalOpen(false)
+    if (seoAnalysis) {
+      const firstFail = seoAnalysis.results.find((r) => r.status === 'fail')
+      if (firstFail) {
+        setTimeout(() => {
+          focusField(firstFail.id)
+        }, 300)
+      }
+    }
+  }
+
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-12">
       <div className="flex items-center justify-between">
@@ -393,6 +622,7 @@ export default function ArtigoForm() {
                 value={formData.titulo}
                 onChange={handleChange}
                 required
+                ref={tituloRef}
               />
               {errors.titulo && (
                 <p className="text-sm text-red-500 mt-1">{errors.titulo}</p>
@@ -408,6 +638,7 @@ export default function ArtigoForm() {
                 value={formData.resumo}
                 onChange={handleChange}
                 maxLength={150}
+                ref={resumoRef}
                 className="w-full flex min-h-[80px] rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 dark:border-slate-800"
               />
               <div className="text-xs text-right text-slate-500 mt-1">
@@ -422,6 +653,7 @@ export default function ArtigoForm() {
                 value={formData.conteudo}
                 onChange={handleChange}
                 required
+                ref={conteudoRef}
                 className="w-full flex min-h-[400px] rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 dark:border-slate-800"
               />
               {errors.conteudo && (
@@ -445,6 +677,7 @@ export default function ArtigoForm() {
                 name="slug"
                 value={formData.slug}
                 onChange={handleChange}
+                ref={slugRef}
               />
               {errors.slug && (
                 <p className="text-sm text-red-500 mt-1">{errors.slug}</p>
@@ -471,6 +704,7 @@ export default function ArtigoForm() {
                 name="categoria"
                 value={formData.categoria}
                 onChange={handleChange}
+                ref={categoriaRef}
                 className="w-full h-10 px-3 py-2 rounded-md border border-slate-200 dark:border-slate-800 bg-transparent text-sm"
               >
                 <option value="IA">IA</option>
@@ -530,12 +764,16 @@ export default function ArtigoForm() {
             <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-2">
               <h3 className="font-semibold text-lg">SEO</h3>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
                 onClick={validateSEO}
-                className="h-7 text-xs px-2"
+                className="h-8 text-xs px-3"
+                disabled={isValidatingSeo}
               >
-                Validar
+                {isValidatingSeo ? (
+                  <Loader2 className="h-3 w-3 animate-spin mr-1.5" />
+                ) : null}
+                Validar SEO
               </Button>
             </div>
 
@@ -569,17 +807,6 @@ export default function ArtigoForm() {
               </div>
             )}
 
-            {seoValid !== null && (
-              <div
-                className={`text-xs p-2 rounded flex items-center gap-1 ${seoValid ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
-              >
-                <CheckCircle2 className="h-3 w-3" />{' '}
-                {seoValid
-                  ? 'SEO preenchido corretamente'
-                  : 'Preencha mais detalhes para SEO'}
-              </div>
-            )}
-
             <div>
               <label className="text-sm font-medium mb-1 block text-slate-600">
                 Meta Title
@@ -589,6 +816,7 @@ export default function ArtigoForm() {
                 value={formData.seo_title}
                 onChange={handleChange}
                 className="h-9 text-sm"
+                ref={seoTitleRef}
               />
             </div>
 
@@ -600,6 +828,7 @@ export default function ArtigoForm() {
                 name="seo_description"
                 value={formData.seo_description}
                 onChange={handleChange}
+                ref={seoDescRef}
                 className="w-full flex min-h-[60px] rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 dark:border-slate-800"
               />
             </div>
@@ -612,6 +841,7 @@ export default function ArtigoForm() {
                 name="seo_keywords"
                 value={formData.seo_keywords}
                 onChange={handleChange}
+                ref={seoKeywordsRef}
                 className="h-9 text-sm"
               />
             </div>
@@ -822,6 +1052,100 @@ export default function ArtigoForm() {
                     </div>
                   )}
                 </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isSeoModalOpen && seoAnalysis && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-slate-950 rounded-xl shadow-xl w-full max-w-md overflow-hidden border border-slate-200 dark:border-slate-800">
+            <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                <Search className="h-5 w-5 text-blue-600" /> Análise SEO
+              </h3>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsSeoModalOpen(false)}
+                className="h-8 w-8"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="p-6 space-y-6">
+              <div className="flex flex-col items-center justify-center space-y-2">
+                <div className="text-5xl font-bold flex items-baseline gap-1">
+                  <span
+                    className={
+                      seoAnalysis.score >= 70
+                        ? 'text-green-600'
+                        : 'text-red-600'
+                    }
+                  >
+                    {seoAnalysis.score}
+                  </span>
+                  <span className="text-2xl text-slate-400 font-medium">
+                    /100
+                  </span>
+                </div>
+                <div className="text-sm font-medium text-slate-500 uppercase tracking-wider">
+                  Score SEO
+                </div>
+                {seoAnalysis.score >= 70 ? (
+                  <div className="text-sm text-green-700 bg-green-50 px-4 py-2 rounded-full font-medium mt-2">
+                    Artigo pronto para publicação!
+                  </div>
+                ) : (
+                  <div className="text-sm text-red-700 bg-red-50 px-4 py-2 rounded-full font-medium mt-2">
+                    Corrija os itens em vermelho antes de publicar
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-3 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg border border-slate-100 dark:border-slate-800">
+                {seoAnalysis.results.map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-2.5 text-sm">
+                    <span className="mt-0.5 shrink-0">
+                      {item.status === 'pass' && (
+                        <CheckCircle2 className="h-4 w-4 text-green-500" />
+                      )}
+                      {item.status === 'warning' && (
+                        <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                      )}
+                      {item.status === 'fail' && (
+                        <X className="h-4 w-4 text-red-500" />
+                      )}
+                    </span>
+                    <div>
+                      <span className="font-semibold text-slate-700 dark:text-slate-300">
+                        {item.label}
+                      </span>
+                      <span className="text-slate-500 dark:text-slate-400 ml-1">
+                        — {item.message}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex justify-end gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setIsSeoModalOpen(false)}
+              >
+                Fechar
+              </Button>
+              {seoAnalysis.results.some((r) => r.status === 'fail') && (
+                <Button
+                  onClick={handleFixNow}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  Corrigir Agora
+                </Button>
               )}
             </div>
           </div>

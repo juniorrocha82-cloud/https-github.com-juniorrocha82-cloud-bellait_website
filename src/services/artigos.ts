@@ -9,6 +9,7 @@ export interface Artigo extends RecordModel {
   imagem: string
   autor: string
   data_publicacao: string
+  data_agendada: string
   tempo_leitura: number
   status: 'rascunho' | 'publicado'
   seo_title: string

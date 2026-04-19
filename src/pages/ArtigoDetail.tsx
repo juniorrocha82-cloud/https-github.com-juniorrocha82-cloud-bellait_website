@@ -1,14 +1,26 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Calendar, Clock, User, Share2 } from 'lucide-react'
+import {
+  ArrowLeft,
+  Calendar,
+  Clock,
+  User,
+  Share2,
+  Facebook,
+  Linkedin,
+  Instagram,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { getArtigoBySlug, Artigo, getImageUrl } from '@/services/artigos'
+import { useToast } from '@/components/ui/use-toast'
 
 export default function ArtigoDetail() {
   const { slug } = useParams<{ slug: string }>()
   const navigate = useNavigate()
   const { language } = useLanguage()
+  const { toast } = useToast()
+
   const [isLoading, setIsLoading] = useState(true)
   const [article, setArticle] = useState<Artigo | null>(null)
 
@@ -29,6 +41,31 @@ export default function ArtigoDetail() {
     }
     fetchArticle()
   }, [slug])
+
+  const handleShareFacebook = () => {
+    const url = `https://bellait.com.br/artigos/${article?.slug}`
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      '_blank',
+    )
+  }
+
+  const handleShareLinkedIn = () => {
+    const url = `https://bellait.com.br/artigos/${article?.slug}`
+    window.open(
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+      '_blank',
+    )
+  }
+
+  const handleShareInstagram = () => {
+    const url = `https://bellait.com.br/artigos/${article?.slug}`
+    navigator.clipboard.writeText(url)
+    toast({
+      title: 'Link copiado!',
+      description: 'Cole o link no Instagram para compartilhar com sua rede.',
+    })
+  }
 
   if (!isLoading && !article) {
     return (
@@ -125,6 +162,15 @@ export default function ArtigoDetail() {
               <Button
                 variant="ghost"
                 size="icon"
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    `https://bellait.com.br/artigos/${article.slug}`,
+                  )
+                  toast({
+                    title: 'Link copiado!',
+                    description: 'Link copiado para a área de transferência.',
+                  })
+                }}
                 className="rounded-full text-slate-500 hover:text-primary"
               >
                 <Share2 className="h-5 w-5" />
@@ -161,15 +207,36 @@ export default function ArtigoDetail() {
                 ? 'Compartilhe com sua rede ou continue explorando nosso conteúdo para se manter atualizado.'
                 : 'Share it with your network or keep exploring our content to stay updated.'}
             </p>
-            <div className="flex items-center justify-center gap-4">
-              <Button variant="outline" className="gap-2">
-                <Share2 className="h-4 w-4" />
-                {isPt ? 'Compartilhar' : 'Share'}
+            <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+              <Button
+                variant="outline"
+                className="gap-2 text-[#1877F2] hover:bg-[#1877F2]/10"
+                onClick={handleShareFacebook}
+              >
+                <Facebook className="h-4 w-4" />
+                Facebook
               </Button>
-              <Button onClick={() => navigate('/artigos')}>
-                {isPt ? 'Mais Artigos' : 'More Articles'}
+              <Button
+                variant="outline"
+                className="gap-2 text-[#0A66C2] hover:bg-[#0A66C2]/10"
+                onClick={handleShareLinkedIn}
+              >
+                <Linkedin className="h-4 w-4" />
+                LinkedIn
+              </Button>
+              <Button
+                variant="outline"
+                className="gap-2 text-[#E4405F] hover:bg-[#E4405F]/10"
+                onClick={handleShareInstagram}
+              >
+                <Instagram className="h-4 w-4" />
+                {isPt ? 'Copiar Link (Instagram)' : 'Copy Link (Instagram)'}
               </Button>
             </div>
+
+            <Button onClick={() => navigate('/artigos')} className="px-8">
+              {isPt ? 'Ler Mais Artigos' : 'Read More Articles'}
+            </Button>
           </div>
         </article>
       ) : null}

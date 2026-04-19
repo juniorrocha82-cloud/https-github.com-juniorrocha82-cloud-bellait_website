@@ -18,6 +18,7 @@ import {
   Sparkles,
   X,
   Loader2,
+  Search,
 } from 'lucide-react'
 import { extractFieldErrors } from '@/lib/pocketbase/errors'
 import { useToast } from '@/components/ui/use-toast'
@@ -40,8 +41,11 @@ export default function ArtigoForm() {
     seo_title: '',
     seo_description: '',
     seo_keywords: '',
+    data_agendada: '',
   })
+
   const [currentImage, setCurrentImage] = useState('')
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [seoValid, setSeoValid] = useState<boolean | null>(null)
@@ -51,12 +55,31 @@ export default function ArtigoForm() {
   const [isAiModalOpen, setIsAiModalOpen] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
   const [aiError, setAiError] = useState('')
+  const [aiSentiment, setAiSentiment] = useState('')
+  const [seoSuggestions, setSeoSuggestions] = useState<{
+    title: string
+    description: string
+  } | null>(null)
   const [aiForm, setAiForm] = useState({
     tema: '',
     categoria: 'IA',
     tom: 'Técnico',
-    comprimento: '2', // 1=Curto, 2=Médio, 3=Longo
+    comprimento: '2',
   })
+
+  // Unsplash Modal State
+  const [isUnsplashModalOpen, setIsUnsplashModalOpen] = useState(false)
+  const [unsplashQuery, setUnsplashQuery] = useState('')
+  const [unsplashImages, setUnsplashImages] = useState<any[]>([])
+  const [isSearchingUnsplash, setIsSearchingUnsplash] = useState(false)
+  const [isDownloadingImage, setIsDownloadingImage] = useState(false)
+
+  const formatToDatetimeLocal = (isoString: string) => {
+    if (!isoString) return ''
+    const date = new Date(isoString)
+    const offset = date.getTimezoneOffset() * 60000
+    return new Date(date.getTime() - offset).toISOString().slice(0, 16)
+  }
 
   useEffect(() => {
     if (id) {
@@ -72,6 +95,9 @@ export default function ArtigoForm() {
           seo_title: data.seo_title,
           seo_description: data.seo_description,
           seo_keywords: data.seo_keywords,
+          data_agendada: data.data_agendada
+            ? formatToDatetimeLocal(data.data_agendada)
+            : '',
         })
         if (data.imagem) setCurrentImage(getImageUrl(data, data.imagem))
       })
@@ -103,23 +129,41 @@ export default function ArtigoForm() {
     setAiForm((prev) => ({ ...prev, [name]: value }))
   }
 
+  const handleFileChange = () => {
+    if (fileInputRef.current?.files?.[0]) {
+      setSelectedFile(null)
+      setCurrentImage(URL.createObjectURL(fileInputRef.current.files[0]))
+    }
+  }
+
   const handleSave = async (status: 'rascunho' | 'publicado') => {
     setIsSubmitting(true)
     setErrors({})
 
     try {
       const data = new FormData()
-      Object.entries(formData).forEach(([key, value]) =>
-        data.append(key, String(value)),
-      )
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key !== 'data_agendada') data.append(key, String(value))
+      })
       data.append('status', status)
       data.append('user_id', user?.id || '')
+
+      if (formData.data_agendada) {
+        data.append(
+          'data_agendada',
+          new Date(formData.data_agendada).toISOString(),
+        )
+      } else {
+        data.append('data_agendada', '')
+      }
 
       if (status === 'publicado') {
         data.append('data_publicacao', new Date().toISOString())
       }
 
-      if (fileInputRef.current?.files?.[0]) {
+      if (selectedFile) {
+        data.append('imagem', selectedFile)
+      } else if (fileInputRef.current?.files?.[0]) {
         data.append('imagem', fileInputRef.current.files[0])
       }
 
@@ -146,13 +190,17 @@ export default function ArtigoForm() {
   const getComprimentoLabel = (val: string) => {
     if (val === '1') return 'Curto (500 words)'
     if (val === '2') return 'Médio (1000 words)'
-    return 'Longo (1500 words)'
+    if (val === '3') return 'Longo (1500 words)'
+    if (val === '4') return 'Muito Longo (3000 words)'
+    return 'Épico (5000 words)'
   }
 
   const getComprimentoString = (val: string) => {
     if (val === '1') return '500'
     if (val === '2') return '1000'
-    return '1500'
+    if (val === '3') return '1500'
+    if (val === '4') return '3000'
+    return '5000'
   }
 
   const handleGenerateAI = async () => {
@@ -194,25 +242,87 @@ export default function ArtigoForm() {
         categoria: aiForm.categoria,
       }))
 
+      setAiSentiment(aiData.analise_sentimento || '')
+      setSeoSuggestions({
+        title: aiData.seo_title_sugestao || '',
+        description: aiData.seo_description_sugestao || '',
+      })
+
       setIsAiModalOpen(false)
       toast({
         title: 'Sucesso!',
-        description: 'Artigo gerado com sucesso! Revise e publique.',
-        variant: 'default',
+        description: 'Artigo gerado com sucesso! Revise as sugestões.',
       })
     } catch (error: any) {
-      setAiError(
-        error?.response?.error ||
-          error?.message ||
-          'Erro ao gerar artigo. Verifique as configurações e tente novamente.',
-      )
+      setAiError(error?.response?.error || 'Erro ao gerar artigo.')
       toast({
         title: 'Erro na geração',
-        description: 'Erro ao gerar artigo. Tente novamente.',
+        description: 'Tente novamente.',
         variant: 'destructive',
       })
     } finally {
       setIsGenerating(false)
+    }
+  }
+
+  const applySeo = () => {
+    if (seoSuggestions) {
+      setFormData((prev) => ({
+        ...prev,
+        seo_title: seoSuggestions.title,
+        seo_description: seoSuggestions.description,
+      }))
+      toast({
+        title: 'SEO Aplicado',
+        description: 'Meta Title e Description atualizados.',
+      })
+      setSeoSuggestions(null)
+    }
+  }
+
+  const searchUnsplash = async () => {
+    setIsSearchingUnsplash(true)
+    try {
+      const query = unsplashQuery || formData.titulo || 'technology'
+      const res = await pb.send(
+        `/backend/v1/unsplash/search?q=${encodeURIComponent(query)}`,
+        { method: 'GET' },
+      )
+      setUnsplashImages(res.results || [])
+    } catch (error) {
+      toast({
+        title: 'Erro',
+        description: 'Não foi possível buscar imagens.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsSearchingUnsplash(false)
+    }
+  }
+
+  const selectUnsplashImage = async (url: string) => {
+    try {
+      setIsDownloadingImage(true)
+      const response = await fetch(url)
+      const blob = await response.blob()
+      const file = new File([blob], 'unsplash_cover.jpg', { type: blob.type })
+
+      setSelectedFile(file)
+      setCurrentImage(url)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+      setIsUnsplashModalOpen(false)
+      toast({
+        title: 'Imagem Aplicada',
+        description: 'Imagem do Unsplash selecionada.',
+      })
+    } catch (error) {
+      toast({
+        title: 'Erro',
+        description: 'Falha ao processar a imagem selecionada.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsDownloadingImage(false)
     }
   }
 
@@ -236,7 +346,7 @@ export default function ArtigoForm() {
             <Button
               variant="secondary"
               onClick={() => setIsAiModalOpen(true)}
-              className="gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/50 border border-blue-200 dark:border-blue-800"
+              className="gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800"
             >
               <Sparkles className="h-4 w-4" /> Gerar com IA
             </Button>
@@ -261,6 +371,20 @@ export default function ArtigoForm() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
+          {aiSentiment && (
+            <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg flex items-start gap-3 border border-purple-100 dark:border-purple-900/50">
+              <Sparkles className="h-5 w-5 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-sm font-semibold text-purple-800 dark:text-purple-300">
+                  Análise de Voz da Marca
+                </h4>
+                <p className="text-sm text-purple-700 dark:text-purple-400 mt-1">
+                  {aiSentiment}
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
             <div>
               <label className="text-sm font-medium mb-1 block">Título</label>
@@ -268,7 +392,6 @@ export default function ArtigoForm() {
                 name="titulo"
                 value={formData.titulo}
                 onChange={handleChange}
-                placeholder="Título do artigo"
                 required
               />
               {errors.titulo && (
@@ -285,8 +408,7 @@ export default function ArtigoForm() {
                 value={formData.resumo}
                 onChange={handleChange}
                 maxLength={150}
-                className="w-full flex min-h-[80px] rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 dark:border-slate-800 dark:focus-visible:ring-slate-300"
-                placeholder="Breve resumo..."
+                className="w-full flex min-h-[80px] rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 dark:border-slate-800"
               />
               <div className="text-xs text-right text-slate-500 mt-1">
                 {formData.resumo.length}/150
@@ -300,8 +422,7 @@ export default function ArtigoForm() {
                 value={formData.conteudo}
                 onChange={handleChange}
                 required
-                className="w-full flex min-h-[400px] rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 dark:border-slate-800 dark:focus-visible:ring-slate-300"
-                placeholder="Escreva o conteúdo do artigo aqui. Suporta HTML básico se necessário."
+                className="w-full flex min-h-[400px] rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 dark:border-slate-800"
               />
               {errors.conteudo && (
                 <p className="text-sm text-red-500 mt-1">{errors.conteudo}</p>
@@ -332,13 +453,25 @@ export default function ArtigoForm() {
 
             <div>
               <label className="text-sm font-medium mb-1 block">
+                Data de Publicação Agendada
+              </label>
+              <Input
+                type="datetime-local"
+                name="data_agendada"
+                value={formData.data_agendada}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-1 block">
                 Categoria
               </label>
               <select
                 name="categoria"
                 value={formData.categoria}
                 onChange={handleChange}
-                className="w-full h-10 px-3 py-2 rounded-md border border-slate-200 dark:border-slate-800 bg-transparent text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                className="w-full h-10 px-3 py-2 rounded-md border border-slate-200 dark:border-slate-800 bg-transparent text-sm"
               >
                 <option value="IA">IA</option>
                 <option value="Segurança">Segurança</option>
@@ -355,25 +488,26 @@ export default function ArtigoForm() {
                 onChange={handleChange}
               />
             </div>
-
-            <div>
-              <label className="text-sm font-medium mb-1 block">
-                Tempo de Leitura (min)
-              </label>
-              <Input
-                type="number"
-                name="tempo_leitura"
-                value={formData.tempo_leitura}
-                onChange={handleChange}
-                min="1"
-              />
-            </div>
           </div>
 
           <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
-            <h3 className="font-semibold text-lg border-b border-slate-100 dark:border-slate-800 pb-2 flex items-center gap-2">
-              <ImageIcon className="h-5 w-5" /> Imagem de Capa
-            </h3>
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+              <h3 className="font-semibold text-lg flex items-center gap-2">
+                <ImageIcon className="h-5 w-5" /> Imagem de Capa
+              </h3>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setUnsplashQuery(formData.titulo)
+                  setIsUnsplashModalOpen(true)
+                  searchUnsplash()
+                }}
+                className="h-8 gap-1.5 text-xs"
+              >
+                <Search className="h-3 w-3" /> Buscar Imagem
+              </Button>
+            </div>
 
             {currentImage && (
               <img
@@ -386,17 +520,15 @@ export default function ArtigoForm() {
             <input
               type="file"
               ref={fileInputRef}
+              onChange={handleFileChange}
               accept="image/png, image/jpeg, image/webp"
               className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
             />
-            <p className="text-xs text-slate-500">
-              Max 5MB. Formatos: JPG, PNG, WebP.
-            </p>
           </div>
 
           <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
-            <h3 className="font-semibold text-lg border-b border-slate-100 dark:border-slate-800 pb-2 flex justify-between items-center">
-              SEO
+            <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-2">
+              <h3 className="font-semibold text-lg">SEO</h3>
               <Button
                 variant="ghost"
                 size="sm"
@@ -405,7 +537,37 @@ export default function ArtigoForm() {
               >
                 Validar
               </Button>
-            </h3>
+            </div>
+
+            {seoSuggestions && (
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-md border border-blue-100 dark:border-blue-900/50">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs font-semibold text-blue-800 dark:text-blue-300">
+                    Sugestões de IA
+                  </span>
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    className="h-6 text-[10px] px-2"
+                    onClick={applySeo}
+                  >
+                    Aplicar SEO
+                  </Button>
+                </div>
+                <p
+                  className="text-[11px] text-blue-700 dark:text-blue-400 mb-1 line-clamp-1"
+                  title={seoSuggestions.title}
+                >
+                  <b>Title:</b> {seoSuggestions.title}
+                </p>
+                <p
+                  className="text-[11px] text-blue-700 dark:text-blue-400 line-clamp-2"
+                  title={seoSuggestions.description}
+                >
+                  <b>Desc:</b> {seoSuggestions.description}
+                </p>
+              </div>
+            )}
 
             {seoValid !== null && (
               <div
@@ -414,7 +576,7 @@ export default function ArtigoForm() {
                 <CheckCircle2 className="h-3 w-3" />{' '}
                 {seoValid
                   ? 'SEO preenchido corretamente'
-                  : 'Preencha mais detalhes para SEO ideal'}
+                  : 'Preencha mais detalhes para SEO'}
               </div>
             )}
 
@@ -457,14 +619,12 @@ export default function ArtigoForm() {
         </div>
       </div>
 
-      {/* AI Generation Modal */}
       {isAiModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in duration-200">
           <div className="bg-white dark:bg-slate-950 rounded-xl shadow-xl w-full max-w-lg overflow-hidden border border-slate-200 dark:border-slate-800">
             <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                Gerar Artigo com IA
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-blue-600" /> Gerar Artigo
               </h3>
               <Button
                 variant="ghost"
@@ -479,28 +639,26 @@ export default function ArtigoForm() {
 
             <div className="p-6 space-y-5">
               {aiError && (
-                <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-md border border-red-200 dark:border-red-900/50 flex flex-col gap-2">
-                  <p>{aiError}</p>
+                <div className="p-3 bg-red-50 text-red-600 text-sm rounded-md">
+                  {aiError}
                 </div>
               )}
 
               <div>
-                <label className="text-sm font-medium mb-1.5 block text-slate-700 dark:text-slate-300">
+                <label className="text-sm font-medium mb-1.5 block">
                   Tema do artigo *
                 </label>
                 <Input
                   name="tema"
                   value={aiForm.tema}
                   onChange={handleAiChange}
-                  placeholder="Ex: Segurança em Cloud Computing"
                   disabled={isGenerating}
-                  className="bg-white dark:bg-slate-900"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium mb-1.5 block text-slate-700 dark:text-slate-300">
+                  <label className="text-sm font-medium mb-1.5 block">
                     Categoria
                   </label>
                   <select
@@ -508,7 +666,7 @@ export default function ArtigoForm() {
                     value={aiForm.categoria}
                     onChange={handleAiChange}
                     disabled={isGenerating}
-                    className="w-full h-10 px-3 py-2 rounded-md border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full h-10 px-3 rounded-md border border-slate-200 dark:border-slate-800 bg-transparent"
                   >
                     <option value="IA">IA</option>
                     <option value="Segurança">Segurança</option>
@@ -517,7 +675,7 @@ export default function ArtigoForm() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-1.5 block text-slate-700 dark:text-slate-300">
+                  <label className="text-sm font-medium mb-1.5 block">
                     Tom
                   </label>
                   <select
@@ -525,7 +683,7 @@ export default function ArtigoForm() {
                     value={aiForm.tom}
                     onChange={handleAiChange}
                     disabled={isGenerating}
-                    className="w-full h-10 px-3 py-2 rounded-md border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full h-10 px-3 rounded-md border border-slate-200 dark:border-slate-800 bg-transparent"
                   >
                     <option value="Técnico">Técnico</option>
                     <option value="Educativo">Educativo</option>
@@ -536,8 +694,8 @@ export default function ArtigoForm() {
 
               <div>
                 <div className="flex justify-between mb-1.5">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Comprimento
+                  <label className="text-sm font-medium">
+                    Comprimento Máximo
                   </label>
                   <span className="text-xs text-slate-500 font-medium">
                     {getComprimentoLabel(aiForm.comprimento)}
@@ -547,17 +705,19 @@ export default function ArtigoForm() {
                   type="range"
                   name="comprimento"
                   min="1"
-                  max="3"
+                  max="5"
                   step="1"
                   value={aiForm.comprimento}
                   onChange={handleAiChange}
                   disabled={isGenerating}
                   className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-600"
                 />
-                <div className="flex justify-between text-xs text-slate-400 mt-1">
-                  <span>Curto</span>
-                  <span>Médio</span>
-                  <span>Longo</span>
+                <div className="flex justify-between text-[10px] text-slate-400 mt-1 px-1">
+                  <span>500</span>
+                  <span>1000</span>
+                  <span>1500</span>
+                  <span>3000</span>
+                  <span>5000</span>
                 </div>
               </div>
             </div>
@@ -570,38 +730,98 @@ export default function ArtigoForm() {
               >
                 Cancelar
               </Button>
-              {aiError ? (
+              <Button
+                onClick={handleGenerateAI}
+                disabled={isGenerating || !aiForm.tema.trim()}
+                className="bg-blue-600 hover:bg-blue-700 text-white min-w-[140px]"
+              >
+                {isGenerating ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Gerando...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="mr-2 h-4 w-4" /> Gerar Conteúdo
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isUnsplashModalOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4">
+          <div className="bg-white dark:bg-slate-950 rounded-xl w-full max-w-4xl max-h-[85vh] flex flex-col border border-slate-200 dark:border-slate-800">
+            <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50">
+              <h3 className="font-semibold text-lg flex items-center gap-2">
+                <Search className="h-5 w-5 text-blue-600" /> Imagens do Unsplash
+              </h3>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsUnsplashModalOpen(false)}
+                disabled={isDownloadingImage}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="p-6 flex-1 overflow-y-auto space-y-4">
+              <div className="flex gap-2 mb-6">
+                <Input
+                  value={unsplashQuery}
+                  onChange={(e) => setUnsplashQuery(e.target.value)}
+                  placeholder="Buscar imagens (ex: technology, cloud, office)..."
+                  onKeyDown={(e) => e.key === 'Enter' && searchUnsplash()}
+                />
                 <Button
-                  onClick={handleGenerateAI}
-                  disabled={isGenerating}
-                  className="bg-blue-600 hover:bg-blue-700 text-white min-w-[140px]"
+                  onClick={searchUnsplash}
+                  disabled={isSearchingUnsplash || isDownloadingImage}
                 >
-                  {isGenerating ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />{' '}
-                      Gerando...
-                    </>
+                  {isSearchingUnsplash ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
-                    'Tentar Novamente'
+                    'Buscar'
                   )}
                 </Button>
+              </div>
+
+              {isDownloadingImage ? (
+                <div className="py-20 flex flex-col items-center justify-center text-slate-500">
+                  <Loader2 className="h-8 w-8 animate-spin mb-4 text-blue-500" />
+                  <p>Preparando imagem selecionada...</p>
+                </div>
               ) : (
-                <Button
-                  onClick={handleGenerateAI}
-                  disabled={isGenerating || !aiForm.tema.trim()}
-                  className="bg-blue-600 hover:bg-blue-700 text-white min-w-[140px]"
-                >
-                  {isGenerating ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Gerando
-                      artigo com IA...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="mr-2 h-4 w-4" /> Gerar Conteúdo
-                    </>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  {unsplashImages.map((img: any) => (
+                    <div
+                      key={img.id}
+                      className="relative aspect-video rounded-md overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-500 group bg-slate-100 dark:bg-slate-900"
+                      onClick={() => selectUnsplashImage(img.urls.regular)}
+                    >
+                      <img
+                        src={img.urls.small}
+                        alt={img.alt_description}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity duration-200">
+                        <span className="text-white text-sm font-medium mb-1">
+                          Usar Imagem
+                        </span>
+                        <span className="text-slate-300 text-[10px]">
+                          por {img.user.name}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                  {unsplashImages.length === 0 && !isSearchingUnsplash && (
+                    <div className="col-span-full py-12 text-center text-slate-500">
+                      Nenhuma imagem encontrada. Tente outros termos em inglês.
+                    </div>
                   )}
-                </Button>
+                </div>
               )}
             </div>
           </div>

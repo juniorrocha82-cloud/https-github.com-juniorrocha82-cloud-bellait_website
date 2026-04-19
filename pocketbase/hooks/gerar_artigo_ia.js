@@ -31,7 +31,8 @@ routerAdd(
     }
 
     const prompt =
-      'Você é um especialista em tecnologia. Gere um artigo sobre ' +
+      'Você é um especialista em tecnologia e redator do blog "Bella IT". A marca Bella IT tem uma voz Profissional, Inovadora e Centrada no Ser Humano. ' +
+      'Gere um artigo sobre ' +
       tema +
       ' na categoria ' +
       categoria +
@@ -39,13 +40,18 @@ routerAdd(
       tom +
       ' e aproximadamente ' +
       comprimento +
-      ' palavras. Inclua: título (máx 70 caracteres), resumo (máx 150 caracteres), conteúdo estruturado em HTML com parágrafos e listas, e 5 keywords sugeridas em português.\n\n' +
+      ' palavras. ' +
+      'Inclua: título (máx 70 caracteres), resumo (máx 150 caracteres), conteúdo estruturado em HTML com parágrafos e listas, e 5 keywords sugeridas em português.\n\n' +
+      'Além disso, forneça uma sugestão de Meta Title (seo_title_sugestao, máx 60 caracteres), uma sugestão de Meta Description (seo_description_sugestao, máx 160 caracteres), e uma análise de sentimento curta sobre o texto gerado (analise_sentimento), indicando se está alinhado com a voz da marca Bella IT.\n\n' +
       'Retorne APENAS um objeto JSON válido (sem markdown de bloco de código) com a seguinte estrutura:\n' +
       '{\n' +
       '  "titulo": "Título Gerado",\n' +
       '  "resumo": "Resumo curto...",\n' +
       '  "conteudo": "<p>Conteúdo HTML...</p>",\n' +
-      '  "keywords_sugeridas": ["tag1", "tag2", "tag3", "tag4", "tag5"]\n' +
+      '  "keywords_sugeridas": ["tag1", "tag2", "tag3", "tag4", "tag5"],\n' +
+      '  "seo_title_sugestao": "Meta Title sugerido",\n' +
+      '  "seo_description_sugestao": "Meta Description sugerida",\n' +
+      '  "analise_sentimento": "Alinhado com Bella IT (Justificativa curta...)"\n' +
       '}'
 
     let attempt = 0

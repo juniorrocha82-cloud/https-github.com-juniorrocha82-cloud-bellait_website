@@ -1,4 +1,3 @@
-// @deps cheerio@1.0.0
 routerAdd(
   'POST',
   '/backend/v1/artigos/processar-url',
@@ -48,50 +47,27 @@ routerAdd(
     let rawHtml = htmlRes.string || ''
 
     rawHtml = rawHtml.replace(/<!--[\s\S]*?-->/g, '')
-    rawHtml = rawHtml.replace(
-      /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-      '',
-    )
-    rawHtml = rawHtml.replace(
-      /<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi,
-      '',
-    )
+    rawHtml = rawHtml.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, '')
+    rawHtml = rawHtml.replace(/<style\b[^>]*>([\s\S]*?)<\/style>/gi, '')
+    rawHtml = rawHtml.replace(/<nav\b[^>]*>([\s\S]*?)<\/nav>/gi, '')
+    rawHtml = rawHtml.replace(/<header\b[^>]*>([\s\S]*?)<\/header>/gi, '')
+    rawHtml = rawHtml.replace(/<footer\b[^>]*>([\s\S]*?)<\/footer>/gi, '')
+    rawHtml = rawHtml.replace(/<aside\b[^>]*>([\s\S]*?)<\/aside>/gi, '')
 
-    const cheerio = require('cheerio')
-    const $ = cheerio.load(rawHtml)
+    let targetHtml = rawHtml
+    const articleMatch = rawHtml.match(/<article[^>]*>([\s\S]*?)<\/article>/i)
+    const mainMatch = rawHtml.match(/<main[^>]*>([\s\S]*?)<\/main>/i)
 
-    let contentStr = ''
-    let foundSelector = ''
-
-    const selectors = [
-      'article',
-      'main',
-      '[role="main"]',
-      '.content',
-      '.post-content',
-      '.article-body',
-      '.article-content',
-      '.entry-content',
-      '.post-body',
-      '.blog-post',
-      '.page-content',
-      'body',
-    ]
-
-    for (const sel of selectors) {
-      let bestText = ''
-      $(sel).each((i, elem) => {
-        const text = $(elem).text().replace(/\s+/g, ' ').trim()
-        if (text.length > bestText.length) {
-          bestText = text
-        }
-      })
-      if (bestText.length >= 100) {
-        contentStr = bestText
-        foundSelector = sel
-        break
-      }
+    if (articleMatch) {
+      targetHtml = articleMatch[1]
+    } else if (mainMatch) {
+      targetHtml = mainMatch[1]
     }
+
+    let contentStr = targetHtml
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
 
     if (!contentStr || contentStr.length < 100) {
       return e.badRequestError(
@@ -101,7 +77,6 @@ routerAdd(
 
     contentStr = contentStr.substring(0, 15000)
 
-    console.log('Seletor encontrado: ' + foundSelector)
     console.log('Caracteres extraídos: ' + contentStr.length)
 
     const groqKey = $secrets.get('GROQ_API_KEY')

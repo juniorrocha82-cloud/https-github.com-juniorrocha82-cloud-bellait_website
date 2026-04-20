@@ -18,17 +18,31 @@ routerAdd(
       htmlRes = $http.send({
         url: url,
         method: 'GET',
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          Accept:
+            'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+          'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+        },
         timeout: 15,
       })
     } catch (err) {
+      console.log('Erro ao fazer request para URL: ', err)
       return e.badRequestError(
         'Não consegui acessar o conteúdo da URL. Verifique se o link está correto e acessível.',
       )
     }
 
     if (!htmlRes || htmlRes.statusCode !== 200) {
+      console.log(
+        'Status code inesperado ao acessar URL: ',
+        htmlRes ? htmlRes.statusCode : 'nenhum',
+      )
       return e.badRequestError(
-        'Não consegui acessar o conteúdo da URL. Verifique se o link está correto e acessível.',
+        'Não foi possível acessar o conteúdo deste site. Ele pode estar protegido contra acesso automatizado. (Status: ' +
+          (htmlRes ? htmlRes.statusCode : 'Desconhecido') +
+          ')',
       )
     }
 

@@ -93,6 +93,11 @@ export default function ArtigoForm() {
     results: any[]
   } | null>(null)
 
+  // URL Import State
+  const [importUrl, setImportUrl] = useState('')
+  const [isImporting, setIsImporting] = useState(false)
+  const [importError, setImportError] = useState('')
+
   const formatToDatetimeLocal = (isoString: string) => {
     if (!isoString) return ''
     const date = new Date(isoString)
@@ -272,6 +277,63 @@ export default function ArtigoForm() {
       })
     } finally {
       setIsGenerating(false)
+    }
+  }
+
+  const handleImportUrl = async () => {
+    setImportError('')
+    const url = importUrl.trim()
+
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      toast({
+        title: 'Erro',
+        description: 'URL inválida. Use https://exemplo.com',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    setIsImporting(true)
+    try {
+      const response = await pb.send('/backend/v1/artigos/processar-url', {
+        method: 'POST',
+        body: JSON.stringify({ url }),
+      })
+
+      const data = response.data || response
+
+      setFormData((prev) => ({
+        ...prev,
+        titulo: data.titulo || prev.titulo,
+        slug: data.titulo
+          ? data.titulo
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, '-')
+              .replace(/(^-|-$)+/g, '')
+          : prev.slug,
+        resumo: data.resumo || prev.resumo,
+        conteudo: data.conteudo || prev.conteudo,
+        seo_keywords: data.keywords || prev.seo_keywords,
+        categoria: data.categoria || prev.categoria,
+      }))
+
+      toast({
+        title: 'Sucesso!',
+        description:
+          'Conteúdo processado com sucesso! Revise antes de publicar.',
+      })
+      setImportUrl('')
+    } catch (error: any) {
+      const errorMsg =
+        error?.response?.message || 'Erro ao processar a URL. Tente novamente.'
+      setImportError(errorMsg)
+      toast({
+        title: 'Erro na importação',
+        description: errorMsg,
+        variant: 'destructive',
+      })
+    } finally {
+      setIsImporting(false)
     }
   }
 
@@ -595,6 +657,62 @@ export default function ArtigoForm() {
           >
             <Send className="h-4 w-4" /> Publicar
           </Button>
+        </div>
+      </div>
+
+      {/* Import URL Section */}
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+          <h3 className="font-semibold text-lg border-b border-slate-100 dark:border-slate-800 pb-2 mb-3">
+            Importar Conteúdo de URL
+          </h3>
+          <p className="text-sm text-slate-500 mb-4">
+            Cole um link de artigo, notícia ou conteúdo. O sistema irá extrair,
+            reescrever e traduzir automaticamente.
+          </p>
+          <div className="flex gap-3">
+            <Input
+              type="url"
+              placeholder="https://exemplo.com/artigo"
+              value={importUrl}
+              onChange={(e) => setImportUrl(e.target.value)}
+              disabled={isImporting}
+              className="flex-1"
+            />
+            <Button
+              onClick={handleImportUrl}
+              disabled={isImporting || !importUrl.trim()}
+              className="gap-2 bg-slate-900 hover:bg-slate-800 text-white"
+            >
+              {isImporting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Sparkles className="h-4 w-4" />
+              )}
+              Processar URL
+            </Button>
+          </div>
+
+          {isImporting && (
+            <div className="mt-3 text-sm text-blue-600 flex items-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin" /> Processando conteúdo
+              da URL... Isso pode levar alguns segundos.
+            </div>
+          )}
+
+          {importError && (
+            <div className="mt-3 p-3 bg-red-50 text-red-600 text-sm rounded-md flex flex-col gap-2">
+              <span>{importError}</span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleImportUrl}
+                className="w-fit border-red-200 hover:bg-red-100 text-red-700"
+              >
+                Tentar Novamente
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 

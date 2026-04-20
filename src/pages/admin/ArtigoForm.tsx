@@ -97,6 +97,10 @@ export default function ArtigoForm() {
   const [importUrl, setImportUrl] = useState('')
   const [isImporting, setIsImporting] = useState(false)
   const [importError, setImportError] = useState('')
+  const [plagioInfo, setPlagioInfo] = useState<{
+    score: number
+    status: string
+  } | null>(null)
 
   const formatToDatetimeLocal = (isoString: string) => {
     if (!isoString) return ''
@@ -317,11 +321,24 @@ export default function ArtigoForm() {
         categoria: data.categoria || prev.categoria,
       }))
 
-      toast({
-        title: 'Sucesso!',
-        description:
-          'Conteúdo processado com sucesso! Revise antes de publicar.',
-      })
+      if (data.plagio_score !== undefined) {
+        setPlagioInfo({ score: data.plagio_score, status: data.plagio_status })
+      }
+
+      if (data.plagio_status === 'alto') {
+        toast({
+          title: 'Atenção: Similaridade Alta',
+          description:
+            'Conteúdo muito similar ao original. Reescreva manualmente ou aumente o nível de reescrita.',
+          variant: 'destructive',
+        })
+      } else {
+        toast({
+          title: 'Sucesso!',
+          description:
+            'Conteúdo processado com sucesso! Revise antes de publicar.',
+        })
+      }
       setImportUrl('')
     } catch (error: any) {
       const errorMsg =
@@ -711,6 +728,29 @@ export default function ArtigoForm() {
               >
                 Tentar Novamente
               </Button>
+            </div>
+          )}
+
+          {plagioInfo && (
+            <div
+              className={`mt-4 p-3 rounded-lg border flex items-center gap-3 ${
+                plagioInfo.status === 'alto'
+                  ? 'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-800/50'
+                  : plagioInfo.status === 'médio'
+                    ? 'bg-yellow-50 border-yellow-200 text-yellow-800 dark:bg-yellow-900/20 dark:border-yellow-800/50'
+                    : 'bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-800/50'
+              }`}
+            >
+              <AlertTriangle className="h-5 w-5 shrink-0" />
+              <div>
+                <h4 className="text-sm font-semibold">
+                  Análise de Originalidade
+                </h4>
+                <p className="text-xs opacity-90 mt-0.5">
+                  Similaridade: <strong>{plagioInfo.score}%</strong> (Risco{' '}
+                  {plagioInfo.status})
+                </p>
+              </div>
             </div>
           )}
         </div>

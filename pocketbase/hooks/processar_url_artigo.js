@@ -53,78 +53,142 @@ routerAdd(
       return e.internalServerError('GROQ_API_KEY não configurada.')
     }
 
-    const systemPrompt = `Você é um assistente especialista em tecnologia. Sua tarefa é ler o texto fornecido, traduzi-lo para Português do Brasil (se necessário), e reescrevê-lo em um tom profissional de especialista em tecnologia para evitar plágio, incluindo exemplos práticos quando aplicável.
-Retorne EXCLUSIVAMENTE um objeto JSON válido com a seguinte estrutura:
-{
+    const executeWithRetry = (messages) => {
+      let retries = 0
+      const backoff = [2000, 4000, 8000]
+      let res
+
+      const doCall = () => {
+        return $http.send({
+          url: 'https://api.groq.com/openai/v1/chat/completions',
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + groqKey,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'llama-3.3-70b-versatile',
+            messages: messages,
+            temperature: 0.7,
+            response_format: { type: 'json_object' },
+          }),
+          timeout: 45,
+        })
+      }
+
+      res = doCall()
+      while (
+        res &&
+        (res.statusCode === 429 || res.statusCode === 503) &&
+        retries < 3
+      ) {
+        const ms = backoff[retries]
+        const start = new Date().getTime()
+        while (new Date().getTime() < start + ms) {}
+        res = doCall()
+        retries++
+      }
+      return res
+    }
+
+    const parseAiResponse = (res) => {
+      if (!res || res.statusCode !== 200) return null
+      try {
+        let content = res.json.choices[0].message.content.trim()
+        if (content.startsWith('```json')) {
+          content = content.substring(7, content.length - 3).trim()
+        } else if (content.startsWith('```')) {
+          content = content.substring(3, content.length - 3).trim()
+        }
+        return JSON.parse(content)
+      } catch (err) {
+        return null
+      }
+    }
+
+    const baseStructure = `{
   "titulo": "Título gerado com máximo de 70 caracteres",
   "resumo": "Resumo gerado com máximo de 150 caracteres",
   "conteudo": "Conteúdo completo reescrito em formato HTML estruturado",
   "keywords": "5 palavras-chave sugeridas em português, separadas por vírgula",
-  "categoria": "IA" // Escolha APENAS UMA entre: IA, Segurança, Cloud, Infraestrutura
+  "categoria": "IA"
 }`
 
-    const callGroq = () => {
-      return $http.send({
-        url: 'https://api.groq.com/openai/v1/chat/completions',
-        method: 'POST',
-        headers: {
-          Authorization: 'Bearer ' + groqKey,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: 'Texto extraído:\n\n' + rawHtml },
-          ],
-          temperature: 0.7,
-          response_format: { type: 'json_object' },
-        }),
-        timeout: 45,
-      })
-    }
+    const systemPrompt = `Você é um assistente especialista em tecnologia. Sua tarefa é ler o texto fornecido, traduzi-lo para Português do Brasil (se necessário), e reescrevê-lo em um tom profissional de especialista em tecnologia para evitar plágio, incluindo exemplos práticos quando aplicável.
+Retorne EXCLUSIVAMENTE um objeto JSON válido com a seguinte estrutura:
+${baseStructure}`
 
-    let aiRes = callGroq()
-    let retries = 0
-    const backoff = [2000, 4000, 8000]
+    let aiRes = executeWithRetry([
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: 'Texto extraído:\n\n' + rawHtml },
+    ])
 
-    while (
-      aiRes &&
-      (aiRes.statusCode === 429 || aiRes.statusCode === 503) &&
-      retries < 3
-    ) {
-      const ms = backoff[retries]
-      const start = new Date().getTime()
-      while (new Date().getTime() < start + ms) {}
-      aiRes = callGroq()
-      retries++
-    }
+    let parsed = parseAiResponse(aiRes)
 
-    if (!aiRes || aiRes.statusCode !== 200) {
+    if (!parsed) {
       return e.internalServerError(
         'Erro ao processar conteúdo com IA. Tente novamente.',
       )
     }
 
-    try {
-      let content = aiRes.json.choices[0].message.content.trim()
-      if (content.startsWith('```json')) {
-        content = content.substring(7, content.length - 3).trim()
-      } else if (content.startsWith('```')) {
-        content = content.substring(3, content.length - 3).trim()
-      }
+    const plagioSystemPrompt = `Compare o texto original com a versão reescrita. Avalie a similaridade de 0 a 100 (onde 100 é cópia exata).
+Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
+{
+  "score": número inteiro de 0 a 100,
+  "suficientemente_diferente": "SIM" ou "NÃO"
+}`
 
-      const parsed = JSON.parse(content)
-
-      const validCats = ['IA', 'Segurança', 'Cloud', 'Infraestrutura']
-      if (!validCats.includes(parsed.categoria)) {
-        parsed.categoria = 'IA'
-      }
-
-      return e.json(200, parsed)
-    } catch (err) {
-      return e.internalServerError('Erro ao interpretar resposta da IA.')
+    const checkPlagio = (rewrittenText) => {
+      let res = executeWithRetry([
+        { role: 'system', content: plagioSystemPrompt },
+        {
+          role: 'user',
+          content: `Texto Original:\n${rawHtml}\n\nVersão Reescrita:\n${rewrittenText}`,
+        },
+      ])
+      return parseAiResponse(res)
     }
+
+    let plagioParsed = checkPlagio(parsed.conteudo)
+
+    if (!plagioParsed) {
+      return e.internalServerError(
+        'Erro ao validar originalidade do conteúdo. Tente novamente.',
+      )
+    }
+
+    let score = plagioParsed.score || 0
+    let sufficientlyDiff = plagioParsed.suficientemente_diferente || 'SIM'
+
+    if (score > 30 || sufficientlyDiff === 'NÃO') {
+      const aggressivePrompt = `A versão anterior ficou muito parecida com a original (${score}% similar). Reescreva o conteúdo de forma MAIS AGRESSIVA, mudando completamente a estrutura das frases, usando sinônimos e reestruturando os parágrafos para garantir originalidade máxima (< 20% similaridade), mantendo a qualidade técnica.
+Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
+${baseStructure}`
+
+      let aggRes = executeWithRetry([
+        { role: 'system', content: aggressivePrompt },
+        { role: 'user', content: `Texto Original:\n${rawHtml}` },
+      ])
+
+      let aggParsed = parseAiResponse(aggRes)
+      if (aggParsed) {
+        parsed = aggParsed
+        let rePlagioParsed = checkPlagio(parsed.conteudo)
+        if (rePlagioParsed) {
+          score = rePlagioParsed.score || 0
+        }
+      }
+    }
+
+    const validCats = ['IA', 'Segurança', 'Cloud', 'Infraestrutura']
+    if (!validCats.includes(parsed.categoria)) {
+      parsed.categoria = 'IA'
+    }
+
+    parsed.plagio_score = score
+    parsed.plagio_status = score > 30 ? 'alto' : score > 20 ? 'médio' : 'baixo'
+
+    return e.json(200, parsed)
   },
   $apis.requireAuth(),
 )
